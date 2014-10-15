@@ -1,0 +1,22 @@
+{% load staticfiles %}
+<<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<title>Create a Prison!</title>
+		<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+		<link rel="stylesheet" href="{% static "foundation/css/normalize.css" %}">
+		<link rel="stylesheet" href="{% static "foundation/css/foundation.css" %}">
+		<script src="{% static "foundation/js/modernizr.js" %}"></script>
+	</head>
+        <body>
+          <form action="{% url 'prison_create' %}" method="post">
+            {% csrf_token %}
+            <input type="text" name="prison_name" value="Enter a name" />
+            <input type="text" name="prison_address" value="Enter an address" />
+            <input type="text" name="prison_rules" values="Enter the prison rules" />
+            <input type="submit">Submit!</input>
+            </form>
+        </body>
+</html>
+          

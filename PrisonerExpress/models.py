@@ -19,6 +19,7 @@ class Prison(models.Model):
         def __str__(self):
                 return self.name
 
+        
 class Prisoner(models.Model):
 	name=models.CharField(max_length=200)
         active=models.BooleanField(default=True)
@@ -31,6 +32,7 @@ class Prisoner(models.Model):
         def __str__(self):
                 return self.name
 
+        
 class Material(models.Model):
         name=models.CharField(max_length=200)
         program=models.ForeignKey(Program)
@@ -46,8 +48,8 @@ class Material(models.Model):
                 )
         material_type=models.CharField(max_length=2,
                                        choices=MATERIAL_TYPE_CHOICES,
-                                       default='BO')
-                        
+                                       default='BO')                        
+
         
 class Letter(models.Model):
         prisoner=models.ForeignKey(Prisoner)
