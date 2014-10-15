@@ -4,7 +4,7 @@ from PrisonerExpress import views
 
 urlpatterns= patterns('',
 	#url(r'^$',views.index,name='index'),
-	url(regex=r'^fun/',
+	url(regex=r'^$',
         view=TemplateView.as_view(template_name="foundation/index.html"),
         name="foundation_index"),
 )
