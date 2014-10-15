@@ -1,12 +1,58 @@
 from django.db import models
+from datetime import datetime
 
 # Create your models here.
 
-class Prisoner(models.Model):
-	name=models.CharField(max_length=200)
-	age=models.IntegerField()
-
 class Program(models.Model):
 	name=models.CharField(max_length=200)
+        active = models.BooleanField(default=True)
+        continuous = models.BooleanField(default = True)
+        
+        def __str__(self):
+                return self.name
 
-		
+class Prison(models.Model):
+        name=models.CharField(max_length=200)
+        address=models.CharField(max_length=200)
+        rules=models.CharField(max_length=1000)
+        
+        def __str__(self):
+                return self.name
+
+class Prisoner(models.Model):
+	name=models.CharField(max_length=200)
+        active=models.BooleanField(default=True)
+        prison=models.ForeignKey(Prison, null=True)
+        programs=models.ManyToManyField(Program)
+        address=models.CharField(max_length=200,default="")
+	age=models.IntegerField()
+        last_active=models.DateTimeField('last active date', default=datetime.now)
+
+        def __str__(self):
+                return self.name
+
+class Material(models.Model):
+        name=models.CharField(max_length=200)
+        program=models.ForeignKey(Program)
+        MATERIAL_TYPE_CHOICES = (
+                ('BO', 'Book'),
+                ('MA', 'Magazine'),
+                ('MO', 'Movie'),
+                ('TV', 'TV Show'),
+                ('PO', 'Poem'),
+                ('SS', 'Short Story'),
+                ('PH', 'Word or Phrase'),
+                ('PI', 'Picture')
+                )
+        material_type=models.CharField(max_length=2,
+                                       choices=MATERIAL_TYPE_CHOICES,
+                                       default='BO')
+                        
+        
+class Letter(models.Model):
+        prisoner=models.ForeignKey(Prisoner)
+        content=models.TextField()
+        program=models.ForeignKey(Program)
+        
+
+        
