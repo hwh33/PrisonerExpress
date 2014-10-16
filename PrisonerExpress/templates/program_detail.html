@@ -35,7 +35,7 @@
 		<h5>Participants:</h5>
 	</div>
 	<div class="large-8 columns">
-		{% for prisoner in object.prisoners.all %} <div> {{ prisoner.name }} </div> {% endfor %}
+		{% for prisoner in object.prisoners.all %} <div><a href="{% url "prisoner_details" prisoner.id%}"> {{ prisoner.name }} </a> </div> {% endfor %}
 	</div>
 	<div class="row">
 	<div class="large-8 columns">
