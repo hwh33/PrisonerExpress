@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.views.generic import ListView, DetailView, TemplateView
-from PrisonerExpress.models import Program
+from PrisonerExpress.models import Program,Prisoner
 from django.shortcuts import get_object_or_404, render, redirect
 
 def index(request):
@@ -35,14 +35,22 @@ def create_program(program_name,program_description="N/A", continuous=False, act
 
 def edit(request, program_id):
     program = get_object_or_404(Program, id=program_id)
-    if request.method == 'POST':
+    if request.method == 'POST' and 'btn_edit' in request.POST:
         if program is None: 
             raise Http404
         program.name = request.POST['program_name']
         program.description = request.POST['program_description']
         program.save();
-        return redirect('program_details', program_id=program.id)
-    context = {'program':program}
+        return redirect('program_details', program.id)
+    if request.method == 'POST' and 'btn_add' in request.POST:
+        prisoner = None
+        prisoner_id = request.POST['prisoner']
+        if int(prisoner_id) != -1:
+            prisoner = Prisoner.objects.get(pk=prisoner_id)
+        program.prisoners.add(prisoner)
+        program.save();
+        return redirect('program_details', program.id)
+    context = {'program':program,'prisoner_list':Prisoner.objects.all()}
     return  render(request,"edit_program.html",context)
 
 

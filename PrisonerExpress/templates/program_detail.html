@@ -35,7 +35,7 @@
 		<h5>Participants:</h5>
 	</div>
 	<div class="large-8 columns">
-		{% for prisoner in object.prisoner_set.all %} <div> {{ prisoner.name }} </div> {% endfor %}
+		{% for prisoner in object.prisoners.all %} <div> {{ prisoner.name }} </div> {% endfor %}
 	</div>
 </div>
 {% endblock %}
