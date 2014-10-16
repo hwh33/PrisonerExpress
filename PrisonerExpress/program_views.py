@@ -21,7 +21,7 @@ def create(request):
                                         request.POST.get('continuous', False),
                                         request.POST.get('active', False))
         return redirect('program_details', program_id=new_program_id)
-   return render(request, "create_program.html")
+    return render(request, "create_program.html")
 
 def create_program(program_name,program_description="N/A", continuous=False, active=True):
     if program_name is None :
