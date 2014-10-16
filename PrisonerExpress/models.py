@@ -44,7 +44,8 @@ class Material(models.Model):
                 ('PO', 'Poem'),
                 ('SS', 'Short Story'),
                 ('PH', 'Word or Phrase'),
-                ('PI', 'Picture')
+                ('PI', 'Picture'),
+                ('OO', 'Other')
                 )
         material_type=models.CharField(max_length=2,
                                        choices=MATERIAL_TYPE_CHOICES,
