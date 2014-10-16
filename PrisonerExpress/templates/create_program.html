@@ -1,13 +1,17 @@
  {% extends "header.html" %}
  {% block content %}
  <div class="row">
+	<div class="large-12 columns">
+		<h3> Create Program </h3>
+	</div>
+</div>
+ <div class="row">
  	<div class="large-2 columns">
     </div>
  	<div class="large-10 columns">
  		<div class="row">
  			<div class="large-12 columns">
             </div>
-			<h3>Create a New Program</h3>
  				<form action="{% url 'program_create' %}" method="post">
  					{% csrf_token %} 
  					<div class="row">

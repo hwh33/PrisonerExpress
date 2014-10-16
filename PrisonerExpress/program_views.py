@@ -7,7 +7,7 @@ from django.shortcuts import get_object_or_404, render, redirect
 def index(request):
     program_list = Program.objects.all()
     context = {'program_list':program_list}
-    return render(request,"list_program.html",context)
+    return render(request,"program_list.html",context)
 
 def details(request, program_id):
     program = get_object_or_404(Program, pk=program_id)
@@ -20,7 +20,7 @@ def create(request):
                                         request.POST['program_description'],
                                         request.POST.get('continuous', False),
                                         request.POST.get('active', False))
-        return redirect('program_details', program_id=new_program_id)
+        return redirect('program_details', new_program_id)
     return render(request, "create_program.html")
 
 def create_program(program_name,program_description="N/A", continuous=False, active=True):

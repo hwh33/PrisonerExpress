@@ -78,4 +78,3 @@ urlpatterns= patterns(
         name='new_letter')
 )
 
-
