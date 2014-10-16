@@ -8,9 +8,11 @@ def index(request):
     total = len(Prison.objects.all())
     return HttpResponse("There are %s prisons in the system" % total)
 
+
 def details(request, prison_id):
     prison = get_object_or_404(Prison, pk=prison_id)
     return HttpResponse("Here are the details for prison %s" % prison)
+
 
 def create_prison(prison_name, prison_address, prison_rules):
     if prison_name is None or prison_address is None:
@@ -23,6 +25,7 @@ def create_prison(prison_name, prison_address, prison_rules):
     p.save()
     return p.id
 
+
 def create(request):
     if request.method == 'POST':
         new_prison_id = create_prison(request.POST['prison_name'],
@@ -30,7 +33,6 @@ def create(request):
                                       request.POST['prison_rules'])
         return redirect('prison_details', prison_id=new_prison_id)
     return render(request, "create_prison.html")
-
 
 
 def edit(request, prison_id):
