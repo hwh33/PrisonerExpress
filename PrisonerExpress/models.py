@@ -4,12 +4,12 @@ from datetime import datetime
 # Create your models here.
 
 class Program(models.Model):
-	name=models.CharField(max_length=200)
-        active = models.BooleanField(default=True)
-        continuous = models.BooleanField(default = True)
-        
-        def __str__(self):
-                return self.name
+    name=models.CharField(max_length=200)
+    active = models.BooleanField(default=True)
+    continuous = models.BooleanField(default = True)
+    description = models.CharField(max_length=1000, default="N/A")  
+    def __str__(self):
+            return self.name
 
 class Prison(models.Model):
         name=models.CharField(max_length=200)
@@ -24,7 +24,7 @@ class Prisoner(models.Model):
 	name=models.CharField(max_length=200)
         active=models.BooleanField(default=True)
         prison=models.ForeignKey(Prison, null=True)
-        programs=models.ManyToManyField(Program)
+        programs=models.ManyToManyField(Program, related_name = "prisoners")
         address=models.CharField(max_length=200,default="")
 	age=models.IntegerField()
         last_active=models.DateTimeField('last active date', default=datetime.now)
@@ -35,7 +35,7 @@ class Prisoner(models.Model):
         
 class Material(models.Model):
         name=models.CharField(max_length=200)
-        program=models.ForeignKey(Program)
+        program=models.ForeignKey(Program, related_name = "materials")
         MATERIAL_TYPE_CHOICES = (
                 ('BO', 'Book'),
                 ('MA', 'Magazine'),
@@ -54,7 +54,7 @@ class Material(models.Model):
 class Letter(models.Model):
         prisoner=models.ForeignKey(Prisoner)
         content=models.TextField()
-        program=models.ForeignKey(Program)
+        program=models.ForeignKey(Program, related_name = "letters")
         
 
         
