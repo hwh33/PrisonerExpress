@@ -1,17 +1,12 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, DetailView, ListView
 from PrisonerExpress.models import Prison
 from django.shortcuts import get_object_or_404, render, redirect
 
 def index(request):
     total = len(Prison.objects.all())
     return HttpResponse("There are %s prisons in the system" % total)
-
-
-def details(request, prison_id):
-    prison = get_object_or_404(Prison, pk=prison_id)
-    return HttpResponse("Here are the details for prison %s" % prison)
 
 
 def create_prison(prison_name, prison_address, prison_rules):
@@ -31,7 +26,7 @@ def create(request):
         new_prison_id = create_prison(request.POST['prison_name'],
                                       request.POST['prison_address'],
                                       request.POST['prison_rules'])
-        return redirect('prison_details', prison_id=new_prison_id)
+        return redirect('prison_details', pk=new_prison_id)
     return render(request, "create_prison.html")
 
 
@@ -41,3 +36,11 @@ def edit(request, prison_id):
 
 class PrisonIndex(TemplateView):
     template_name="prison_index.html"
+
+class PrisonList(ListView):
+    template_name="prison_list.html"
+    model=Prison
+
+class PrisonDetails(DetailView):
+    template_name="prison_details.html"
+    model=Prison

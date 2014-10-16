@@ -17,11 +17,10 @@ def create_prisoner(prisoner_name, prisoner_address, prison_id, rules):
         raise Exception("Prisoner must have a name")
     if prisoner_address is None and prison_id == -1:
         raise Exception("Prisoner Address and Prison cannot both be unspecified")
-
     prison = None
     if int(prison_id) != -1:
         prison = Prison.objects.get(pk=prison_id)
-    address = prisoner_address if prisoner_address is not None else Prison.address
+    address = prisoner_address if len(prisoner_address) > 0 else prison.address
     p = Prisoner(name=prisoner_name,
                  active=True,
                  prison=prison,
@@ -40,7 +39,7 @@ def create(request):
     if request.method == 'POST':
         new_p = create_prisoner(request.POST['name'], request.POST['mailing_address'],
                                 request.POST['prison'], request.POST['prison_rules'])
-        return HttpResponse("Created a new prisoner with id %s" % new_p)
+        return redirect('prisoner_details', pk=new_p)
     return render(request, "create_prisoner.html", {'prison_list':Prison.objects.all()})
 
 class PrisonerList(ListView):

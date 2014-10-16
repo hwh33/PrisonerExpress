@@ -14,27 +14,20 @@
 		<h5> {{ object.address }} </h5>
 	</div>
 </div>
-<div class="row">
+<div class="row"> 
 	<div class="large-4 large-offset-2 columns">
-		<h5>Prison:</h5>
+		<h5>Rules:</h5>
 	</div>
 	<div class="large-6 columns">
-	<h5>
-		{% if object.prison %}
-		<a href="{% url "prison_details" object.prison.id %}">{{ object.prison.name }}</a>
-		{% else %}
-		None Specified
-		{% endif %}
-		</h5>
+		<h5> {{ object.rules }} </h5>
 	</div>
 </div>
 <div class="row">
 	<div class="large-4 large-offset-2 columns">
-		<h5>Programs:</h5>
+		<h5>Prisoners:</h5>
 	</div>
 	<div class="large-6 columns">
-		<ul class="inline-list">{% for program in object.programs.all %} <li> <a href="{% url "program_details" program.id %}"> {{ program.name }} </a> </li>{% endfor %}
-		</ul>
+		<ul class="inline-list"> {% for prisoner in object.prisoner_set.all %} <li> <a href="{% url "prisoner_details" prisoner.id %}">{{ prisoner.name }}</a> </li> {% endfor %}</ul>
 	</div>
 </div>
 {% endblock %}
