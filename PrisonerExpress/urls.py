@@ -3,6 +3,7 @@ from django.views.generic import TemplateView
 from PrisonerExpress import views
 from PrisonerExpress import prison_views
 from PrisonerExpress import program_views
+from PrisonerExpress import prisoner_views
 
 prison_patterns=patterns(
     '',
@@ -36,6 +37,13 @@ program_patterns=patterns(
         name='program_edit'),
     )
 
+prisoner_patterns=patterns(
+    '',
+    url(regex=r'^create$',
+        view=prisoner_views.create,
+        name='prisoner_create'),
+    )
+
 
 
 urlpatterns= patterns(
@@ -43,8 +51,9 @@ urlpatterns= patterns(
     url(regex=r'^$',
         view=TemplateView.as_view(template_name="foundation/index.html"),
         name="foundation_index"),
-   	url(r'^program/', include(program_patterns)), 
-	url(r'^prison/', include(prison_patterns)), 
+    url(r'^program/', include(program_patterns)), 
+    url(r'^prison/', include(prison_patterns)),
+    url(r'^prisoner/', include(prisoner_patterns)),
 )
 
 

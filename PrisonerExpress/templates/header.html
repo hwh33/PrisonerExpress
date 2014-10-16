@@ -1,0 +1,34 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title>{{ title|default:"Prisoner Express Project"}}</title>
+	<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+	<link rel="stylesheet" href="{% static "foundation/css/normalize.css" %}">
+	<link rel="stylesheet" href="{% static "foundation/css/foundation.css" %}">
+	<script src="{% static "foundation/js/modernizr.js" %}"></script>
+</head>
+<body>
+	<div class="row">
+		<div class="large-12 columns">
+			<div class="nav-bar right">
+				<ul class="button-group">
+					<li><a href="#" class="button">Prisoners</a></li>
+					<li><a href="#" class="button">Prison</a></li>
+					<li><a href="#" class="button">Programs</a></li>
+				</ul>
+			</div>
+			<h2>Prisoner Express <small>Durland Alternatives Library</small></h2>
+			<hr/>
+		</div>
+	</div>
+	{% block content %}{% endblock %}
+	<script src="{% static "foundation/js/foundation.min.js" %} "></script>
+	<script>
+		$(document).foundation();
+	</script>
+	<script src="{% static "foundation/js/templates/jquery.js" %}"></script>
+	<script src="{% static "foundation/js/templates/foundation.js" %}"></script>
+	</body>
+	</html>
