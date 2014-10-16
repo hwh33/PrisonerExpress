@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, TemplateView
 from PrisonerExpress.models import Prison, Prisoner
 from django.shortcuts import get_object_or_404, render, redirect
 
@@ -28,8 +28,7 @@ def create_prisoner(prisoner_name, prisoner_address, prison_id, rules):
                  address=address,
                  age=-1)
     p.save()
-    return p.id
-
+    return p.id    
 
 def get_letters(request, prisoner_id):
     prisoner = Prisoner.objects.get(pk=prisoner_id)
@@ -51,3 +50,6 @@ class PrisonerList(ListView):
 class PrisonerDetail(DetailView):
     template_name="prisoner_detail.html"
     model=Prisoner
+
+class PrisonerIndex(TemplateView):
+    template_name="prisoner_index.html"

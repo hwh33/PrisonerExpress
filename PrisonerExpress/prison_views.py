@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-
+from django.views.generic import TemplateView
 from PrisonerExpress.models import Prison
 from django.shortcuts import get_object_or_404, render, redirect
 
@@ -39,3 +39,5 @@ def edit(request, prison_id):
     return HttpResponse("Edit page for prison %d" % prison_id)
 
 
+class PrisonIndex(TemplateView):
+    template_name="prison_index.html"
