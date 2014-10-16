@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-
+from django.views.generic import ListView, DetailView, TemplateView
 from PrisonerExpress.models import Program
 from django.shortcuts import get_object_or_404, render, redirect
 
@@ -21,7 +21,7 @@ def create(request):
                                         request.POST.get('continuous', False),
                                         request.POST.get('active', False))
         return redirect('program_details', program_id=new_program_id)
-    return render(request, "create_program.html")
+   return render(request, "create_program.html")
 
 def create_program(program_name,program_description="N/A", continuous=False, active=True):
     if program_name is None :
@@ -45,5 +45,10 @@ def edit(request, program_id):
     context = {'program':program}
     return  render(request,"edit_program.html",context)
 
- 
 
+class ProgramDetails(DetailView):
+    model=Program
+    template_name="program_detail.html"
+
+class ProgramIndex(TemplateView):
+    template_name="program_index.html"

@@ -14,12 +14,13 @@
 		<div class="large-12 columns">
 			<div class="nav-bar right">
 				<ul class="button-group">
-					<li><a href="#" class="button">Prisoners</a></li>
-					<li><a href="#" class="button">Prison</a></li>
-					<li><a href="#" class="button">Programs</a></li>
+					<li><a href="{% url "prisoner_index" %}" class="button">Prisoners</a></li>
+					<li><a href="{% url "prison_index"  %}" class="button">Prison</a></li>
+					<li><a href="{% url "program_index" %}" class="button">Programs</a></li>
+					<li><a href="{% url "new_letter" %}" class="button">Letters</a></li>
 				</ul>
 			</div>
-			<h2>Prisoner Express <small>Durland Alternatives Library</small></h2>
+			<h2>Prisoner Express<small>Durland Library</small></h2>
 			<hr/>
 		</div>
 	</div>
