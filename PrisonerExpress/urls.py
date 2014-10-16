@@ -7,7 +7,7 @@ from PrisonerExpress import prisoner_views
 from PrisonerExpress import letter_views
 from prisoner_views import PrisonerList, PrisonerDetail, PrisonerIndex
 from program_views import ProgramDetails, ProgramIndex
-from prison_views import PrisonIndex
+from prison_views import PrisonIndex, PrisonDetails, PrisonList
 
 prison_patterns=patterns(
     '',
@@ -15,10 +15,10 @@ prison_patterns=patterns(
         view=PrisonIndex.as_view(),
         name="prison_index"),
     url(regex=r'^list',
-        view=prison_views.index,
+        view=PrisonList.as_view(),
         name='prison_list'),
-    url(regex=r'^(?P<prison_id>\d+)/$',
-        view=prison_views.details,
+    url(regex=r'^(?P<pk>\d+)/$',
+        view=PrisonDetails.as_view(),
         name='prison_details'),
     url(regex=r'^create$',
         view=prison_views.create,
