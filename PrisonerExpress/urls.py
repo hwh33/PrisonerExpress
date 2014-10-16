@@ -68,8 +68,8 @@ prisoner_patterns=patterns(
 urlpatterns= patterns(
     '',
     url(regex=r'^$',
-        view=TemplateView.as_view(template_name="foundation/index.html"),
-        name="foundation_index"),
+        view=TemplateView.as_view(template_name="index.html"),
+        name="index"),
     url(r'^program/', include(program_patterns)), 
     url(r'^prison/', include(prison_patterns)),
     url(r'^prisoner/', include(prisoner_patterns)),
