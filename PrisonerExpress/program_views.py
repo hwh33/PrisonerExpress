@@ -5,12 +5,14 @@ from PrisonerExpress.models import Program
 from django.shortcuts import get_object_or_404, render, redirect
 
 def index(request):
-    total = len(Program.objects.all())
-    return HttpResponse("There are %s programs" % total)
+    program_list = Program.objects.all()
+    context = {'program_list':program_list}
+    return render(request,"list_program.html",context)
 
 def details(request, program_id):
     program = get_object_or_404(Program, pk=program_id)
-    return HttpResponse("Here are the details for prison %s" % program)
+    context = {'program':program}
+    return render(request,"detail_program.html",context)
 
 def create(request):
     if request.method == 'POST':
@@ -26,8 +28,17 @@ def create_program(program_name,program_description="N/A"):
     p.save()
     return p.id       
 
-def edit(request):
-    return HttpResponse("hello world");
+def edit(request, program_id):
+    program = get_object_or_404(Program, id=program_id)
+    if request.method == 'POST':
+        if program is None: 
+            raise Http404
+        program.name = request.POST['program_name']
+        program.description = request.POST['program_description']
+        program.save();
+        return redirect('program_details', program_id=program.id)
+    context = {'program':program}
+    return  render(request,"edit_program.html",context)
 
  
 

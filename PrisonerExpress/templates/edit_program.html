@@ -1,0 +1,11 @@
+ {% extends "base.html" %}
+
+{% block base_body %}
+          <form action={% url 'program_edit' program.id %} method="post">
+            {% csrf_token %}
+            <input type="text" name="program_name" value="{{ program.name }}" />
+            <input type="text" name="program_description" value="{{program.description }}"/>
+            <input type="submit">Submit!</input>
+            </form>
+
+{% endblock base_body %}         

@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block base_body %}
+			<p>
+			  <h2>
+			  <a href="{% url 'program_details' program.id %}">
+			    {{program.name}}
+			  </a>
+			</h2>
+			  <p>
+			  	{{program.description}}
+			  <p>
+			</p>
+
+{% endblock base_body %}         
