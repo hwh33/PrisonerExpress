@@ -17,16 +17,21 @@ def details(request, program_id):
 def create(request):
     if request.method == 'POST':
         new_program_id = create_program(request.POST['program_name'],
-                                        request.POST['program_description'])
+                                        request.POST['program_description'],
+                                        request.POST.get('continuous', False),
+                                        request.POST.get('active', False))
         return redirect('program_details', program_id=new_program_id)
     return render(request, "create_program.html")
 
-def create_program(program_name,program_description="N/A"):
+def create_program(program_name,program_description="N/A", continuous=False, active=True):
     if program_name is None :
         raise Http404
-    p = Program( name=program_name,description = program_description)
+    p = Program( name=program_name,
+                 description = program_description,
+                 continuous=continuous,
+                 active=active)
     p.save()
-    return p.id       
+    return p.id         
 
 def edit(request, program_id):
     program = get_object_or_404(Program, id=program_id)

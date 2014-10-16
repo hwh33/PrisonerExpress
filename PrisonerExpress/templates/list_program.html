@@ -1,19 +1,59 @@
-{% extends "base.html" %}
+{% extends "header.html" %}
 {% block title %}
 	Programs-Prisoner Express
 {% endblock title%}
-{% block base_body %}
-         {% for program in program_list %}
-			<p>
-			  <h2>
-			  <a href="{% url 'program_details' program.id %}">
-			    {{program.name}}
-			  </a>
-			</h2>
-			  <p>
-			  	{{program.description}}
-			  <p>
-			</p>
-		{% endfor %}
-
-{% endblock base_body %}         
+{% block content %}
+<div class="row">
+ 	<div class="large-2 columns">
+ 			</div>
+ 	<div class="large-10 columns">
+ 		<div class="row">
+ 			<div class="large-10 columns">
+	 			<h3>Program LIST</h3>
+	 				{% for program in program_list %}
+	 					<div class="panel">
+		 					<div class="row">
+		 						<div class="large-6 columns">
+		 							<label>Program name:</label>
+		 							<p>
+		 								{{program.name}}
+		 							</p>
+		 						</div>
+		 					</div>
+		 					<div class="row">
+		 						<div class="large-6 columns">
+		 							<label>active:</label>
+		 							<p>
+		 								{{program.active}}
+		 							</p>
+		 						</div>
+		 						<div class="large-6 columns">
+		 							<label>continuous:</label>
+		 							<p>
+		 								{{program.continuous}}
+		 							</p>
+		 						</div>
+		 						
+		 					</div>
+		 					<div class="row">
+			 						<div class="large-12 columns">
+			 							<label>Description:</label>
+			 							<p>
+			 								{{program.description}}
+			 							</p>
+			 						</div>	 						
+		 					</div> 
+		 					<div class="row">
+		 						<div class="large-8 columns">
+		 						</div>
+		 						<div class="large-4 columns">
+		 							<a href="{% url 'program_details' program.id %}" class="small radius button">Detail</a>
+		 						</div>						
+		 					</div> 
+		 				</div>
+		 			{%endfor%}
+	 			</div>       
+ 			</div>
+ 		</div>
+ 	</div>
+{% endblock content %}         

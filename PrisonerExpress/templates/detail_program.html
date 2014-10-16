@@ -1,15 +1,56 @@
-{% extends "base.html" %}
+{% extends "header.html" %}
 
-{% block base_body %}
-			<p>
-			  <h2>
-			  <a href="{% url 'program_details' program.id %}">
-			    {{program.name}}
-			  </a>
-			</h2>
-			  <p>
-			  	{{program.description}}
-			  <p>
-			</p>
+{% block content %}
+ <div class="row">
+ 	<div class="large-2 columns">
+ 			</div>
+ 	<div class="large-10 columns">
+ 		<div class="row">
+ 			<div class="large-10 columns">
+ 				<div class="panel">
+	 				<h3>Program Detail</h3>
+	 					<div class="row">
+	 						<div class="large-6 columns">
+	 							<label>Program name:</label>
+	 							<p>
+	 								{{program.name}}
+	 							</p>
+	 						</div>
+	 					</div>
+	 					<div class="row">
+	 						<div class="large-6 columns">
+	 							<label>active:</label>
+	 							<p>
+	 								{{program.active}}
+	 							</p>
+	 						</div>
+	 						<div class="large-6 columns">
+	 							<label>continuous:</label>
+	 							<p>
+	 								{{program.continuous}}
+	 							</p>
+	 						</div>
+	 						
+	 					</div>
+	 					<div class="row">
+		 						<div class="large-12 columns">
+		 							<label>Description:</label>
+		 							<p>
+		 								{{program.description}}
+		 							</p>
+		 						</div>	 						
+	 					</div> 
+	 					<div class="row">
+	 						<div class="large-8 columns">
+	 						</div>
+	 						<div class="large-4 columns">
+	 							<a href="{% url 'program_edit' program.id %}" class="small radius button">Edit</a>
+	 						</div>						
+	 					</div> 
+	 				</div>
 
-{% endblock base_body %}         
+	 			</div>       
+ 			</div>
+ 		</div>
+ 	</div>
+{% endblock content %}         

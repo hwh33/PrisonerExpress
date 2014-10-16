@@ -1,11 +1,50 @@
- {% extends "base.html" %}
-
-{% block base_body %}
-          <form action="{% url 'program_create' %}" method="post">
-            {% csrf_token %}
-            <input type="text" name="program_name" value="Enter a name" />
-            <input type="text" name="program_description" value="N/A"/>
-            <input type="submit">Submit!</input>
-            </form>
-
-{% endblock base_body %}         
+ {% extends "header.html" %}
+ {% block content %}
+ <div class="row">
+ 	<div class="large-2 columns">
+    </div>
+ 	<div class="large-10 columns">
+ 		<div class="row">
+ 			<div class="large-12 columns">
+            </div>
+ 			<h3>Create a New Program</h3>
+ 				<form action="{% url 'program_create' %}" method="post">
+ 					{% csrf_token %} 
+ 					<div class="row">
+ 						<div class="large-6 columns">
+ 							<label>Program Name:
+ 								<input type="text" name="program_name" placeholder="Name" />
+ 							</label>
+ 						</div>
+ 					</div>
+ 					<div class="row">
+ 						<div class="large-6 columns">
+ 							<label>Description:
+ 								<input type="text" name="program_description" placeholder="Describe the program" />
+ 							</label>
+ 						</div>
+ 					</div>
+ 					<div class="row">
+ 						<div class="large-6 columns">
+ 							<label>Continuous:
+ 								<input type="checkbox" name="continuous" />
+ 							</label>
+ 						</div>
+ 					</div>
+ 					<div class="row">
+ 						<div class="large-6 columns">
+ 							<label>Active:
+ 								<input type="checkbox" name="active" checked/>
+ 							</label>
+ 						</div>
+ 					</div>
+ 					<div class="row"> 
+ 						<div class="large-6 columns">
+ 							<input type="submit" class="button" value="Create!">
+ 						</div>
+ 					</div>
+ 				</form>         
+ 			</div>
+ 		</div>
+ 	</div>
+ 	{% endblock content %}         
