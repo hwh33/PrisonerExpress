@@ -4,6 +4,7 @@ from PrisonerExpress import views
 from PrisonerExpress import prison_views
 from PrisonerExpress import program_views
 from PrisonerExpress import prisoner_views
+from prisoner_views import PrisonerList, PrisonerDetail
 
 prison_patterns=patterns(
     '',
@@ -39,9 +40,14 @@ program_patterns=patterns(
 
 prisoner_patterns=patterns(
     '',
+    url(r'$^',
+        PrisonerList.as_view()),
     url(regex=r'^create$',
         view=prisoner_views.create,
         name='prisoner_create'),
+    url('^(?P<pk>\d+)/$',
+        PrisonerDetail.as_view(),
+        name='prisoner_details'),
     )
 
 
