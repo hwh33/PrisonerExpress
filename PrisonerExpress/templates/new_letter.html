@@ -15,16 +15,16 @@
             </div>
 
             <h3>Register a Letter from a Prisoner</h3>
-            <form action="{% url 'new_letter' %}" method="post">
+            <form enctype="multipart/form-data" action="{% url 'new_letter' %}" method="post" >
                 {% csrf_token %} 
                 <div class="row">
                     <div class="large-6 columns">
                         <label>Prisoner:
-                        <select name="prisoner">
-                        {% for prisoner in prisoners %}
-                        <option value="{{ prisoner.id }}">{{ prisoner.name }}</option>
-                        {% endfor %}
-                        </select>
+                            <select name="prisoner">
+                                {% for prisoner in prisoners %}
+                                <option value="{{ prisoner.id }}">{{ prisoner.name }}</option>
+                                {% endfor %}
+                            </select>
                         </label>
                     </div>
                 </div>
@@ -40,10 +40,15 @@
                     </div>
                 </div>
                 <div class="row">
+                     <div class="large-6 columns">
+                        <input type="file" name="image" accept="image/*" />
+                     </div>
+                </div>
+                <div class="row">
                     <div class="large-6 columns">
                         <label>Enroll or Unenroll:
-                        <input type="radio" name="action" value="enroll" id="enroll" checked><label for="enroll">Enroll</label>
-                        	<input type="radio" name="action" value="unenroll" id="unenroll"><label for="unenroll">Unenroll</label>
+                            <input type="radio" name="action" value="enroll" id="enroll" checked><label for="enroll">Enroll</label>
+                            <input type="radio" name="action" value="unenroll" id="unenroll"><label for="unenroll">Unenroll</label>
                         </label>
                     </div>
                 </div>

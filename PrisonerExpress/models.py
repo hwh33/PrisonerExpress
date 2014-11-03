@@ -1,6 +1,6 @@
 from django.db import models
+from django import forms
 from datetime import datetime
-
 # Create your models here.
 
 class Program(models.Model):
@@ -54,8 +54,11 @@ class Material(models.Model):
         
 class Letter(models.Model):
         prisoner=models.ForeignKey(Prisoner)
-        content=models.TextField()
         program=models.ForeignKey(Program, related_name = "letters")
+        content=models.TextField()
+        image=models.ImageField(upload_to='Letters')
         
-
+class ImageUploadForm(forms.Form):
+    """Image upload form."""
+    image = forms.ImageField()
         
