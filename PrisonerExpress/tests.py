@@ -2,11 +2,13 @@ from django.test import TestCase
 from PrisonerExpress.models import Prison, Prisoner
 from django.http import HttpResponse
 # Create your tests here.
+
 def input(request):
+
 	first_name=request.GET['first_name'];
 	last_name=request.GET['last_name'];
 	address=request.GET['addr'];
-	pre_address=request.GET['pre_addr'];
+	pre_address=request.GET['preaddr'];
 	city=request.GET['city'];
 	state=request.GET['state'];
 	zipcode=request.GET['zipcode'];
