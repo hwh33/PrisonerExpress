@@ -48,6 +48,9 @@ program_patterns=patterns(
     url(regex=r'^(?P<program_id>\d+)/edit$',
         view=program_views.edit,
         name='program_edit'),
+     url(regex=r'^(?P<program_id>\d+)/mail$',
+        view=program_views.mail,
+        name='program_mail'),
     )
 
 prisoner_patterns=patterns(
