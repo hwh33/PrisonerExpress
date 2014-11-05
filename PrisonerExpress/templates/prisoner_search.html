@@ -1,0 +1,28 @@
+{% extends "header.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="large-2 columns">
+    </div>
+    <div class="large-10 columns">
+        <div class="row">
+        <div class="large-12 columns">
+        	<h3>Find a Prisoner</h3>
+        </div>
+            <form action="{% url 'prisoner_search' %}" method="get">
+            	<div class="row">
+            		<div class="large-offset-2 large-6 columns">
+            		<label>ID:
+            				<input type="text" name="term" placeholder="Id" />
+            			</label>
+            		</div>
+            	</div>
+            	<div class="row"> 
+            		<div class="large-6 columns">
+                        <input type="submit" class="button" value="Search!">
+                    </div>
+                </div>
+            </form>
+	</div>
+</div>
+{% endblock %}
