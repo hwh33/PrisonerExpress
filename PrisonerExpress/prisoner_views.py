@@ -5,6 +5,7 @@ from PrisonerExpress.models import Prison, Prisoner, PrisonerForm
 from django import forms
 from django.shortcuts import get_object_or_404, render, redirect
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.contrib.auth.decorators import login_required
 
 
 def index(request):
@@ -16,7 +17,7 @@ def details(request, prisoner_id):
     p = Prisoner.objects.get(pk=prisoner_id)
     return HttpResponse("%s has prisoner id of %s" % (p.name, p.id))
 
-
+@login_required
 def create_prisoner(prisoner_name, prisoner_id,
                     prisoner_address, prison_id, rules):
     if prisoner_name is None:
@@ -47,7 +48,7 @@ def get_letters(request, prisoner_id):
     if request.GET['groupby'] == None:
         return Letters.objects.get(prisoner=prisoner)
 
-
+@login_required
 def create(request):
     if request.method == 'POST':
         form = PrisonerForm(request.POST)

@@ -25,7 +25,7 @@
                         <label>Prisoner:
                             <select name="prisoner">
                                 {% for prisoner in prisoners %}
-                                <option value="{{ prisoner.id }}">{{ prisoner.name }}</option>
+                                <option value="{{ prisoner.prisoner_id }}">{{ prisoner.name }}</option>
                                 {% endfor %}
                             </select>
                         </label>
