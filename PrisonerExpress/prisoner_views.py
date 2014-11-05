@@ -4,6 +4,7 @@ from django.views.generic import ListView, DetailView, TemplateView
 from PrisonerExpress.models import Prison, Prisoner, PrisonerForm
 from django import forms
 from django.shortcuts import get_object_or_404, render, redirect
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
 def index(request):
@@ -67,15 +68,25 @@ def search(request):
     if ('term' not in request.GET):
         return render(request, "prisoner_search.html")
     search_term = request.GET['term']
-    prisoners = Prisoner.objects.filter(prisoner_id__contains=search_term)
+    paginator = Paginator(Prisoner.objects.filter(prisoner_id__contains=search_term), 25)
+    page = request.GET.get('page')
+    try:
+        prisoners = paginator.page(page)
+    except PageNotAnInteger:
+        prisoners = paginator.page(1)
+    except EmptyPage:
+        prisoners = paginator.page(paginator.num_page)
     return render(request,
                   "prisoner_list.html",
-                  {'object_list': prisoners})
+                  {'object_list': prisoners,
+                   'term':search_term,
+                   'page_obj':prisoners})
 
 
 class PrisonerList(ListView):
     template_name='prisoner_list.html'
     model=Prisoner
+    paginate_by=10
 
 
 class PrisonerDetail(DetailView):
