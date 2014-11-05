@@ -23,7 +23,7 @@
 		{% if object.prison %}
 		<a href="{% url "prison_details" object.prison.id %}">{{ object.prison.name }}</a>
 		{% else %}
-		None Specified
+			None Specified
 		{% endif %}
 		</h5>
 	</div>
@@ -36,5 +36,15 @@
 		<ul class="inline-list">{% for program in object.programs.all %} <li> <a href="{% url "program_details" program.id %}"> {{ program.name }} </a> </li>{% endfor %}
 		</ul>
 	</div>
+</div>
+
+<div class="row">
+	<div class="large-4 large-offset-2 columns">
+		<h5>Mailing label:</h5>
+	</div>
+	<div class="large-6 columns">
+		
+	</div>
+</div>
 </div>
 {% endblock %}
