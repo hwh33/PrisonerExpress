@@ -1,13 +1,13 @@
 from django.db import models
+from django import forms
 from datetime import datetime
 
-# Create your models here.
 
 class Program(models.Model):
     name=models.CharField(max_length=200)
     active = models.BooleanField(default=True)
     continuous = models.BooleanField(default = True)
-    description = models.CharField(max_length=1000, default="N/A")  
+    description = models.CharField(max_length=1000, default="N/A")
     def __str__(self):
         return self.name
 
@@ -23,21 +23,22 @@ class Address(models.Model):
 class Prison(models.Model):
     name=models.CharField(max_length=200)
     primary_address=models.ForeignKey(Address)
-    secondary_addresses=models.
     rules=models.CharField(max_length=1000)
     
     def __str__(self):
         return self.name
 
-
+        
 class Prisoner(models.Model):
     name=models.CharField(max_length=200)
+    prisoner_id=models.CharField(max_length=80) #santitized version of the id
+    prisoner_id_raw=models.CharField(max_length=100) #how the id was entered
     active=models.BooleanField(default=True)
     prison=models.ForeignKey(Prison, null=True)
     programs=models.ManyToManyField(Program, related_name = "prisoners")
     address=models.ForeignKey(Address)
     last_active=models.DateTimeField('last active date', default=datetime.now)
-    
+
     def __str__(self):
         return "Name: %s | ID: %s " % (self.name, self.prisoner_id)
 
@@ -58,13 +59,15 @@ class Material(models.Model):
         )
     material_type=models.CharField(max_length=2,
                                    choices=MATERIAL_TYPE_CHOICES,
-                                   default='BO')                        
+                                   default='BO')
 
-    
+
 class Letter(models.Model):
-    prisoner=models.ForeignKey(Prisoner)
-    content=models.TextField()
+    prisoner=models.ForeignKey(Prisoner, related_name = "letters")
     program=models.ForeignKey(Program, related_name = "letters")
-    
+    content=models.TextField()
+    image=models.ImageField(upload_to='Letters')
 
-    
+class ImageUploadForm(forms.Form):
+    """Image upload form."""
+    image = forms.ImageField()

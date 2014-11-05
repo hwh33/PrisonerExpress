@@ -1,0 +1,22 @@
+{% extends "header.html" %}
+
+{% block content %}
+<div class="row">
+	<form data-abide method="post">
+		  {% csrf_token %} 
+		<div class="Username-field">
+			<label>UserName <small>required</small>
+				<input type="text" name="username"required pattern="^[a-zA-Z][a-zA-Z0-9_]{5,15}$">
+			</label>
+			<small class="error">Username can be a-zA-Z0-9_</small>
+		</div>
+		<div class="Password-field">
+			<label>Password <small>required</small>
+				<input type="password" name="password" required>
+			</label>
+			<small class="error">error password.</small>
+		</div>
+		<button type="submit">Login</button>
+	</form>
+</div>
+{% endblock %}
