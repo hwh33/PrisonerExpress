@@ -66,9 +66,12 @@ def mail(request, program_id):
     def mailing_label(label, width, height, data):
             label.add(shapes.String(5, height-20, data.name,
                                     fontName="Helvetica", fontSize=20))
-            label.add(shapes.String(5, height-50, data.address,
+            
+            label.add(shapes.String(5, height-50, data.pre_address,
+                                    fontName="Helvetica", fontSize=15))
+            label.add(shapes.String(5, height-80, data.address,
                                     fontName="Helvetica", fontSize=20))
-            label.add(shapes.String(5, height-80, data.city+', '+data.state+', '+data.zipcode,
+            label.add(shapes.String(5, height-110, data.city+', '+data.state+', '+data.zipcode,
                                     fontName="Helvetica", fontSize=20)) 
 
     sheet = labels.Sheet(specs, mailing_label, border=True)
