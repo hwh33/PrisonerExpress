@@ -1,33 +1,62 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-
-from PrisonerExpress.models import Program
+from django.views.generic import ListView, DetailView, TemplateView
+from PrisonerExpress.models import Program,Prisoner
 from django.shortcuts import get_object_or_404, render, redirect
 
 def index(request):
-    total = len(Program.objects.all())
-    return HttpResponse("There are %s programs" % total)
+    program_list = Program.objects.all()
+    context = {'program_list':program_list}
+    return render(request,"program_list.html",context)
 
 def details(request, program_id):
     program = get_object_or_404(Program, pk=program_id)
-    return HttpResponse("Here are the details for prison %s" % program)
+    context = {'program':program}
+    return render(request,"detail_program.html",context)
 
 def create(request):
     if request.method == 'POST':
         new_program_id = create_program(request.POST['program_name'],
-                                        request.POST['program_description'])
-        return redirect('program_details', program_id=new_program_id)
+                                        request.POST['program_description'],
+                                        request.POST.get('continuous', False),
+                                        request.POST.get('active', False))
+        return redirect('program_details', new_program_id)
     return render(request, "create_program.html")
 
-def create_program(program_name,program_description="N/A"):
+def create_program(program_name,program_description="N/A", continuous=False, active=True):
     if program_name is None :
         raise Http404
-    p = Program( name=program_name,description = program_description)
+    p = Program( name=program_name,
+                 description = program_description,
+                 continuous=continuous,
+                 active=active)
     p.save()
-    return p.id       
+    return p.id         
 
-def edit(request):
-    return HttpResponse("hello world");
+def edit(request, program_id):
+    program = get_object_or_404(Program, id=program_id)
+    if request.method == 'POST' and 'btn_edit' in request.POST:
+        if program is None: 
+            raise Http404
+        program.name = request.POST['program_name']
+        program.description = request.POST['program_description']
+        program.save();
+        return redirect('program_details', program.id)
+    if request.method == 'POST' and 'btn_add' in request.POST:
+        prisoner = None
+        prisoner_id = request.POST['prisoner']
+        if int(prisoner_id) != -1:
+            prisoner = Prisoner.objects.get(pk=prisoner_id)
+        program.prisoners.add(prisoner)
+        program.save();
+        return redirect('program_details', program.id)
+    context = {'program':program,'prisoner_list':Prisoner.objects.all()}
+    return  render(request,"edit_program.html",context)
 
- 
 
+class ProgramDetails(DetailView):
+    model=Program
+    template_name="program_detail.html"
+
+class ProgramIndex(TemplateView):
+    template_name="program_index.html"

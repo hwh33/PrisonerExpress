@@ -1,0 +1,19 @@
+{% extends "header.html" %}
+
+{% block content %}
+<div class="row">
+	<div class="large-12 columns">
+		<h3> Prisoner Links </h3>
+	</div>
+</div>
+<div class="row">
+	<div class = "large-4 large-offset-2 columns">
+		<a href="{% url "prisoner_list" %}">View all Prisoners</a>
+	</div>
+	</div>
+	<div class="row">
+	<div class = "large-4 large-offset-2 columns">		
+		<a href="{% url "prisoner_create" %}">Create a new prisoner</a>
+	</div>
+</div>
+{% endblock %}

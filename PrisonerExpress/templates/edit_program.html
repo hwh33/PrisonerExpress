@@ -1,0 +1,78 @@
+ {% extends "header.html" %}
+ {% block content %}
+  <div class="row">
+	<div class="large-12 columns">
+ 			<h3>Edit Program :{{program.name}}</h3>
+	</div>
+</div>
+ <div class="row">
+ 	<div class="large-2 columns">
+    </div>
+ 	<div class="large-10 columns">
+ 		<div class="row">
+ 			<div class="large-12 columns">
+            </div>
+			<form action="{% url 'program_edit' program.id %}" method="post">
+				{% csrf_token %} 
+				<div class="row">
+					<div class="large-6 columns">
+						<label>Program Name:
+							<input type="text" name="program_name" placeholder="Name" />
+						</label>
+					</div>
+				</div>
+				<div class="row">
+					<div class="large-6 columns">
+						<label>Description:
+							<input type="text" name="program_description" placeholder="Describe the program" />
+						</label>
+					</div>
+				</div>
+				<div class="row">
+					<div class="large-6 columns">
+						<label>Continuous:
+							<input type="checkbox" name="continuous" />
+						</label>
+					</div>
+				</div>
+				<div class="row">
+					<div class="large-6 columns">
+						<label>Active:
+							<input type="checkbox" name="active" checked/>
+						</label>
+					</div>
+				</div>
+				<div class="row"> 
+					<div class="large-6 columns">
+						<input type="submit" class="button" value="edit!" name="btn_edit">
+					</div>
+				</div>
+			</form>         
+		</div>
+		<div class="row">
+ 			<div class="large-12 columns">
+            </div>
+			<form action="{% url 'program_edit' program.id %}" method="post">
+				{% csrf_token %} 
+				<div class="row">
+                    <div class="large-6 columns">
+                        <label>Add Prisoner:
+                        	<select name="prisoner">
+                        	<option value="-1">Not Specified</option>
+                        	{% for prisoner in prisoner_list %}
+                        	<option value="{{ prisoner.id }}">{{ prisoner.name }}</option>
+                        	{% endfor %}
+                        	</select>
+                        </label>
+                    </div>
+                </div>
+				<div class="row"> 
+					<div class="large-6 columns">
+						<input type="submit" class="button" value="Add!" name="btn_add">
+					</div>
+				</div>
+			</form>         
+		</div>
+	</div>
+</div>
+{% endblock content %}         

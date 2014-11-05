@@ -1,0 +1,40 @@
+{% extends "header.html" %}
+
+{% block content %}
+<div class="row">
+	<div class="large-12 columns">
+		<h3> {{ object.name }} </h3>
+	</div>
+</row>
+<div class="row">
+	<div class="large-4 large-offset-2 columns"> 
+		<h5>Address:</h5> 
+	</div>
+	<div class="large-6 columns">
+		<h5> {{ object.address }} </h5>
+	</div>
+</div>
+<div class="row">
+	<div class="large-4 large-offset-2 columns">
+		<h5>Prison:</h5>
+	</div>
+	<div class="large-6 columns">
+	<h5>
+		{% if object.prison %}
+		<a href="{% url "prison_details" object.prison.id %}">{{ object.prison.name }}</a>
+		{% else %}
+		None Specified
+		{% endif %}
+		</h5>
+	</div>
+</div>
+<div class="row">
+	<div class="large-4 large-offset-2 columns">
+		<h5>Programs:</h5>
+	</div>
+	<div class="large-6 columns">
+		<ul class="inline-list">{% for program in object.programs.all %} <li> <a href="{% url "program_details" program.id %}"> {{ program.name }} </a> </li>{% endfor %}
+		</ul>
+	</div>
+</div>
+{% endblock %}

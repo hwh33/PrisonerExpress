@@ -1,0 +1,33 @@
+{% extends "header.html" %}
+
+{% block content %}
+<div class="row">
+	<div class="large-12 columns">
+		<h3> {{ object.name }} </h3>
+	</div>
+</row>
+<div class="row">
+	<div class="large-4 large-offset-2 columns"> 
+		<h5>Address:</h5> 
+	</div>
+	<div class="large-6 columns">
+		<h5> {{ object.address }} </h5>
+	</div>
+</div>
+<div class="row"> 
+	<div class="large-4 large-offset-2 columns">
+		<h5>Rules:</h5>
+	</div>
+	<div class="large-6 columns">
+		<h5> {{ object.rules }} </h5>
+	</div>
+</div>
+<div class="row">
+	<div class="large-4 large-offset-2 columns">
+		<h5>Prisoners:</h5>
+	</div>
+	<div class="large-6 columns">
+		<ul class="inline-list"> {% for prisoner in object.prisoner_set.all %} <li> <a href="{% url "prisoner_details" prisoner.id %}">{{ prisoner.name }}</a> </li> {% endfor %}</ul>
+	</div>
+</div>
+{% endblock %}

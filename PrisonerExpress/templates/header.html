@@ -1,0 +1,69 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <meta charset="utf-8" />
+    <title>{{ title|default:"Prisoner Express Project"}}</title>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <link rel="stylesheet" href="{% static "foundation/css/normalize.css" %}">
+    <link rel="stylesheet" href="{% static "foundation/css/foundation.css" %}">
+    <link rel="stylesheet" href="{% static "app.css" %}">
+    <script src="{% static "foundation/js/vendor/modernizr.js" %}"></script>
+    </head>
+	
+	<body>
+		<div class="row">
+		    <div class="large-12 columns">
+				
+				<div class="nav-bar right" id="nav">
+				    <ul class="button-group radius">
+						<li><a href="{% url "index" %}" class="button">Home</a></li>
+						<li><a href="{% url "prisoner_list" %}" class="button dropdown" data-dropdown="drop1" data-options="is_hover:true">Prisoners</a>
+						    <ul id="drop1"class="f-dropdown" data-dropdown-content >
+						        <li><a href="{% url "prisoner_list" %}">View All Prisoners</a></li>
+						        <li><a href="{% url "prisoner_create" %}">Create a new prisoner</a></li>
+						    </ul>
+				        </li>
+					    <li><a href="{% url "prison_list" %}" class="button dropdown" data-dropdown="drop2" data-options="is_hover:true">Prisons</a>
+						    <ul id="drop2" class="f-dropdown" data-dropdown-content>
+						        <li><a href="{% url "prison_list" %}">View All Prisons</a></li>
+						        <li><a href="{% url "prison_create" %}">Create a new prison</a></li>
+						    </ul>
+				        </li>
+					    <li>
+						    <a href="{% url "program_list" %}" class="button dropdown" data-dropdown="drop3" data-options="is_hover:true">Programs</a>
+						    <ul id="drop3" class="f-dropdown" data-dropdown-content>
+						        <li><a href="{% url "program_list" %}">View All Programs</a></li>
+						        <li><a href="{% url "program_create" %}">Create a new program</a></li>
+						    </ul>
+				        </li>
+				        <li><a href="{% url "new_letter" %}" class="button">Letters</a></li>
+						<li><a href="#" class="button">Login</a></li>
+				
+				</ul>
+			</div>
+				
+				    <div class="nav-bar left">
+				<h2 class="title">Prisoner Express</h2>
+					</div>
+			  </div>
+		
+			<hr/>
+			</br>
+		</div>
+
+
+
+{% block content %}{% endblock %}
+
+<script src="{% static "foundation/js/jquery.js" %}"></script>
+<script src="{% static "foundation/js/foundation.min.js" %} "></script>
+<script src="{% static "foundation/js/foundation/foundation.js" %}"></script>
+<script src="{% static "foundation/js/foundation/foundation.dropdown.js" %}"></script>
+{% block body_js %}
+    {% endblock body_js %}
+<script>
+$(document).foundation();
+</script>
+</body>
+</html>

@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     {% block meta %}{% endblock meta %}
     {% block base_title %}
-    <title>{% block title %}Foundation 5.3.0{% endblock title %}</title>
+    <title>{% block title %}Prisoner Express{% endblock title %}</title>
     {% endblock base_title %}
 
     {# Base Foundation CSS #}
@@ -16,6 +16,7 @@
     {% endblock foundation_css %}  
     
     {# Custom CSS #}
+    <link href="{% static "css/app.css" %}" rel="stylesheet"/>
     {% block css %}{% endblock css %}
 
     {# Override if you need another version of modernizr #}
@@ -38,10 +39,12 @@
     {# Foundation JS #}
     {% block foundation_js %}
     <script src="{% static "foundation/js/foundation.min.js" %}"></script>
+    <script src="{% static "foundation/js/foundation/foundation.js"%}"></script>
     {% endblock foundation_js %}
 
     {# Custom JS #}
-    {% block body_js %}{% endblock body_js %}
+    {% block body_js %}
+    {% endblock body_js %}
 
     {# Init Foundation #}
     {% block foundation_js_init %}
