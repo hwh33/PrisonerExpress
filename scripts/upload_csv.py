@@ -10,7 +10,7 @@ def read_file(fname):
         for idx, val in enumerate(reader.next()):
             header[val] = idx
         for row in reader:
-            
+
             prisoner_id_sanitized = pattern.sub('',row[header['PrisonerID']])
             a = Address(city=row[header['City']],
                         state=row[header['State']],
@@ -24,6 +24,3 @@ def read_file(fname):
                          prisoner_id=prisoner_id_sanitized,
                          address=a)
             p.save()
-                         
-                                                
-                        

@@ -5,6 +5,7 @@ from PrisonerExpress.models import Prison, Prisoner, PrisonerForm
 from django import forms
 from django.shortcuts import get_object_or_404, render, redirect
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.core import serializers
 
 
 def index(request):
@@ -67,7 +68,7 @@ def create(request):
 def search(request):
     if ('term' not in request.GET):
         return render(request, "prisoner_search.html")
-    search_term = request.GET['term']
+    search_term = filter(str.isalnum, str(request.GET['term']))
     paginator = Paginator(Prisoner.objects.filter(prisoner_id__contains=search_term), 25)
     page = request.GET.get('page')
     try:
@@ -81,6 +82,16 @@ def search(request):
                   {'object_list': prisoners,
                    'term':search_term,
                    'page_obj':prisoners})
+
+
+def query(request):
+    if ('term' not in request.GET):
+        return None
+    term = filter(str.isalnum, str(request.GET['term']))
+    return HttpResponse(
+        serializers.serialize('json',Prisoner.objects.filter(
+                prisoner_id__contains=request.GET['term']),
+                              fields=('name','prisoner_id_raw', 'prisoner_id')))
 
 
 class PrisonerList(ListView):
