@@ -27,6 +27,7 @@ def create_prisoner(prisoner_name, prisoner_address, prison_id, rules):
                  address=address,
                  age=-1)
     p.save()
+    
     return p.id    
 
 def get_letters(request, prisoner_id):
