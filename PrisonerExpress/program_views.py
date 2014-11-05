@@ -1,13 +1,13 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404, render, redirect
 from django.http import HttpResponse
 from django.views.generic import ListView, DetailView, TemplateView
 from PrisonerExpress.models import Program,Prisoner
-from django.shortcuts import get_object_or_404, render, redirect
 import labels
 import os.path
-from reportlab.graphics import shapes
+from reportlab.graphics import shapes, renderPDF
 from reportlab.pdfgen import canvas
-from reportlab.graphics import renderPDF
+import datetime
+from django.utils import timezone
 
 def index(request):
     program_list = Program.objects.all()
