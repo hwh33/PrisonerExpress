@@ -62,13 +62,16 @@ def mail(request, program_id):
     response = HttpResponse(content_type='application/pdf')
     response['Content-Disposition'] = 'attachment; filename=mailing_label.pdf'
     specs = labels.Specification(210, 297, 2, 6, 90, 48, corner_radius=2)
-    sheet = labels.Sheet(specs, mailing_label, border=True)
+    
     def mailing_label(label, width, height, data):
             label.add(shapes.String(5, height-20, data.name,
                                     fontName="Helvetica", fontSize=20))
             label.add(shapes.String(5, height-50, data.address,
+                                    fontName="Helvetica", fontSize=20))
+            label.add(shapes.String(5, height-80, data.city+', '+data.state+', '+data.zipcode,
                                     fontName="Helvetica", fontSize=20)) 
 
+    sheet = labels.Sheet(specs, mailing_label, border=True)
     program = get_object_or_404(Program, id=program_id)
     for prisoner in program.prisoners.all():
         sheet.add_label(prisoner)
@@ -79,7 +82,6 @@ def mail(request, program_id):
             p.showPage()
     p.save()
     return response;
-
 
 
 

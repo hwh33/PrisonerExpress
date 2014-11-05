@@ -26,7 +26,12 @@ class Prisoner(models.Model):
         prison=models.ForeignKey(Prison, null=True)
         programs=models.ManyToManyField(Program, related_name = "prisoners")
         address=models.CharField(max_length=200,default="")
+        pre_address=models.CharField(max_length=200,default="")
+        city=models.CharField(max_length=20,default="")
+        state=models.CharField(max_length=5,default="")
+        zipcode=models.CharField(max_length=10,default="")
         age=models.IntegerField()
+        prisonerID=models.CharField(max_length=20,default="")
         last_active=models.DateTimeField('last active date', default=datetime.now)
 
         def __str__(self):
