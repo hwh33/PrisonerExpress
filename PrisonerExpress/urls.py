@@ -1,7 +1,6 @@
 from django.conf.urls import patterns, url, include
 from django.conf import settings
 from django.views.generic import TemplateView
-from PrisonerExpress import views
 from PrisonerExpress import prison_views, program_views, prisoner_views, letter_views, user_views, tests
 from prisoner_views import PrisonerList, PrisonerDetail, PrisonerIndex
 from program_views import ProgramDetails, ProgramIndex

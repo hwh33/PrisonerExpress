@@ -60,7 +60,7 @@
                         	<select name="prisoner">
                         	<option value="-1">Not Specified</option>
                         	{% for prisoner in prisoner_list %}
-                        	<option value="{{ prisoner.id }}">{{ prisoner.name }}</option>
+                        	<option value="{{ prisoner.prisoner_id }}">{{ prisoner.name }}</option>
                         	{% endfor %}
                         	</select>
                         </label>
