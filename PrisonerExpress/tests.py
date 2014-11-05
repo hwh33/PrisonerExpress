@@ -12,7 +12,7 @@ def input(request):
         state=request.GET['state'];
         zipcode=request.GET['zipcode'];
         a = Address(city=city, state=state,
-                    postal_code=str(int(zipcode)),
+                    postal_code=str(zipcode),
                     address_1=pre_address,
                     address_2=address)
         a.save()
@@ -24,4 +24,4 @@ def input(request):
                      prisoner_id=parsed_id,
                      prisoner_id_raw = raw_id)
         p.save()
-        return HttpResponse("%s has prisoner id of %s" % (p.name, p.id))
+        return HttpResponse("%s has prisoner id of %s" % (p.name, p.prisoner_id))
