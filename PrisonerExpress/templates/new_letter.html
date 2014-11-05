@@ -7,14 +7,17 @@
 		<a href="#" class="close">&times;</a>
 	</div>
 	{% endif %}
-    <div class="large-2 columns">
+</div>
+<div class="row">
+    <div class="large-12 columns">
+        <h3>Register a Letter from a Prisoner</h3>
     </div>
+</row>
     <div class="large-10 columns">
         <div class="row">
         <div class="large-12 columns">
             </div>
-
-            <h3>Register a Letter from a Prisoner</h3>
+          
             <form enctype="multipart/form-data" action="{% url 'new_letter' %}" method="post" >
                 {% csrf_token %} 
                 <div class="row">
