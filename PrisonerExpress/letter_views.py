@@ -17,7 +17,7 @@ def new(request):
         else:
             context['results'] = unenroll(request.POST['prisoner'], request.POST['program'])
 
-    return render(request, "new_letter.html", context)        
+    return render(request, "new_letter.html", context)
 
 def enroll(prisoner_id, program_id,letter_img):
     prisoner = Prisoner.objects.get(pk=prisoner_id)
@@ -28,7 +28,6 @@ def enroll(prisoner_id, program_id,letter_img):
     letter.save()
     return "%s was successfully enrolled in %s" % (prisoner.name, program.name)
 
-    
 
 def unenroll(prisoner_id, program_id):
     try:
