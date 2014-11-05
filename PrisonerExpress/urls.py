@@ -60,6 +60,9 @@ prisoner_patterns=patterns(
     url(regex=r'^create$',
         view=prisoner_views.create,
         name='prisoner_create'),
+    url(regex=r'^search',
+        view=prisoner_views.search,
+        name='prisoner_search'),
     url('^(?P<pk>\d+)/$',
         PrisonerDetail.as_view(),
         name='prisoner_details'),
@@ -84,7 +87,7 @@ urlpatterns= patterns(
     url(regex=r'^$',
         view=TemplateView.as_view(template_name="index.html"),
         name="index"),
-    url(r'^program/', include(program_patterns)), 
+    url(r'^program/', include(program_patterns)),
     url(r'^prison/', include(prison_patterns)),
     url(r'^prisoner/', include(prisoner_patterns)),
     url(regex=r'^letters/new$',
@@ -92,7 +95,6 @@ urlpatterns= patterns(
         name='new_letter'),
     url(r'^user/',include(user_patterns)),
     url(r'^media/(?P<path>.*)$', 'django.views.static.serve', {
-        'document_root': settings.MEDIA_ROOT}),  
+        'document_root': settings.MEDIA_ROOT}),
     url(r'fast_input',tests.input),
 )
-

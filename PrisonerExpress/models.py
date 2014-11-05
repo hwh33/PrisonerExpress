@@ -28,7 +28,6 @@ class Prisoner(models.Model):
     prison=models.ForeignKey(Prison, null=True)
     programs=models.ManyToManyField(Program, related_name = "prisoners")
     address=models.CharField(max_length=200,default="")
-    age=models.IntegerField()
     last_active=models.DateTimeField('last active date', default=datetime.now)
 
     def __str__(self):

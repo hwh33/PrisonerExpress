@@ -6,31 +6,31 @@
     <div class="large-10 columns">
         <div class="row">
         <div class="large-12 columns">
-            </div>
             <h3>Register a New Prisoner</h3>
-            <form action="{% url 'prisoner_create' %}" method="post">
-                {% csrf_token %} 
-                <div class="row">
-                    <div class="large-6 columns">
-                        <label>Name:
-                            <input type="text" name="name" placeholder="Name" />
-                        </label>
-                    </div>
+        </div>
+        <form action="{% url 'prisoner_create' %}" method="post">
+            {% csrf_token %} 
+            <div class="row">
+                <div class="large-6 columns">
+                    <label>Name:
+                        <input type="text" name="name" placeholder="Name" />
+                    </label>
                 </div>
-                <div class="row">
-                    <div class="large-6 columns">
-                        <label>Prisoner Id:
-                            <input type="text" name="prisoner_id" placeholder="Id" />
-                        </label>
-                    </div>
+            </div>
+            <div class="row">
+                <div class="large-6 columns">
+                    <label>Prisoner Id:
+                        <input type="text" name="prisoner_id" placeholder="Id" />
+                    </label>
                 </div>
-                <div class="row">
-                    <div class="large-6 columns">
-                        <label>Prison:
-                        	<select name="prison">
-                        	<option value="-1">Not Specified</option>
-                        	{% for prison in prison_list %}
-                        	<option value="{{ prison.id }}">{{ prison.name }}</option>
+            </div>
+            <div class="row">
+                <div class="large-6 columns">
+                    <label>Prison:
+                        <select name="prison">
+                            <option value="-1">Not Specified</option>
+                            {% for prison in prison_list %}
+                            <option value="{{ prison.id }}">{{ prison.name }}</option>
                         	{% endfor %}
                         	</select>
                         </label>

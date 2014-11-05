@@ -60,7 +60,13 @@ def create(request):
 
 
 def search(request):
+    if ('term' not in request.GET):
+        return render(request, "prisoner_search.html")
     search_term = request.GET['term']
+    prisoners = Prisoner.objects.filter(prisoner_id__contains=search_term)
+    return render(request,
+                  "prisoner_list.html",
+                  {'object_list': prisoners})
 
 
 class PrisonerList(ListView):
