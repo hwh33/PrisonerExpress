@@ -59,6 +59,10 @@ def create(request):
                   {'prison_list':Prison.objects.all()})
 
 
+def search(request):
+    search_term = request.GET['term']
+
+
 class PrisonerList(ListView):
     template_name='prisoner_list.html'
     model=Prisoner
