@@ -31,8 +31,6 @@ def enroll(prisoner_id, program_id,letter_img=None):
     prisoner.save()
     return "%s was successfully enrolled in %s" % (prisoner.name, program.name)
 
-    
-@login_required
 def unenroll(prisoner_id, program_id):
     try:
         prisoner = Prisoner.objects.get(pk=prisoner_id)

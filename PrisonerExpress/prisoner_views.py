@@ -12,12 +12,11 @@ def index(request):
     total = len(Prison.objects.all())
     return HttpResponse("There are %s prisoners in the system" % total)
 
-
+@login_required
 def details(request, prisoner_id):
     p = Prisoner.objects.get(pk=prisoner_id)
     return HttpResponse("%s has prisoner id of %s" % (p.name, p.id))
 
-@login_required
 def create_prisoner(prisoner_name, prisoner_id,
                     prisoner_address, prison_id, rules):
     if prisoner_name is None:
@@ -64,7 +63,7 @@ def create(request):
                   "create_prisoner_form.html",
                   {'form':PrisonerForm()})
 
-
+@login_required
 def search(request):
     if ('term' not in request.GET):
         return render(request, "prisoner_search.html")
