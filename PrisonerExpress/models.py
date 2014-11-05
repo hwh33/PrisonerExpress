@@ -21,12 +21,12 @@ class Prison(models.Model):
 
         
 class Prisoner(models.Model):
-	name=models.CharField(max_length=200)
+        name=models.CharField(max_length=200)
         active=models.BooleanField(default=True)
         prison=models.ForeignKey(Prison, null=True)
         programs=models.ManyToManyField(Program, related_name = "prisoners")
         address=models.CharField(max_length=200,default="")
-	age=models.IntegerField()
+        age=models.IntegerField()
         last_active=models.DateTimeField('last active date', default=datetime.now)
 
         def __str__(self):
@@ -53,7 +53,7 @@ class Material(models.Model):
 
         
 class Letter(models.Model):
-        prisoner=models.ForeignKey(Prisoner)
+        prisoner=models.ForeignKey(Prisoner, related_name = "letters")
         program=models.ForeignKey(Program, related_name = "letters")
         content=models.TextField()
         image=models.ImageField(upload_to='Letters')
