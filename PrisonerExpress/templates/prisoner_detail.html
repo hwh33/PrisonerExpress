@@ -11,7 +11,8 @@
 		<h5>Address:</h5> 
 	</div>
 	<div class="large-6 columns">
-		<h5> {{ object.address }} </h5>
+		<h5> {{ object.address.get_lines|join:"<br>" }}
+		</h5> 
 	</div>
 </div>
 <div class="row">
