@@ -12,7 +12,7 @@ def index(request):
     total = len(Prison.objects.all())
     return HttpResponse("There are %s prisoners in the system" % total)
 
-
+@login_required
 def details(request, prisoner_id):
     p = Prisoner.objects.get(pk=prisoner_id)
     return HttpResponse("%s has prisoner id of %s" % (p.name, p.id))
@@ -48,7 +48,7 @@ def get_letters(request, prisoner_id):
     if request.GET['groupby'] == None:
         return Letters.objects.get(prisoner=prisoner)
 
-
+@login_required
 def create(request):
     if request.method == 'POST':
         form = PrisonerForm(request.POST)
@@ -64,7 +64,7 @@ def create(request):
                   "create_prisoner_form.html",
                   {'form':PrisonerForm()})
 
-
+@login_required
 def search(request):
     if ('term' not in request.GET):
         return render(request, "prisoner_search.html")

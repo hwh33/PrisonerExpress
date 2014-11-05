@@ -40,7 +40,7 @@
 	<div class="large-8 columns">
 		{% for prisoner in object.prisoners.all %} 
 			<div>
-				<a href="{% url "prisoner_details" prisoner.id%}"> {{ prisoner.name }} </a> 
+				<a href="{% url "prisoner_details" prisoner.prisoner_id %}"> {{ prisoner.name }} </a> 
 			</div> 
 		{% endfor %}
 	</div>

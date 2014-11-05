@@ -8,6 +8,7 @@ from reportlab.graphics import shapes, renderPDF
 from reportlab.pdfgen import canvas
 import datetime
 from django.utils import timezone
+from django.contrib.auth.decorators import login_required
 
 def index(request):
     program_list = Program.objects.all()
@@ -19,6 +20,7 @@ def details(request, program_id):
     context = {'program':program}
     return render(request,"detail_program.html",context)
 
+@login_required
 def create(request):
     if request.method == 'POST':
         new_program_id = create_program(request.POST['program_name'],
@@ -36,8 +38,9 @@ def create_program(program_name,program_description="N/A", continuous=False, act
                  continuous=continuous,
                  active=active)
     p.save()
-    return p.id         
+    return p.id    
 
+@login_required
 def edit(request, program_id):
     program = get_object_or_404(Program, id=program_id)
     if request.method == 'POST' and 'btn_edit' in request.POST:
@@ -50,14 +53,15 @@ def edit(request, program_id):
     if request.method == 'POST' and 'btn_add' in request.POST:
         prisoner = None
         prisoner_id = request.POST['prisoner']
-        if int(prisoner_id) != -1:
+        if not prisoner_id == -1:
             prisoner = Prisoner.objects.get(pk=prisoner_id)
         program.prisoners.add(prisoner)
         program.save();
         return redirect('program_details', program.id)
     context = {'program':program,'prisoner_list':Prisoner.objects.all()}
     return  render(request,"edit_program.html",context)
-
+    
+@login_required
 def mail(request, program_id):
     response = HttpResponse(content_type='application/pdf')
     response['Content-Disposition'] = 'attachment; filename=mailing_label.pdf'
