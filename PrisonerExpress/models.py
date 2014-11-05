@@ -1,7 +1,7 @@
 from django.db import models
 from django import forms
 from datetime import datetime
-
+from widgets import AddressWidget
 
 class Program(models.Model):
     name=models.CharField(max_length=200)
@@ -18,8 +18,23 @@ class Address(models.Model):
     postal_code = models.CharField(max_length=10) #Room for zip-plus-4
     address_1= models.CharField(max_length=100) #Line 1
     address_2= models.CharField(max_length=100) #Line 2
-    address_3= models.CharField(max_length=100) #Line 3
+    address_3= models.CharField(max_length=100, default="") #Line 3
     raw = models.CharField(max_length=200, default="")
+
+    class AddressField(forms.Field):
+        default_error_message = {
+            'invalid': 'Your address could not be parsed'
+            }
+
+        widget = AddressWidget
+
+        def to_python(self, value):
+            return Address(address_1 = value[0],
+                           address_2 = value[1],
+                           address_3 = "",
+                           city = value[2],
+                           state = value[3],
+                           postal_code = value[4])
 
     def get_lines(self):
         addr = []
@@ -40,10 +55,16 @@ class Prison(models.Model):
     def __str__(self):
         return self.name
 
+    class PrisonForm(forms.Form):
+        name=forms.CharField(max_length=100)
+        primary_address=Address.AddressField(label="")
+        rules=forms.CharField(max_length=300)
+
 
 class Prisoner(models.Model):
     name=models.CharField(max_length=200)
-    prisoner_id=models.CharField(max_length=80) #santitized version of the id
+    prisoner_id=models.CharField(primary_key=True,
+                                 max_length=80) #santitized version of the id
     prisoner_id_raw=models.CharField(max_length=100) #how the id was entered
     active=models.BooleanField(default=True)
     prison=models.ForeignKey(Prison, null=True)
@@ -53,6 +74,13 @@ class Prisoner(models.Model):
 
     def __str__(self):
         return "Name: %s | ID: %s " % (self.name, self.prisoner_id)
+
+class PrisonerForm(forms.Form):
+    name=forms.CharField(max_length=100)
+    prisoner_id=forms.CharField(max_length=100)
+    mailing_address=Address.AddressField(label="")
+    #prison=forms.CharField(max_length=100)
+    prison_rules=forms.CharField(max_length=100)
 
 
 class Material(models.Model):

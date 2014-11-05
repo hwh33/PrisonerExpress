@@ -1,0 +1,15 @@
+{% csrf_token %}
+{# Include the hidden fields #}
+{% for hidden in form.hidden_fields %}
+{{ hidden }}
+{% endfor %}
+{# Include the visible fields #}
+{% for field in form.visible_fields %}
+<div class="row">
+	<div class="large-6 columns">
+	<label> {{ field.label }}
+			{{ field }}
+		</label>
+	</div>
+</div>
+{% endfor %}

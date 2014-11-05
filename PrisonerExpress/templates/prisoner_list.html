@@ -17,7 +17,7 @@
 	{% for prisoner in object_list %}
 	<div class="row">
 		<div class="large-2 columns">
-			<a href="{% url 'prisoner_details' prisoner.id %}" class="button small radius">View Record</a>
+			<a href="{% url 'prisoner_details' prisoner.prisoner_id %}" class="button small radius">View Record</a>
 		</div>
 		<div class="large-3 columns">
 			<h8>{{ prisoner.name }}</h8>

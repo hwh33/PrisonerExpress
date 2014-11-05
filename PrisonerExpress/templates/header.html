@@ -21,11 +21,11 @@
 					{% if user.is_authenticated %}
    						<li><a href="{% url "logout"%}" class="button">{{user.username}}</a></li> 
 					{% else %}
-    					<li><a href="{% url "login"%}" class="button">login</a></li> 
+    					<li><a href="{% url "login"%}" class="button">Login</a></li> 
     				{% endif %}
 				</ul>
 			</div>
-			<h2>Prisoner Express<small>Durland Library</small></h2>
+			<h2>Prisoner Express</h2>
 			<hr/>
 		</div>
 	</div>

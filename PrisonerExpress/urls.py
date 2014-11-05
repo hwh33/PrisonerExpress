@@ -63,7 +63,7 @@ prisoner_patterns=patterns(
     url(regex=r'^search',
         view=prisoner_views.search,
         name='prisoner_search'),
-    url('^(?P<pk>\d+)/$',
+    url('^(?P<pk>\w+)/$',
         PrisonerDetail.as_view(),
         name='prisoner_details'),
     )
