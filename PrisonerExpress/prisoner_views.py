@@ -6,7 +6,7 @@ from django import forms
 from django.shortcuts import get_object_or_404, render, redirect
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core import serializers
-
+from django.contrib.auth.decorators import login_required
 
 def index(request):
     total = len(Prison.objects.all())

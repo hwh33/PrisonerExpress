@@ -19,7 +19,7 @@ def read_file(fname):
                         address_1=row[header['PreAddress']],
                         address_2=row[header['Address']])
             a.save()
-            p = Prisoner(name=row[header['FirstName']] +
+            p = Prisoner(name=row[header['FirstName']] + ' '+ 
                                  row[header['LastName']],
                          prisoner_id_raw=row[header['PrisonerID']],
                          prisoner_id=prisoner_id_sanitized,
