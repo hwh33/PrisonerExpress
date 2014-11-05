@@ -38,8 +38,13 @@
 						    </ul>
 				        </li>
 				        <li><a href="{% url "new_letter" %}" class="button">Letters</a></li>
-						<li><a href="#" class="button">Login</a></li>
-				
+					<li>{% if user.is_authenticated %}
+   						    <a href="{% url "logout" %}" class="button">{{user.username}}</a>
+						{% else %}
+    					    <a href="{% url "login" %}" class="button">Login</a>
+						{% endif %}
+						</li> 
+								
 				</ul>
 			</div>
 				
