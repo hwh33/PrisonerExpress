@@ -7,13 +7,18 @@
 	</div>
 </div>
 <div class="row">
-	<div class = "large-4 large-offset-2 columns">
-		<a href="{% url "prisoner_list" %}">View all Prisoners</a>
+	<div class = "large-4 large-offset-2 columns">		
+		<a href="{% url "prisoner_create" %}">Search for a prisoner</a>
 	</div>
-	</div>
-	<div class="row">
+</div>
+<div class="row">
 	<div class = "large-4 large-offset-2 columns">		
 		<a href="{% url "prisoner_create" %}">Create a new prisoner</a>
+	</div>
+</div>
+<div class="row">
+	<div class = "large-4 large-offset-2 columns">
+		<a href="{% url "prisoner_list" %}">View all Prisoners</a>
 	</div>
 </div>
 {% endblock %}
