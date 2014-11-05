@@ -22,10 +22,9 @@ def new(request):
 def enroll(prisoner_id, program_id,letter_img):
     prisoner = Prisoner.objects.get(pk=prisoner_id)
     program = Program.objects.get(pk=program_id)
-    if not prisoner.programs.get(pk=program_id):
-        tmp = Program.objects.get(pk=program_id)
-        prisoner.programs.add(tmp)
+    prisoner.programs.add(program)
     letter = Letter(prisoner = prisoner, program = program, image = letter_img)
+    prisoner.save()
     letter.save()
     return "%s was successfully enrolled in %s" % (prisoner.name, program.name)
 

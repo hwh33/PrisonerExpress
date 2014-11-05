@@ -1,13 +1,13 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404, render, redirect
 from django.http import HttpResponse
 from django.views.generic import ListView, DetailView, TemplateView
 from PrisonerExpress.models import Program,Prisoner
-from django.shortcuts import get_object_or_404, render, redirect
 import labels
 import os.path
-from reportlab.graphics import shapes
+from reportlab.graphics import shapes, renderPDF
 from reportlab.pdfgen import canvas
-from reportlab.graphics import renderPDF
+import datetime
+from django.utils import timezone
 
 def index(request):
     program_list = Program.objects.all()
@@ -64,14 +64,24 @@ def mail(request, program_id):
     specs = labels.Specification(210, 297, 2, 6, 90, 48, corner_radius=2)
     
     def mailing_label(label, width, height, data):
+            
             label.add(shapes.String(5, height-20, data.name,
                                     fontName="Helvetica", fontSize=20))
-            label.add(shapes.String(5, height-50, data.pre_address,
-                                    fontName="Helvetica", fontSize=15))
-            label.add(shapes.String(5, height-80, data.address,
-                                    fontName="Helvetica", fontSize=20))
-            label.add(shapes.String(5, height-110, data.city+', '+data.state+', '+data.zipcode,
-                                    fontName="Helvetica", fontSize=20)) 
+            h=1;
+            if len(data.address.address_1)>0 :
+                label.add(shapes.String(5, height-h*30-20, data.address.address_1,
+                                            fontName="Helvetica", fontSize=15))
+                h=h+1;
+            if len(data.address.address_2)>0 :
+                label.add(shapes.String(5, height-h*30-20, data.address.address_2,
+                                        fontName="Helvetica", fontSize=15))
+                h=h+1;
+            if len(data.address.address_3)>0 :
+                label.add(shapes.String(5, height-h*30-20, data.address.address_3,
+                                        fontName="Helvetica", fontSize=15))
+                h=h+1;
+            label.add(shapes.String(5, height-h*30-20, data.address.city+', '+data.address.state+', '+data.address.postal_code,
+                                    fontName="Helvetica", fontSize=15)) 
 
     sheet = labels.Sheet(specs, mailing_label, border=True)
     program = get_object_or_404(Program, id=program_id)

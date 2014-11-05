@@ -30,10 +30,12 @@
 		</div>
 	</div>
 	{% block content %}{% endblock %}
-
+	
 	<script src="{% static "foundation/js/jquery.js" %}"></script>
 	<script src="{% static "foundation/js/foundation.min.js" %} "></script>
 	<script src="{% static "foundation/js/foundation/foundation.js" %}"></script>
+	{% block body_js %}
+    {% endblock body_js %}
 	<script>
 		$(document).foundation();
 	</script>

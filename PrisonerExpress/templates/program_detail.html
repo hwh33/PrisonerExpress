@@ -1,6 +1,9 @@
 {% extends "header.html" %}
+{% load staticfiles %}
 
 {% block content %}
+
+
 <div class="row">
 	<div class="large-12 columns">
 		<h3> {{ object.name }} </h3>
@@ -42,30 +45,35 @@
 		{% endfor %}
 	</div>
 </div>
-{%comment%}
 <div class="row">
 	<div class="large-2 large-offset-2 columns">
 		<h5>Letters:</h5>
 	</div>
 	<div class="large-8 columns">
+		<dl class="accordion" data-accordion>
 		{% for letter in object.letters.all %} 
-			<div>
-				<img src= "{{letter.image.url}}">
-			</div> 
+  			<dd class="accordion-navigation">
+  				<a href="#panel{{forloop.counter}}">{{letter.prisoner.name}}  {{letter.date}}</a>
+				<div id="panel{{forloop.counter}}" class="content">
+					<img src= "{{letter.image.url}}">
+				</div> 
+			</dd>
 		{% endfor %}
+		<dl>
 	</div>
 </div>
-{%endcomment%}
 <div class="row">
-	<div class="large-8 columns">
+	<div class="large-9 columns">
 		<p></p>
 	</div>
-	<div class="large-2 columns">
+	<div class="large-3 columns">
 		<a href="{% url 'program_edit' program.id %}" class="small radius button" >edit</a>
-	</div>	
-	<div class="large-2 columns">
 		<a href="{% url 'program_mail' program.id %}" class="small radius button" >Mail</a>
 	</div>						
 </div> 
 </div>
+
 {% endblock %}
+{% block body_js %}
+	<script src="{% static "foundation/js/foundation/foundation.accordion.js" %}"></script>
+{% endblock body_js %}

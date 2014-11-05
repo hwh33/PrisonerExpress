@@ -106,6 +106,7 @@ class Letter(models.Model):
     prisoner=models.ForeignKey(Prisoner, related_name = "letters")
     program=models.ForeignKey(Program, related_name = "letters")
     content=models.TextField()
+    date=models.DateTimeField(auto_now_add=True, blank=True)
     image=models.ImageField(upload_to='Letters')
 
 class ImageUploadForm(forms.Form):
