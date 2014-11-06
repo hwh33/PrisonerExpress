@@ -1,2 +1,6 @@
 *~
 *.pyc
+PrisonerExpress/media/
+PrisonerExpress/templates/header.html
+
+*.html

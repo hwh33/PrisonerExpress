@@ -1,6 +1,14 @@
 {% extends "header.html" %}
+<<<<<<< HEAD
 
 {% block content %}
+=======
+{% load staticfiles %}
+
+{% block content %}
+
+
+>>>>>>> master
 <div class="row">
 	<div class="large-12 columns">
 		<h3> {{ object.name }} </h3>
@@ -35,6 +43,7 @@
 		<h5>Participants:</h5>
 	</div>
 	<div class="large-8 columns">
+<<<<<<< HEAD
 		{% for prisoner in object.prisoners.all %} <div><a href="{% url "prisoner_details" prisoner.id%}"> {{ prisoner.name }} </a> </div> {% endfor %}
 	</div>
 	<div class="row">
@@ -46,3 +55,44 @@
 </div> 
 </div>
 {% endblock %}
+=======
+		{% for prisoner in object.prisoners.all %} 
+			<div>
+				<a href="{% url "prisoner_details" prisoner.prisoner_id %}"> {{ prisoner.name }} </a> 
+			</div> 
+		{% endfor %}
+	</div>
+</div>
+<div class="row">
+	<div class="large-2 large-offset-2 columns">
+		<h5>Letters:</h5>
+	</div>
+	<div class="large-8 columns">
+		<dl class="accordion" data-accordion>
+		{% for letter in object.letters.all %} 
+  			<dd class="accordion-navigation">
+  				<a href="#panel{{forloop.counter}}">{{letter.prisoner.name}}  {{letter.date}}</a>
+				<div id="panel{{forloop.counter}}" class="content">
+					<img src= "{{letter.image.url}}">
+				</div> 
+			</dd>
+		{% endfor %}
+		<dl>
+	</div>
+</div>
+<div class="row">
+	<div class="large-9 columns">
+		<p></p>
+	</div>
+	<div class="large-3 columns">
+		<a href="{% url 'program_edit' program.id %}" class="small radius button" >edit</a>
+		<a href="{% url 'program_mail' program.id %}" class="small radius button" >Mail</a>
+	</div>						
+</div> 
+</div>
+
+{% endblock %}
+{% block body_js %}
+	<script src="{% static "foundation/js/foundation/foundation.accordion.js" %}"></script>
+{% endblock body_js %}
+>>>>>>> master

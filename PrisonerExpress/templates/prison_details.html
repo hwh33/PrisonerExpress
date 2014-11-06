@@ -27,7 +27,11 @@
 		<h5>Prisoners:</h5>
 	</div>
 	<div class="large-6 columns">
+<<<<<<< HEAD
 		<ul class="inline-list"> {% for prisoner in object.prisoner_set.all %} <li> <a href="{% url "prisoner_details" prisoner.id %}">{{ prisoner.name }}</a> </li> {% endfor %}</ul>
+=======
+		<ul class="inline-list"> {% for prisoner in object.prisoner_set.all %} <li> <a href="{% url "prisoner_details" prisoner.prisoner_id %}">{{ prisoner.name }}</a> </li> {% endfor %}</ul>
+>>>>>>> master
 	</div>
 </div>
 {% endblock %}

@@ -80,5 +80,14 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
+PROJECT_PATH = os.path.join(BASE_DIR, 'PrisonerExpress')
 
 STATIC_URL = '/static/'
+STATIC_PATH = os.path.join(PROJECT_PATH,'static')
+STATICFILES_DIRS = (
+    STATIC_PATH,
+)
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(PROJECT_PATH, 'media')
+LOGIN_URL = '/user/login'

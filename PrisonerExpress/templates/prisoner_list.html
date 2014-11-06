@@ -8,21 +8,41 @@
 </row>
 <div class="row">
 	<div class="large-offset-2 large-3 columns">
+<<<<<<< HEAD
 		<h5>Prisoner Name<h5>
 		</div>
 		<div class="large-7 columns">
+=======
+		<h5>Prisoner ID</h5>
+		</div>
+		<div class="large-3 columns">
+			<h5> Prisoner Name</h5>
+		</div>
+		<div class="large-4 columns">
+>>>>>>> master
 			<h5>Prison</h5>
 		</div>
 	</div>
 	{% for prisoner in object_list %}
 	<div class="row">
 		<div class="large-2 columns">
+<<<<<<< HEAD
 			<a href="{% url 'prisoner_details' prisoner.id %}" class="button small radius">View Record</a>
+=======
+			<a href="{% url 'prisoner_details' prisoner.prisoner_id %}" class="button small radius">View Record</a>
+		</div>
+		<div class="large-3 columns">
+			<h8> {{ prisoner.prisoner_id_raw }}</h8>
+>>>>>>> master
 		</div>
 		<div class="large-3 columns">
 			<h8>{{ prisoner.name }}</h8>
 		</div>
+<<<<<<< HEAD
 		<div class="large-7 columns">
+=======
+		<div class="large-4 columns">
+>>>>>>> master
 			<h8>
 			{% if prisoner.prison %}
 			<a href="{% url "prison_details" prisoner.prison.id %}"> {{ prisoner.prison.name }}</a>
@@ -33,5 +53,25 @@
 		</div>
 	</div>
 	{% endfor %}
+<<<<<<< HEAD
+=======
+	<ul class="pagination">
+		{% if page_obj.has_previous %}
+		<li class="arrow"><a href="?page={{ page_obj.previous_page_number }}{% if term %}&term={{term}}{%endif%}">&laquo;</a></li>
+		<li><a href="?page=1{% if term %}&term={{term}}{%endif%}">1</a></li>
+		<li class="unavailable"><a href="">&hellip;</a></li>
+		{% else %}
+		<li class="arrow unavailable"><a href="">&laquo;</a></li>
+		{% endif %}
+		<li class="current"><a href="">{{ page_obj.number }}</a></li>
+		{% if page_obj.has_next %}
+		<li class="unavailable"><a href="">&hellip;</a></li>
+		<li><a href="?page={{ page_obj.paginator.num_pages }}{% if term %}&term={{term}}{%endif%}">{{ page_obj.paginator.num_pages }}</a></li>
+		<li class="arrow"><a href="?page={{page_obj.next_page_number }}{% if term %}&term={{term}}{%endif%}">&raquo;</a></li>
+		{% else %}
+		<li class="arrow unavailable"><a href="">&raquo;</a></li>
+		{% endif %}
+	</ul>
+>>>>>>> master
 </div>
 {% endblock %}

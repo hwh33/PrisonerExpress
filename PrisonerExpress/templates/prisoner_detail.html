@@ -1,6 +1,11 @@
 {% extends "header.html" %}
+<<<<<<< HEAD
 
 {% block content %}
+=======
+{% block content %}
+
+>>>>>>> master
 <div class="row">
 	<div class="large-12 columns">
 		<h3> {{ object.name }} </h3>
@@ -11,7 +16,12 @@
 		<h5>Address:</h5> 
 	</div>
 	<div class="large-6 columns">
+<<<<<<< HEAD
 		<h5> {{ object.address }} </h5>
+=======
+		<h5> {{ object.address.get_lines|join:"<br>" }}
+		</h5> 
+>>>>>>> master
 	</div>
 </div>
 <div class="row">
@@ -23,7 +33,11 @@
 		{% if object.prison %}
 		<a href="{% url "prison_details" object.prison.id %}">{{ object.prison.name }}</a>
 		{% else %}
+<<<<<<< HEAD
 		None Specified
+=======
+			None Specified
+>>>>>>> master
 		{% endif %}
 		</h5>
 	</div>
@@ -37,4 +51,9 @@
 		</ul>
 	</div>
 </div>
+<<<<<<< HEAD
+=======
+
+</div>
+>>>>>>> master
 {% endblock %}
