@@ -1,0 +1,22 @@
+@import "static/foundation/scss/foundation";
+@import "static/foundation/scss/normalize";
+@import "static/foundation/scss/foundation/settings";
+@import "static/foundation/scss/foundation/functions";
+@import "static/foundation/scss/foundation/variables";
+@import "static/foundation/scss/foundation/components/global";
+@import "static/foundation/scss/foundation/components/dropdown";
+@import "static/foundation/scss/foundation/components/dropdown-buttons";
+
+
+$include-html-dropdown-classes: $include-html-classes;
+
+$f-dropdown-triangle: false;
+// We use these to style the triangle pip.
+$f-dropdown-triangle-size: 0px;
+$f-dropdown-triangle-color: $white;
+$f-dropdown-triangle-side-offset: 0px;
+
+.ddown {
+  @include dropdown-container(list,false,100px);
+  li { @include dropdown-style(); }
+}

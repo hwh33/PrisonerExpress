@@ -3,23 +3,27 @@
 {% block content %} 
 {% load staticfiles %}
 <div class="row">
-<div class="large-4 columns">
-	<a href="{% url "prisoner_list" %}" >
-	<img src="{% static "images/prisoners.jpg" %}"/>
+
+<div class="large-4 columns" id="home-4-col1">
+	<a href="{% url "prisoner_list" %}">
+	<img src="{% static "images/prisoners.jpg" %}" class="home-img"/>
 </a>
 <h4>Prisoners</h4>
 <p>This web site offers an opportunity to learn more about the programs Prisoner Express is currently offering, and, more importantly, a chance to read the writings and view the artwork of prisoners who are enrolled in our programs. We invite you to learn about the prison experience through their writings and artwork. </p>
 </div>
-<div class="large-4 columns">
-	<a href="{% url "program_list" %}" >
-<img src="{% static "images/books.jpg" %}"/>
+<div class="large-4 columns" id="home-4-col2">
+	<a href="{% url "program_list" %}">
+<img src="{% static "images/books.jpg" %}" class="home-img"/>
+
 </a>
 <h4>Programs</h4>
 <p>This web site offers an opportunity to learn more about the programs Prisoner Express is currently offering, and, more importantly, a chance to read the writings and view the artwork of prisoners who are enrolled in our programs. We invite you to learn about the prison experience through their writings and artwork.</p>
 </div>
-<div class="large-4 columns">
+
+<div class="large-4 columns" id="home-4-col3">
 	<a href="{% url "new_letter" %}" >
-<img src="{% static "images/letters.jpg" %}"/>
+<img src="{% static "images/letters.jpg" %}" class="home-img"/>
+
 </a>
 <h4>Letters</h4>
 <p>This web site offers an opportunity to learn more about the programs Prisoner Express is currently offering, and, more importantly, a chance to read the writings and view the artwork of prisoners who are enrolled in our programs. We invite you to learn about the prison experience through their writings and artwork.</p>
@@ -28,14 +32,15 @@
  
 <div class="row">
 <div class="large-12 columns">
-<div class="panel">
-<h4>Get in touch!</h4>
+
+<div class="panel radius" id="home-panel">
+<h4 class="bot">Get in touch!</h4>
 <div class="row">
 <div class="large-9 columns">
-<p>We'd love to hear from you, you attractive person you.</p>
+<p class='msg'>We'd love to hear from you, you attractive person you.</p>
 </div>
 <div class="large-3 columns">
-<a href="#" class="radius button right">Contact Us</a>
+<a href="#" class="radius button right" id="contact">Contact Us</a>
 </div>
 </div>
 </div>
@@ -47,7 +52,7 @@
 <hr>
 <div class="row">
 <div class="large-6 columns">
-<p>© Copyright Durland Library</p>
+<p class="foot">© Copyright Durland Library</p>
 </div>
 <div class="large-6 columns">
 <ul class="inline-list right">
