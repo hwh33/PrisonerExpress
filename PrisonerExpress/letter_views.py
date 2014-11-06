@@ -5,9 +5,9 @@ from django.contrib.auth.decorators import login_required
 
 @login_required
 def new(request):
-    context = {
-        'prisoners':Prisoner.objects.all(),
-        'programs':Program.objects.all()}
+    context = { 'prisoners' :   Prisoner.objects.all(),
+                'programs'  :   Program.objects.all()   }
+    
     if request.method == 'POST':
         if (request.POST['action'] == 'enroll'):
             form = ImageUploadForm(request.POST, request.FILES)
