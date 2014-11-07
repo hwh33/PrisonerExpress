@@ -2,8 +2,9 @@
 {% extends "header.html" %}
 {% block content %} 
 {% load staticfiles %}
-<div class="row">
 
+<div class="row">
+		<div class="large-12 columns">
 <div class="large-4 columns" id="home-4-col1">
 	<a href="{% url "prisoner_list" %}">
 	<img src="{% static "images/prisoners.jpg" %}" class="home-img"/>
@@ -14,25 +15,21 @@
 <div class="large-4 columns" id="home-4-col2">
 	<a href="{% url "program_list" %}">
 <img src="{% static "images/books.jpg" %}" class="home-img"/>
-
 </a>
 <h4>Programs</h4>
 <p>This web site offers an opportunity to learn more about the programs Prisoner Express is currently offering, and, more importantly, a chance to read the writings and view the artwork of prisoners who are enrolled in our programs. We invite you to learn about the prison experience through their writings and artwork.</p>
 </div>
-
 <div class="large-4 columns" id="home-4-col3">
 	<a href="{% url "new_letter" %}" >
 <img src="{% static "images/letters.jpg" %}" class="home-img"/>
-
 </a>
 <h4>Letters</h4>
 <p>This web site offers an opportunity to learn more about the programs Prisoner Express is currently offering, and, more importantly, a chance to read the writings and view the artwork of prisoners who are enrolled in our programs. We invite you to learn about the prison experience through their writings and artwork.</p>
 </div>
 </div>
- 
+</div>
 <div class="row">
 <div class="large-12 columns">
-
 <div class="panel radius" id="home-panel">
 <h4 class="bot">Get in touch!</h4>
 <div class="row">

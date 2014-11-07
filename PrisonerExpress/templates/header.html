@@ -1,7 +1,6 @@
 {% load staticfiles %}
 <!DOCTYPE html>
 <html lang="en">
-
     <head>
     <meta charset="utf-8" />
     <title>{{ title|default:"Prisoner Express Project"}}</title>
@@ -14,51 +13,55 @@
     </head>
 	
 	<body>
-		<div class="row">
-		    <div class="large-12 columns">
+		<div class="fixed">
+		<nav class="top-bar" id="top-bar" data-topbar role="navigation">
+			<ul class="title-area">
+				<li class="name">
+		           <h1>Prisoner Express</h1>
+				</li>
+			</ul>
+			
+			<section class="top-bar-section" id="top-bar-section">
+				<ul class="right">
+					<li><a href="{% url "index" %}">Home</a></li>
+					<li class="has-dropdown">
+						<a href="{% url "prisoner_list" %}">Prisoners</a>
+						<ul class="dropdown">
+							<li><a href="{% url "prisoner_list" %}">View All Prisoners</a></li>
+							<li><a href="{% url "prisoner_create" %}">Create a new prisoner</a></li>
+						</ul>
+					</li>
+					<li class="has-dropdown">
+						<a href="{% url "prison_list" %}">Prisons</a>
+						<ul class="dropdown">
+							<li><a href="{% url "prison_list" %}">View All Prisons</a></li>
+							<li><a href="{% url "prison_create" %}">Create a new prison</a></li>
+						</ul>
+					</li>
+					<li class="has-dropdown">
+						<a href="{% url "program_list" %}">Programs</a>
+						<ul class="dropdown">
+							<li><a href="{% url "program_list" %}">View All Programs</a></li>
+							<li><a href="{% url "program_create" %}">Create a new program</a></li>
+						</ul>
+					</li>
+					<li><a href="{% url "new_letter" %}">Letters</a></li>
+					{% if user.is_authenticated %}
+					<li><a href="{% url "logout"%}">{{user.username}}</a></li> 
+				{% else %}
+					<li><a href="{% url "login"%}">Login</a></li> 
+				{% endif %}
 				
-				<div class="nav-bar right" id="nav">
-				    <ul class="button-group radius">
-						<li><a href="{% url "index" %}" class="button">Home</a></li>
-						<li><a href="{% url "prisoner_list" %}" class="button dropdown" data-dropdown="drop1" data-options="is_hover:true">Prisoners</a>
-						    <ul id="drop1"class="f-dropdown" data-dropdown-content >
-						        <li><a href="{% url "prisoner_list" %}" >View All Prisoners</a></li>
-						        <li><a href="{% url "prisoner_create" %}">Create a new prisoner</a></li>
-						    </ul>
-				        </li>
-					    <li><a href="{% url "prison_list" %}" class="button dropdown" data-dropdown="drop2" data-options="is_hover:true">Prisons</a>
-						    <ul id="drop2" class="f-dropdown" data-dropdown-content>
-						        <li><a href="{% url "prison_list" %}">View All Prisons</a></li>
-						        <li><a href="{% url "prison_create" %}">Create a new prison</a></li>
-						    </ul>
-				        </li>
-					    <li>
-						    <a href="{% url "program_list" %}" class="button dropdown" data-dropdown="drop3" data-options="is_hover:true">Programs</a>
-						    <ul id="drop3" class="f-dropdown" data-dropdown-content>
-						        <li><a href="{% url "program_list" %}">View All Programs</a></li>
-						        <li><a href="{% url "program_create" %}">Create a new program</a></li>
-						    </ul>
-				        </li>
-				        <li><a href="{% url "new_letter" %}" class="button">Letters</a></li>
-						{% if user.is_authenticated %}
-   						<li><a href="{% url "logout"%}" class="button">{{user.username}}</a></li> 
-					{% else %}
-    					<li><a href="{% url "login"%}" class="button">Login</a></li> 
-    				{% endif %}
+			     </ul>
+		     </section>
+			
 
-		
-				</ul>
-			</div>
-				
-				    <div class="nav-bar left">
-				<h2 class="title">Prisoner Express</h2>
-					</div>
-			  </div>
-		
-			<hr/>
-			</br>
+		</nav>
 		</div>
-
+		
+			<!--<hr/>
+			</br>-->
+		
 
 
 {% block content %}{% endblock %}
@@ -67,6 +70,7 @@
 <script src="{% static "foundation/js/foundation.min.js" %} "></script>
 <script src="{% static "foundation/js/foundation/foundation.js" %}"></script>
 <script src="{% static "foundation/js/foundation/foundation.dropdown.js" %}"></script>
+<script src="{% static "foundation/js/foundation/foundation.topbar.js" %}"></script>
 {% block body_js %}
     {% endblock body_js %}
 <script>
@@ -74,4 +78,3 @@ $(document).foundation();
 </script>
 </body>
 </html>
-

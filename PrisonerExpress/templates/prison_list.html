@@ -20,10 +20,10 @@
 			<a href="{% url 'prison_details' prison.id %}" class="button small radius">View Record</a>
 		</div>
 		<div class="large-3 columns">
-			<h8>{{ prison.name }}</h8>
+			<h7>{{ prison.name }}</h7>
 		</div>
 		<div class="large-7 columns">
-			<h8>{{ prison.prisoner_set.all|length }}</h8>
+			<h7>{{ prison.prisoner_set.all|length }}</h7>
 		</div>
 	</div>
 	{% endfor %}
