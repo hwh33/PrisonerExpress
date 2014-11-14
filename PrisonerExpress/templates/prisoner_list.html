@@ -47,7 +47,7 @@
 		{% else %}
 		<li class="arrow unavailable"><a href="">&laquo;</a></li>
 		{% endif %}
-		<li class="current"><a href="">{{ page_obj.number }}</a></li>
+		<li class="current"><a class="pagenum" href="">{{ page_obj.number }}</a></li>
 		{% if page_obj.has_next %}
 		<li class="unavailable"><a href="">&hellip;</a></li>
 		<li><a href="?page={{ page_obj.paginator.num_pages }}{% if term %}&term={{term}}{%endif%}">{{ page_obj.paginator.num_pages }}</a></li>

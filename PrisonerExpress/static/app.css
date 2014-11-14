@@ -1,13 +1,17 @@
+*{ border-bottom: none;
+}
 
-
-h2{
+h2,h5{
     color:#0ABC98;
+}
+h3{
+    color:#526cc4;
 }
 .button, button{
     background:#fff;
     color:#526cc4;
     padding:20px;
-    box-shadow: 2px 2px 4px #455ca9;
+    box-shadow:2px 2px 4px rgba(0,0,0,0.3);
     margin-right:20px;
 }
 form> button, form > .button{
@@ -22,7 +26,20 @@ label{
 	color:#526cc4;
 }
 
-
+ ul.pagination li.current a:hover, ul.pagination li.current a:focus{
+   background: #f4f4f4; 
+ }
+ 
+#contact{
+  box-shadow: 2px 2px 4px #455ca9;  
+}
+ ul.pagination li.current a{
+    color:#fff;
+    background:#526cc4;
+    font-weight:bold;
+    box-shadow:2px 2px 4px rgba(0,0,0,0.3);
+    
+ }
 h4.bot{
     color:white;
     text-align: left;
@@ -83,6 +100,7 @@ label small{
     -webkit-box-shadow: 0 8px 6px -6px rgba(0,0,0,0.3);
 	-moz-box-shadow: 0 8px 6px -6px rgba(0,0,0,0.3);
 	box-shadow: 0 8px 6px -6px rgba(0,0,0,0.3);
+    
 }
 #top-bar .name{
     height:70px;
@@ -96,10 +114,14 @@ label small{
 }
 #top-bar-section ul{
  margin-right: 50px;
+ background:white;
+
 }
  
 #top-bar-section ul li{
-    height:70px;   
+    height:70px;
+    background:white;
+    
 }
 #top-bar-section ul li a{
     line-height: 70px;
@@ -107,6 +129,11 @@ label small{
     color:#526cc4;
     padding:0px 20px;
     font-size:18px;
+   
+}
+#top-bar-section li a{
+    background:white;
+    
 }
 #top-bar-section .has-dropdown > a:after{
     border-color: rgba(82, 108, 195, 0.2) transparent transparent transparent;
@@ -122,11 +149,14 @@ label small{
 }
 #top-bar-section .dropdown {
     right:-50%;
- 
+  -webkit-box-shadow: 8px 8px 6px -6px rgba(0,0,0,0.3);
+	-moz-box-shadow: 8px 8px 6px -6px rgba(0,0,0,0.3);
+	box-shadow: 8px 8px 6px -6px rgba(0,0,0,0.3);
 }
 #top-bar-section .dropdown li{
     border-top:1px solid #eee;
     height:35px;
+   
 
 }
 #top-bar-section .dropdown li a{
@@ -140,7 +170,7 @@ label small{
       border-top: none;
       border-right: solid 1px #eee;
       clear: none;
-      height: 45px;
+      height: 70px;
       width: 0; }
 #top-bar-section li.active:not(.has-form) a:not(.button) {
     padding: 0 15px;
