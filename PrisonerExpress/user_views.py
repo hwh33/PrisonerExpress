@@ -1,6 +1,5 @@
-from django.shortcuts import render,render_to_response
-from django.http import HttpResponse
-from django.http import HttpResponseRedirect
+from django.shortcuts import render,render_to_response, redirect
+from django.http import HttpResponse, HttpResponseRedirect
 from django.template.loader import get_template
 from django.template import Context, RequestContext
 from django import forms
@@ -32,6 +31,7 @@ def user_logout(request):
 
 #admin required
 def user_ctrl(request):
+
 	users = User.objects.filter( Q(is_superuser=False) )
 	msg = None
 	if request.method == 'POST':
