@@ -25,7 +25,6 @@ class Address(models.Model):
         default_error_message = {
             'invalid': 'Your address could not be parsed'
             }
-
         widget = AddressWidget
 
         def to_python(self, value):
