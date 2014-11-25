@@ -99,8 +99,11 @@ def mail(request, program_id):
     p.save()
     return response;
 
-
-
+@login_required
+def input(request, program_id): 
+    context = {"url":"http://127.0.0.1:8000/media/Letters/magic.png"}
+    return  render(request,"letter_input.html",context)
+    
 class ProgramDetails(DetailView):
     model=Program
     template_name="program_detail.html"
