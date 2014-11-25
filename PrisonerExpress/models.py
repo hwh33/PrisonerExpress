@@ -2,14 +2,22 @@ from django.db import models
 from django import forms
 from datetime import datetime
 from widgets import AddressWidget
+from django.core.validators import RegexValidator
+from django.contrib.auth.models import User
 
 class Program(models.Model):
-    name=models.CharField(max_length=200)
+    name = models.CharField(max_length=200)
     active = models.BooleanField(default=True)
     continuous = models.BooleanField(default = True)
     description = models.CharField(max_length=1000, default="N/A")
     def __str__(self):
         return self.name
+    class Meta:
+        permissions = (
+            ("can_create_program", "Can create program"),
+            ("can_edit_program", "Can edit the detail of program"),
+            ("can_view_program", "Can view the program")
+        )
 
 class Address(models.Model):
     """Class to represent all addresses, thus standardizing address handling code"""
@@ -108,7 +116,31 @@ class Letter(models.Model):
     content=models.TextField()
     date=models.DateTimeField(auto_now_add=True, blank=True)
     image=models.ImageField(upload_to='Letters')
+    class Meta:
+        permissions = (
+            ("can_upload_letter", "Can create letter"),
+            ("can_translate_letter", "Can type the content into system"),
+            ("can_view_letter", "Can view the letters")
+        )
 
 class ImageUploadForm(forms.Form):
     """Image upload form."""
     image = forms.ImageField()
+
+
+class UserProfile(models.Model):
+    user = models.OneToOneField(User,related_name='profile')
+    phone_number = models.CharField(blank=True, default = 'N/A', max_length=20)
+    GENDER_CHOICES = (
+        ('M', 'Male'),
+        ('F', 'Female'),
+        ('N', 'Unknown'),
+        )
+    gender=models.CharField(max_length=2,
+                                   choices=GENDER_CHOICES,
+                                   default='N')
+    
+class UserProfileForm(forms.ModelForm):
+    class Meta:
+        model = UserProfile
+        exclude = ['user']

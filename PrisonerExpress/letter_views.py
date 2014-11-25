@@ -4,6 +4,21 @@ from PrisonerExpress.models import Prisoner, Program, ImageUploadForm, Letter
 from django.contrib.auth.decorators import login_required
 
 @login_required
+
+def index(request):
+    letters = Letter.objects.all()
+    context = {'letters':letters}
+    return render(request,"letter_list.html",context)
+
+def edit(request,letter_id):
+    letter=Letter.objects.get(pk=letter_id)
+    context = {'letter':letter}
+    if request.method == 'POST':
+        letter.content = request.POST['content']
+        letter.save()
+        context['result']="save successfully"
+    return render(request,"edit_letter.html",context)
+
 def new(request):
     context = { 'prisoners' :   Prisoner.objects.all(),
                 'programs'  :   Program.objects.all()   }
