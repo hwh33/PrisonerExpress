@@ -101,7 +101,7 @@ def mail(request, program_id):
 
 @login_required
 def input(request, program_id): 
-    context = {"url":"http://127.0.0.1:8000/media/Letters/magic.png"}
+    context = {"url":"/media/Letters/magic.png"}
     return  render(request,"letter_input.html",context)
     
 class ProgramDetails(DetailView):
