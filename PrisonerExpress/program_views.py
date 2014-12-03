@@ -105,13 +105,26 @@ def mail(request, program_id):
             the sheet).
 
     """
+    _paper_width = 215.9
+    _paper_height = 279.4
+    _num_columns = 3
+    _num_rows = 10
+    _label_width = 66.675
+    _label_height = 25.4 
+    _top_margin = 12.7
+    _bottom_margin = 12.7
+    _left_margin = 5.5
+    _right_margin = 5.5
+    _row_gap = 0
+    _column_gap = 0
+
     specs = Specification(215.9, 279.4, 3, 10, 66.675, 25.4, corner_radius=2,top_margin=12.7,row_gap=0,left_margin=5,right_margin=5)
     
     def mailing_label(label, width, height, data):
             font="Helvetica"
             lines=[];
             num_lines=0;
-            lines.append (data.name+" "+data.prisoner_id_raw) 
+            lines.append (data.name+", "+data.prisoner_id_raw) 
             num_lines += 1;
             if len(data.address.address_1)>0 :
                 lines.append(data.address.address_1)
@@ -131,15 +144,15 @@ def mail(request, program_id):
                 if len(lines[i])>len(lines[maxIndex]):
                     maxIndex=i
             fontsize=15
-            width = stringWidth(lines[maxIndex], font, fontsize)
+            add_width = stringWidth(lines[maxIndex], font, fontsize)
             text_width = width-10;
-            font_height = 12
-            while width > text_width:
+            font_height = 15
+            while add_width > text_width:
                 fontsize *= 0.9
-                width = stringWidth(lines[maxIndex], font, fontsize)
+                add_width = stringWidth(lines[maxIndex], font, fontsize)
 
             for i in range(0,num_lines):
-                label.add(shapes.String(5, height-20-font_height*i, lines[i],
+                label.add(shapes.String(5, height-15-fontsize*i, lines[i],
                                     fontName=font, fontSize=fontsize))
            
 
