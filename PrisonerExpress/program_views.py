@@ -2,13 +2,14 @@ from django.shortcuts import render, get_object_or_404, render, redirect
 from django.http import HttpResponse
 from django.views.generic import ListView, DetailView, TemplateView
 from PrisonerExpress.models import Program,Prisoner
-import labels
+from PrisonerExpress.labels import Sheet, Specification, InvalidDimension
 import os.path
 from reportlab.graphics import shapes, renderPDF
 from reportlab.pdfgen import canvas
 import datetime
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
+from reportlab.pdfbase.pdfmetrics import  stringWidth
 
 def index(request):
     program_list = Program.objects.all()
@@ -65,29 +66,84 @@ def edit(request, program_id):
 def mail(request, program_id):
     response = HttpResponse(content_type='application/pdf')
     response['Content-Disposition'] = 'attachment; filename=mailing_label.pdf'
-    specs = labels.Specification(210, 297, 2, 6, 90, 48, corner_radius=2)
+    """
+        Required parameters
+        -------------------
+        sheet_width, sheet_height: positive dimension
+            The size of the sheet.
+
+        columns, rows: positive integer
+            The number of labels on the sheet.
+
+        label_width, label_size: positive dimension
+            The size of each label.
+
+        Margins and gaps
+        ----------------
+        left_margin: positive dimension
+            The gap between the left edge of the sheet and the first column.
+        column_gap: positive dimension
+            The internal gap between columns.
+        right_margin: positive dimension
+            The gap between the right edge of the sheet and the last column.
+        top_margin: positive dimension
+            The gap between the top edge of the sheet and the first row.
+        row_gap: positive dimension
+            The internal gap between rows.
+        bottom_margin: positive dimension
+            The gap between the bottom edge of the sheet and the last row.
+
+        Additional dimensions
+        ---------------------
+        corner_radius: positive dimension, default 0
+            Gives the labels rounded corners with the given radius.
+
+        Raises
+        ------
+        InvalidDimension
+            If any given dimension is invalid (i.e., the labels cannot fit on
+            the sheet).
+
+    """
+    specs = Specification(215.9, 279.4, 3, 10, 66.675, 25.4, corner_radius=2,top_margin=12.7,row_gap=0,left_margin=5,right_margin=5)
     
     def mailing_label(label, width, height, data):
-            
-            label.add(shapes.String(5, height-20, data.name,
-                                    fontName="Helvetica", fontSize=20))
-            h=1;
+            font="Helvetica"
+            lines=[];
+            num_lines=0;
+            lines.append (data.name+" "+data.prisoner_id_raw) 
+            num_lines += 1;
             if len(data.address.address_1)>0 :
-                label.add(shapes.String(5, height-h*30-20, data.address.address_1,
-                                            fontName="Helvetica", fontSize=15))
-                h=h+1;
+                lines.append(data.address.address_1)
+                num_lines += 1;
             if len(data.address.address_2)>0 :
-                label.add(shapes.String(5, height-h*30-20, data.address.address_2,
-                                        fontName="Helvetica", fontSize=15))
-                h=h+1;
+                lines.append(data.address.address_2)
+                num_lines += 1;
             if len(data.address.address_3)>0 :
-                label.add(shapes.String(5, height-h*30-20, data.address.address_3,
-                                        fontName="Helvetica", fontSize=15))
-                h=h+1;
-            label.add(shapes.String(5, height-h*30-20, data.address.city+', '+data.address.state+', '+data.address.postal_code,
-                                    fontName="Helvetica", fontSize=15)) 
+                lines.append(data.address.address_3)
+                num_lines += 1;
+            lines.append(data.address.city+', '+data.address.state+', '+data.address.postal_code)
+            num_lines += 1;
+            fontsize=20;
+            maxIndex=0;
+            for i in range(1,num_lines):
+                # calculate size of font 
+                if len(lines[i])>len(lines[maxIndex]):
+                    maxIndex=i
+            fontsize=15
+            width = stringWidth(lines[maxIndex], font, fontsize)
+            text_width = width-10;
+            font_height = 12
+            while width > text_width:
+                fontsize *= 0.9
+                width = stringWidth(lines[maxIndex], font, fontsize)
 
-    sheet = labels.Sheet(specs, mailing_label, border=True)
+            for i in range(0,num_lines):
+                label.add(shapes.String(5, height-20-font_height*i, lines[i],
+                                    fontName=font, fontSize=fontsize))
+           
+
+    sheet = Sheet(specs, mailing_label, border=True)
     program = get_object_or_404(Program, id=program_id)
     for prisoner in program.prisoners.all():
         sheet.add_label(prisoner)
