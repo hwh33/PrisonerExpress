@@ -51,7 +51,7 @@ def edit(request, program_id):
         if program is None: 
             raise Http404
         program.name = request.POST['program_name']
-        program.print_rule = request.POST['print_rule']
+        program.print_rule = request.POST.get('print_rule', False)
         program.description = request.POST['program_description']
         program.save();
         return redirect('program_details', program.id)
@@ -123,8 +123,10 @@ def mail(request, program_id):
     _row_gap = 0
     _column_gap = 0
 
-    specs = Specification(215.9, 279.4, 3, 10, 66.675, 25.4, corner_radius=2,top_margin=12.7,row_gap=0,left_margin=5,right_margin=5)
-    
+    two_col_specs = Specification(215.9, 279.4, 2, 5, 102.3, 52.5, corner_radius=0.5, column_gap=5.9, row_gap=0)
+    three_col_specs = Specification(215.9, 279.4, 3, 10, 66.675, 25.4, corner_radius=2,top_margin=12.7,row_gap=0,left_margin=5,right_margin=5)
+    specs_dict = {"two_col_labels" : two_col_specs, "three_col_labels" : three_col_specs}
+
     def mailing_label(label, width, height, data):
             font="Helvetica"
             lines=[];
@@ -163,6 +165,8 @@ def mail(request, program_id):
                 label.add(shapes.String(187,3, data.rules,
                                     fontName=font, fontSize=fontsize,textAnchor='end'))
 
+    end_of_url_path = request.path.split('/')[-1]
+    specs = specs_dict[end_of_url_path]
     sheet = Sheet(specs, mailing_label, border=True)
    
     for prisoner in program.prisoners.all():

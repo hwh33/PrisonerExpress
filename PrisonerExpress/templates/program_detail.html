@@ -41,7 +41,18 @@
 		<h5> {% if object.print_rule %} Yes {% else %} No {% endif %} </h5>
 	</div>
 </div>
-
+<div class="row">
+	<div class="large-2 large-offset-2 columns">
+		<h5>Participants:</h5>
+	</div>
+	<div class="large-8 columns">
+		{% for prisoner in object.prisoners.all %} 
+			<div>
+				<a href="{% url "prisoner_details" prisoner.prisoner_id %}"> {{ prisoner.name }} </a> 
+			</div> 
+		{% endfor %}
+	</div>
+</div>
 <div class="row">
 	<div class="large-2 large-offset-2 columns">
 		<h5>Letters:</h5>
@@ -71,6 +82,11 @@
 		<a href="{% url 'iteration_create' program.id %}" class="secondary small radius button">New Iteration</a>
 		</div> <div class="large-3 columns">
 		{% if program.get_current_iteration != None %} <a href="{% url 'iteration_details' program.get_current_iteration.id %}" class="small radius button">Current Iteration</a> {% endif %}
+</div>	
+<div class="large-3 columns">
+		<a href="{% url 'program_edit' program.id %}" class="small radius button" >edit</a>
+		<a href="{% url 'program_two_col_labels' program.id %}" class="small radius button" >Print Two Column Labels</a>
+		<a href="{% url 'program_three_col_labels' program.id %}" class="small radius button" >Print Three Column Labels</a>
 	</div>						
 </div> 
 </div>
