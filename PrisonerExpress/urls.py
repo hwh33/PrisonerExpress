@@ -1,11 +1,10 @@
 from django.conf.urls import patterns, url, include
 from django.conf import settings
 from django.views.generic import TemplateView
-from PrisonerExpress import prison_views, program_views, prisoner_views, letter_views, user_views, tests, index_view
+from PrisonerExpress import prison_views, program_views, prisoner_views, letter_views, user_views, tests, index_view, admin_views
 from prisoner_views import PrisonerList, PrisonerDetail, PrisonerIndex
 from program_views import ProgramDetails, ProgramIndex
 from prison_views import PrisonIndex, PrisonDetails, PrisonList
-
 
 prison_patterns=patterns(
     '',
@@ -43,6 +42,12 @@ program_patterns=patterns(
     url(regex=r'^(?P<program_id>\d+)/edit$',
         view=program_views.edit,
         name='program_edit'),
+    url(regex=r'^(?P<program_id>\d+)/new_iteration$',
+        view=program_views.create_iteration,
+        name="iteration_create"),
+    url(regex=r'^iteration/(?P<iteration_id>\d+)',
+        view=program_views.get_iteration_details,
+        name="iteration_details"),
     url(regex=r'^(?P<program_id>\d+)/two_col_labels$',
         view=program_views.mail,
         name='program_two_col_labels'),
@@ -68,6 +73,9 @@ prisoner_patterns=patterns(
     url(regex=r'^search',
         view=prisoner_views.search,
         name='prisoner_search'),
+    url(regex=r'^edit/(?P<pk>\w+)',
+        view=prisoner_views.edit,
+        name='prisoner_edit'),
     url(regex=r'^query',
         view=prisoner_views.query,
         name='prisoner_query'),
@@ -116,6 +124,9 @@ urlpatterns= patterns(
     url(regex=r'^$',
         view=index_view.public_page,
         name="index"),
+    url(regex=r'^settings$',
+        view=admin_views.settings,
+        name="admin_settings"),
     url(r'^program/', include(program_patterns)),
     url(r'^prison/', include(prison_patterns)),
     url(r'^prisoner/', include(prisoner_patterns)),

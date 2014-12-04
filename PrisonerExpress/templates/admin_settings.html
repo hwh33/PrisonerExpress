@@ -1,0 +1,25 @@
+{% extends "header.html" %}
+{% load staticfiles %}
+
+{% block content %}
+<div class="row">
+	<div class="large-2 large-2-offset columns">
+	<h4>Download DB Backup</h4>
+	</div>
+	<div class="large-2 columns">
+		<a href="{% static "12_3_2014.zip" %}" class="button alert">Dec. 3rd 2014</a>
+	</div>
+	<div class="large-2 columns">
+		<a href="{% static "12_2_2014.zip" %}" class="button alert disabled">Dec. 2nd 2014</a>
+	</div>
+	<div class="large-2 columns">
+		<a href="{% static "12_1_2014.zip" %}" class="button alert disabled">Dec. 1st 2014</a>
+	</div>
+	<div class="large-2 columns">
+		<a href="{% static "11_30_2014.zip" %}" class="button alert disabled">Nov. 30th 2014</a>
+	</div>
+	<div class="large-2 columns">
+		<a href="{% static "11_29_2014.zip" %}" class="button alert disabled">Nov. 29th 2014</a>
+	</div>
+</div>
+{% endblock %}

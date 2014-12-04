@@ -25,14 +25,6 @@ label{
     background: #f4f4f4;
 	color:#526cc4;
 }
-#bot{
-	margin-right:50px;
-	font-size:16px;
-}
-#bot:hover, #bot:hover{
-    background: #e1e1e1;
-	color:#526cc4;
-}
 
  ul.pagination li.current a:hover, ul.pagination li.current a:focus{
    background: #f4f4f4; 
@@ -168,6 +160,12 @@ input[type="file"]{
     background:white;
     
 }
+
+#top-bar-section .has-form {
+    font-size:18px;
+    line-height: 50px;
+}
+
 #top-bar-section ul li a{
     line-height: 70px;
     background:#fff;
@@ -176,9 +174,15 @@ input[type="file"]{
     font-size:20px;
    
 }
+
+#top-bar-section ul li a.search {
+    line-height: 40px;
+    top:20%;
+    padding:0px 0px;
+}
+
 #top-bar-section li a{
     background:white;
-    
 }
 #top-bar-section .has-dropdown > a:after{
     border-color: rgba(82, 108, 195, 0.2) transparent transparent transparent;
@@ -192,6 +196,7 @@ input[type="file"]{
     background: #f4f4f4;
 	color:#6087D7;
 }
+
 #top-bar-section .dropdown {
     right:auto;
 	left:auto;

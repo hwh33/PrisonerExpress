@@ -8,12 +8,15 @@
 </row>
     <div class="large-10 columns">
         <div class="row">
+        <div class="large-12 columns">
+            </div>
+          
             <form enctype="multipart/form-data" action="{% url 'new_letter' %}" method="post" >
                 {% csrf_token %} 
                 <div class="row">
                     <div class="large-10 columns">
                         <label for="prisoner">Prisoner ID:</label>
-                        <input type="text" class="radius" id="prisoner" name="prisoner" size="40">
+                        <input id="prisoner" class="prisoner_search" name="prisoner" size="40">
                     </div>
                 </div>
                 <div class="row">
