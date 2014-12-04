@@ -10,14 +10,9 @@ class Program(models.Model):
     active = models.BooleanField(default=True)
     continuous = models.BooleanField(default = True)
     description = models.CharField(max_length=1000, default="N/A")
+    print_rule = models.BooleanField(default = False)
     def __str__(self):
         return self.name
-    class Meta:
-        permissions = (
-            ("can_create_program", "Can create program"),
-            ("can_edit_program", "Can edit the detail of program"),
-            ("can_view_program", "Can view the program")
-        )
 
 class Address(models.Model):
     """Class to represent all addresses, thus standardizing address handling code"""
@@ -79,7 +74,7 @@ class Prisoner(models.Model):
     programs=models.ManyToManyField(Program, related_name = "prisoners")
     address=models.ForeignKey(Address)
     last_active=models.DateTimeField('last active date', default=datetime.now)
-
+    rules=models.CharField(max_length=20)
     def __str__(self):
         return "Name: %s | ID: %s " % (self.name, self.prisoner_id)
 
@@ -88,7 +83,7 @@ class PrisonerForm(forms.Form):
     prisoner_id=forms.CharField(max_length=100)
     mailing_address=Address.AddressField(label="")
     #prison=forms.CharField(max_length=100)
-    prison_rules=forms.CharField(max_length=100)
+    rules=forms.CharField(max_length=100)
 
 
 class Material(models.Model):
@@ -116,12 +111,7 @@ class Letter(models.Model):
     content=models.TextField()
     date=models.DateTimeField(auto_now_add=True, blank=True)
     image=models.ImageField(upload_to='Letters')
-    class Meta:
-        permissions = (
-            ("can_upload_letter", "Can create letter"),
-            ("can_translate_letter", "Can type the content into system"),
-            ("can_view_letter", "Can view the letters")
-        )
+
 
 class ImageUploadForm(forms.Form):
     """Image upload form."""
@@ -139,8 +129,10 @@ class UserProfile(models.Model):
     gender=models.CharField(max_length=2,
                                    choices=GENDER_CHOICES,
                                    default='N')
+    is_volunteer = models.BooleanField(default = False);
     
 class UserProfileForm(forms.ModelForm):
     class Meta:
         model = UserProfile
-        exclude = ['user']
+        exclude = ['user','is_volunteer']
+

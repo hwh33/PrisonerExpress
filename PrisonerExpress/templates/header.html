@@ -18,19 +18,23 @@
 		<nav class="top-bar" id="top-bar" data-topbar role="navigation">
 			<ul class="title-area">
 				<li class="name">
-		           <h1 class='ttle'>Prisoner Express</h1>
+
+		           <a href="{% url "index" %} class='ttle'"><h1>Prisoner Express</h1></a>
 				</li>
 			</ul>
 			
 			<section class="top-bar-section" id="top-bar-section">
 				<ul class="right">
 					<li><a href="{% url "index" %}">Home</a></li>
+
 					<li class="has-dropdown">
 						<a href="{% url "prisoner_list" %}">Prisoners</a>
+						{% if user.is_superuser or user.is_staff  %}
 						<ul class="dropdown">
 							<li><a href="{% url "prisoner_list" %}">View All Prisoners</a></li>
 							<li><a href="{% url "prisoner_create" %}">Create a new prisoner</a></li>
 						</ul>
+						{%endif%}
 					</li>
 					<!-- 
 					<li class="has-dropdown">
@@ -41,39 +45,45 @@
 						</ul>
 					</li>
 					 -->
-					{% if user.is_authenticated %}
-                        <li class="has-dropdown">
-                            <a href="{% url "program_list" %}">Programs</a>
-                            <ul class="dropdown">
-                                <li><a href="{% url "program_list" %}">View All Programs</a></li>
-                                <li><a href="{% url "program_create" %}">Create a new program</a></li>
-                            </ul>
-                        </li>
-					{% else %}
+
+                    {% if user.is_authenticated %}
+
+					<li class="has-dropdown">
+						<a href="{% url "program_list" %}">Programs</a>
+						{% if user.is_superuser or user.is_staff  %}
+						<ul class="dropdown">
+							<li><a href="{% url "program_list" %}">View All Programs</a></li>
+							<li><a href="{% url "program_create" %}">Create a new program</a></li>
+						
+						</ul>
+						{%endif%}
+						{% else %}
                         <li>
                         <a href="{% url "program_list" %}">Programs</a>
                         </li>
                     {% endif %}
                     
-                    {% if user.is_authenticated %}
-					<li class="has-dropdown">
-						<a href="{% url "new_letter" %}">Letters</a>
-						<ul class="dropdown">
-							<li><a href="{% url "letter_list" %}">View All letters</a></li>
-							<li><a href="{% url "new_letter" %}">upload a new letter</a></li>
-						</ul>
 					</li>
+					{% if user.is_authenticated %}
+					<li class="has-dropdown">
+						<a href="{% url "letter_list" %}">Submissions </a>
+						{% if  user.is_superuser or user.is_staff or user.profile.is_volunteer %}
+						<ul class="dropdown">
+							<li><a href="{% url "letter_list" %}">View All Submissions </a></li>	
+							<li><a href="{% url "new_letter" %}">New Submission</a></li>
+						</ul>
+						{%endif%}
+					</li>
+
 					{% endif %}
-				
+
 					{% if user.is_authenticated %}
 					    <li class="has-dropdown">
 					
 						<a href="{% url "user_profile" %}">{{user.username}}</a>
 						<ul class="dropdown">
 							{% if user.is_superuser or user.is_staff %}
-								
-								<li><a href="{% url "user_ctrl"%}">User_ctrl</a></li> 
-							
+								<li><a href="{% url "user_ctrl"%}">User_ctrl</a></li>		
 							{% endif %}
 							<li><a href="{% url "user_profile" %}">Profile</a></li>
 							<li><a href="{% url "user_logout"%}">Logout</a></li> 
@@ -90,7 +100,14 @@
 		</nav>
 		</div>
 			
-		
+<div class="row">
+	{% if message %}
+	<div data-alert class="alert-box info radius">
+		{{ message }}
+		<a href="#" class="close">&times;</a>
+	</div>
+	{% endif %}
+</div>
 
 
 {% block content %}

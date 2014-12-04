@@ -1,7 +1,7 @@
 from django.conf.urls import patterns, url, include
 from django.conf import settings
 from django.views.generic import TemplateView
-from PrisonerExpress import prison_views, program_views, prisoner_views, letter_views, user_views, tests
+from PrisonerExpress import prison_views, program_views, prisoner_views, letter_views, user_views, tests, index_view
 from prisoner_views import PrisonerList, PrisonerDetail, PrisonerIndex
 from program_views import ProgramDetails, ProgramIndex
 from prison_views import PrisonIndex, PrisonDetails, PrisonList
@@ -88,9 +88,12 @@ user_patterns=patterns(
     url(r'^user_ctrl$',
         user_views.user_ctrl,
         name='user_ctrl'),
-    url(r'^profile$',
-        user_views.user_profile,
+    url(regex=r'^profile$',
+        view=user_views.user_profile,
         name='user_profile'),
+    url(regex=r'^edit$',
+        view=user_views.user_edit,
+        name='user_edit',)
 )
 letter_patterns=patterns(
     '',
@@ -108,7 +111,7 @@ letter_patterns=patterns(
 urlpatterns= patterns(
     '',
     url(regex=r'^$',
-        view=TemplateView.as_view(template_name="index.html"),
+        view=index_view.public_page,
         name="index"),
     url(r'^program/', include(program_patterns)),
     url(r'^prison/', include(prison_patterns)),
