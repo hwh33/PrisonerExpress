@@ -51,6 +51,8 @@ def edit(request, program_id):
         if program is None: 
             raise Http404
         program.name = request.POST['program_name']
+        program.active = request.POST.get('active', False)
+        program.continuous = request.POST.get('continuous', False)
         program.print_rule = request.POST.get('print_rule', False)
         program.description = request.POST['program_description']
         program.save();
@@ -73,6 +75,7 @@ def mail(request, program_id):
     response = HttpResponse(content_type='application/pdf')
     response['Content-Disposition'] = 'attachment; filename=mailing_label.pdf'
     program = get_object_or_404(Program, id=program_id)
+    iteration = program.get_current_iteration()
     """
         Required parameters
         -------------------
@@ -169,9 +172,10 @@ def mail(request, program_id):
     end_of_url_path = request.path.split('/')[-1]
     specs = specs_dict[end_of_url_path]
     sheet = Sheet(specs, mailing_label, border=True)
-    if program.prisoners:
-        for prisoner in program.prisoners.all():
-            sheet.add_label(prisoner)
+
+   
+    for prisoner in iteration.prisoners.all():
+        sheet.add_label(prisoner)
     
     p = canvas.Canvas(response,pagesize=sheet._pagesize)
     for page in sheet._pages:
@@ -179,6 +183,27 @@ def mail(request, program_id):
             p.showPage()
     p.save()
     return response;
+
+def list_iterations(request, program_id):
+    program = get_object_or_404(Program, pk=program_id)
+    iterations = program.iteration_set.all()
+    paginator = Paginator(iterations, 10)
+    
+    page = 0
+    if 'page' in request.GET:
+        page = request.GET.get('page')
+    try:
+        ppl = paginator.page(page)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        ppl = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range (e.g. 9999), deliver last page of results.
+        ppl = paginator.page(paginator.num_pages)
+    return render(request, 'list_iterations.html', {'program':program,
+                                            'object_list':iterations,
+                                            'page_obj':paginator})
+
     
 
 def create_iteration(request, program_id):
