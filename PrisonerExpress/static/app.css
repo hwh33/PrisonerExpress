@@ -123,17 +123,28 @@ label small{
     background:white;
     
 }
+
+#top-bar-section .has-form {
+    font-size:18px;
+    line-height: 50px;
+}
+
 #top-bar-section ul li a{
     line-height: 70px;
     background:#fff;
     color:#526cc4;
     padding:0px 20px;
-    font-size:18px;
-   
+    font-size:18px;   
 }
+
+#top-bar-section ul li a.search {
+    line-height: 40px;
+    top:20%;
+    padding:0px 0px;
+}
+
 #top-bar-section li a{
     background:white;
-    
 }
 #top-bar-section .has-dropdown > a:after{
     border-color: rgba(82, 108, 195, 0.2) transparent transparent transparent;
@@ -147,6 +158,7 @@ label small{
     background: #f4f4f4;
 	color:#6087D7;
 }
+
 #top-bar-section .dropdown {
     right:-50%;
   -webkit-box-shadow: 8px 8px 6px -6px rgba(0,0,0,0.3);

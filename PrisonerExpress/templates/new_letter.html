@@ -16,7 +16,7 @@
                 <div class="row">
                     <div class="large-10 columns">
                         <label for="prisoner">Prisoner ID:</label>
-                        <input id="prisoner" name="prisoner" size="40">
+                        <input id="prisoner" class="prisoner_search" name="prisoner" size="40">
                     </div>
                 </div>
                 <div class="row">
@@ -54,29 +54,4 @@
     </div>
     {% endblock %}
     {% block body_js %}
-    <script>
-    function autocomp(request, response, url) {
-        $.ajax({
-            url: "{% url "prisoner_query" %}",
-            dataType: "json",
-            data: request,
-            type: "GET",
-            success: function(data) {
-                response($.map(data, function(item) {
-                    return {
-                        label: item.fields.name + " | " + item.fields.prisoner_id_raw,
-                        value: item.pk
-                    };
-                }))
-            }
-        });
-    }
-    $("#prisoner").autocomplete({
-        source: autocomp,
-        minLength: 2,
-        select: function(event, ui) {
-            console.log("Selected!");
-        }
-    });
-    </script>
     {% endblock %}

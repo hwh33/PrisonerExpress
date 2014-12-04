@@ -11,6 +11,8 @@
     <link rel="stylesheet"  href="{% static "app.scss" %}" type="text/scss">
     <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
     <script src="{% static "foundation/js/vendor/modernizr.js" %}"></script>
+    {% block header_content %}
+    {% endblock header_content %}
     </head>
 	
 	<body>
@@ -23,7 +25,14 @@
 			</ul>
 			
 			<section class="top-bar-section" id="top-bar-section">
+
 				<ul class="right">
+					<li class="has-form">
+						<input size=40 class="prisoner_search" id="prisoner_search" placeholder="Find a prisoner">
+					</li>
+					<li>
+						<a href="#" onclick="submit_search()" class="alert button expand search">Search</a>
+					</li>
 					<li><a href="{% url "index" %}">Home</a></li>
 
 					<li class="has-dropdown">
@@ -104,6 +113,37 @@
 <script src="{% static "foundation/js/foundation/foundation.dropdown.js" %}"></script>
 <script src="{% static "foundation/js/foundation/foundation.topbar.js" %}"></script>
 <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"> </script>
+<script>
+    function autocomp(request, response, url) {
+        $.ajax({
+            url: "{% url "prisoner_query" %}",
+            dataType: "json",
+            data: request,
+            type: "GET",
+            success: function(data) {
+                response($.map(data, function(item) {
+                    return {
+                        label: item.fields.name + " | " + item.fields.prisoner_id_raw,
+                        value: item.pk
+                    };
+                }))
+            }
+        });
+    }
+    $(".prisoner_search").autocomplete({
+        source: autocomp,
+        minLength: 2,
+        select: function(event, ui) {
+            console.log("Selected!");
+        }
+    });
+    function submit_search() {
+    	var value = $("#prisoner_search").val()
+    	var search_url="{% url "prisoner_search" %}?term="
+    	search_url += encodeURIComponent(value)
+    	window.location.replace(search_url)
+    }
+    </script>
 {% block body_js %}
 {% endblock body_js %}
 <script>
