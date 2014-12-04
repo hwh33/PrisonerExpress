@@ -51,6 +51,8 @@ def edit(request, program_id):
         if program is None: 
             raise Http404
         program.name = request.POST['program_name']
+        program.active = request.POST.get('active', False)
+        program.continuous = request.POST.get('continuous', False)
         program.print_rule = request.POST.get('print_rule', False)
         program.description = request.POST['program_description']
         program.save();
