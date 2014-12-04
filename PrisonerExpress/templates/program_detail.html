@@ -74,10 +74,13 @@
 	<div class="large-3 columns large-offset-3">
 		<a href="{% url 'iteration_create' program.id %}" class="secondary small radius button">New Iteration</a>
 	</div> 
-	<div class="large-3 columns">
+	<div class="large-2 columns">
 		{% if program.get_current_iteration != None %} <a href="{% url 'iteration_details' program.get_current_iteration.id %}" class="small radius button">Current Iteration</a> {% endif %}
 	</div>	
-	<div class="large-3 columns">
+	<div class="large-2 columns">
+		{% if program.get_current_iteration != None %} <a href="{% url 'list_iterations' program.id %}" class="small radius button">Old Iteration</a> {% endif %}
+	</div>	
+	<div class="large-2 columns">
 		<a href="{% url 'program_edit' program.id %}" class="small radius button" >Edit</a>
 	</div>
 </div>
