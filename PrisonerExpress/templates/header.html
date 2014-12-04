@@ -79,7 +79,8 @@
 						<a href="{% url "user_profile" %}">{{user.username}}</a>
 						<ul class="dropdown">
 							{% if user.is_superuser or user.is_staff %}
-								<li><a href="{% url "user_ctrl"%}">User_ctrl</a></li>		
+								<li><a href="{% url "user_ctrl"%}">User_ctrl</a></li>
+								<li><a href="{% url "admin_settings"%}">Settings</a></li>
 							{% endif %}
 							<li><a href="{% url "user_profile" %}">Profile</a></li>
 							<li><a href="{% url "user_logout"%}">Logout</a></li> 

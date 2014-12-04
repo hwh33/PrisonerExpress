@@ -1,11 +1,10 @@
 from django.conf.urls import patterns, url, include
 from django.conf import settings
 from django.views.generic import TemplateView
-from PrisonerExpress import prison_views, program_views, prisoner_views, letter_views, user_views, tests, index_view
+from PrisonerExpress import prison_views, program_views, prisoner_views, letter_views, user_views, tests, index_view, admin_views
 from prisoner_views import PrisonerList, PrisonerDetail, PrisonerIndex
 from program_views import ProgramDetails, ProgramIndex
 from prison_views import PrisonIndex, PrisonDetails, PrisonList
-
 
 prison_patterns=patterns(
     '',
@@ -122,6 +121,9 @@ urlpatterns= patterns(
     url(regex=r'^$',
         view=index_view.public_page,
         name="index"),
+    url(regex=r'^settings$',
+        view=admin_views.settings,
+        name="admin_settings"),
     url(r'^program/', include(program_patterns)),
     url(r'^prison/', include(prison_patterns)),
     url(r'^prisoner/', include(prisoner_patterns)),
