@@ -122,7 +122,7 @@ def mail(request, program_id):
     _row_gap = 0
     _column_gap = 0
 
-    specs = Specification(215.9, 279.4, 3, 10, 66.675, 25.4, corner_radius=2,top_margin=12.7,row_gap=0,left_margin=5,right_margin=5)
+    specs = Specification(215.9, 279.4, 3, 10, 66.675, 25.4, corner_radius=2,top_margin=13,row_gap=0,left_margin=5,right_margin=5)
     
     def mailing_label(label, width, height, data):
             font="Helvetica"

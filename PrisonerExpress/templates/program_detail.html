@@ -47,9 +47,12 @@
 	</div>
 	<div class="large-8 columns">
 		{% for prisoner in object.prisoners.all %} 
+		{%if prisoner.prisoner_id %}
 			<div>
+				
 				<a href="{% url "prisoner_details" prisoner.prisoner_id %}"> {{ prisoner.name }} </a> 
 			</div> 
+			{%endif %}
 		{% endfor %}
 	</div>
 </div>
