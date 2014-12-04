@@ -23,6 +23,7 @@ def user_login(request):
 			if user.is_active:
 				login(request, user)
 				return HttpResponseRedirect('/')
+
 	return render(request,'user_login.html')
 
 
@@ -30,14 +31,16 @@ def user_logout(request):
 	logout(request)
 	return HttpResponseRedirect('/')
 
-#admin required
 def user_ctrl(request):
 	cur_user=request.user
+	msg=None
 	if cur_user.is_superuser==True :
 		users = User.objects.filter( Q(is_superuser=False) )
 	elif cur_user.is_staff == True:
 		users = User.objects.filter( Q(is_superuser=False),Q(is_staff=False))
-	msg = None
+	else:
+		msg="No permission"
+
 	if request.method == 'POST':
 		username = request.POST['username']
 		pem_lv = request.POST['level']
@@ -51,10 +54,11 @@ def user_ctrl(request):
 			user.is_staff=False
 			user.profile.is_volunteer=False
 		print user.is_staff, user.profile.is_volunteer
+		user.profile.save()
 		user.save()
-		result="succ"
-		return render_to_response('user_ctrl.html',{'users':users,'result':result},context_instance=RequestContext(request))
-	return render_to_response('user_ctrl.html',{'users':users},context_instance=RequestContext(request))
+		message="Change permission successfully"
+		return render(request,'user_ctrl.html',{'users':users,'message':message})
+	return render(request,'user_ctrl.html',{'users':users,'message':msg})
 
 def user_profile(request):
 	render_to_response('user_ctrl.html',dict(userctrlform=uf),context_instance=RequestContext(request))
@@ -71,8 +75,8 @@ def user_register(request):
             userprofile.user = user
             userprofile.save()
             return redirect('user_login')
-	return render_to_response('user_register.html',	dict(userform=uf,
+	return render(request,'user_register.html',	dict(userform=uf,
                                               	userprofileform=upf),
-                                               	context_instance=RequestContext(request))
+                                               )
 
 

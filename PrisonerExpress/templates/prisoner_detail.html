@@ -4,6 +4,7 @@
 <div class="row">
 	<div class="large-12 columns">
 		<h3> {{ object.name }} </h3>
+		<h3>{{object.prisoner_id_raw}}</h3>
 	</div>
 </row>
 <div class="row">
@@ -17,16 +18,11 @@
 </div>
 <div class="row">
 	<div class="large-4 large-offset-2 columns">
-		<h5>Prison:</h5>
+		<h5>Rules:</h5>
 	</div>
 	<div class="large-6 columns">
-	<h5>
-		{% if object.prison %}
-		<a href="{% url "prison_details" object.prison.id %}">{{ object.prison.name }}</a>
-		{% else %}
-			None Specified
-		{% endif %}
-		</h5>
+		<p>{{object.rules}}
+		</p>
 	</div>
 </div>
 <div class="row">

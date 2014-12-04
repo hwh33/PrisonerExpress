@@ -21,7 +21,7 @@ def details(request, program_id):
     context = {'program':program}
     return render(request,"detail_program.html",context)
 
-@login_required
+
 def create(request):
     if request.method == 'POST':
         new_program_id = create_program(request.POST['program_name'],
@@ -41,7 +41,7 @@ def create_program(program_name,program_description="N/A", continuous=False, act
     p.save()
     return p.id    
 
-@login_required
+
 def edit(request, program_id):
     program = get_object_or_404(Program, id=program_id)
     if request.method == 'POST' and 'btn_edit' in request.POST:
@@ -62,7 +62,7 @@ def edit(request, program_id):
     context = {'program':program,'prisoner_list':Prisoner.objects.all()}
     return  render(request,"edit_program.html",context)
     
-@login_required
+
 def mail(request, program_id):
     response = HttpResponse(content_type='application/pdf')
     response['Content-Disposition'] = 'attachment; filename=mailing_label.pdf'
@@ -168,7 +168,7 @@ def mail(request, program_id):
     p.save()
     return response;
 
-@login_required
+
 def input(request, program_id): 
     context = {"url":"/media/Letters/magic.png"}
     return  render(request,"letter_input.html",context)

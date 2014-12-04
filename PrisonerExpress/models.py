@@ -88,7 +88,7 @@ class PrisonerForm(forms.Form):
     prisoner_id=forms.CharField(max_length=100)
     mailing_address=Address.AddressField(label="")
     #prison=forms.CharField(max_length=100)
-    prison_rules=forms.CharField(max_length=100)
+    rules=forms.CharField(max_length=100)
 
 
 class Material(models.Model):

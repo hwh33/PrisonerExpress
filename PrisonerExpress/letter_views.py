@@ -3,7 +3,6 @@ from django.http import HttpResponse
 from PrisonerExpress.models import Prisoner, Program, ImageUploadForm, Letter
 from django.contrib.auth.decorators import login_required
 
-@login_required
 
 def index(request):
     letters = Letter.objects.all()
@@ -16,7 +15,7 @@ def edit(request,letter_id):
     if request.method == 'POST':
         letter.content = request.POST['content']
         letter.save()
-        context['result']="save successfully"
+        context['message']="save successfully"
     return render(request,"edit_letter.html",context)
 
 def new(request):
@@ -27,11 +26,11 @@ def new(request):
         if (request.POST['action'] == 'enroll'):
             form = ImageUploadForm(request.POST, request.FILES)
             if form.is_valid():
-                context['results'] = enroll(request.POST['prisoner'], request.POST['program'], form.cleaned_data['image'])
+                context['message'] = enroll(request.POST['prisoner'], request.POST['program'], form.cleaned_data['image'])
             else:
-                context['results'] = enroll(request.POST['prisoner'], request.POST['program'])
+                context['message'] = enroll(request.POST['prisoner'], request.POST['program'])
         else:
-            context['results'] = unenroll(request.POST['prisoner'], request.POST['program'])
+            context['message'] = unenroll(request.POST['prisoner'], request.POST['program'])
 
     return render(request, "new_letter.html", context)        
 
