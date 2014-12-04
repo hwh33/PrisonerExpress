@@ -57,13 +57,25 @@ p.msg{
 #home-panel{
     overflow:hidden;
     padding:30px 40px;
-    margin:10px 0px;
+    margin:10px auto;
     border:none;
     background:#6087D7;
     height:150px;
+	width:94%;
     
 }
-
+.foot{
+	text-align:center;
+}
+hr{
+	width:95%;
+	margin-right:auto;
+	margin-left:auto;
+}
+#footer{
+	margin-right:auto;
+	margin-left:auto;
+}
 p.foot {
    color:#00BC91;
    font-size:80%;
@@ -85,12 +97,31 @@ a:hover .home-img{
 input[type="text"], input[type="password"]{
     width:350px;
 }
+
+.reg{
+	margin-left:100px;
+	margin-bottom:-10px;
+}
 form{
     margin:50px;
 }
 label small{
     color:#6087D7; 
 }
+.roll{
+	color:#526cc4;
+}
+.rolls{
+	/*color:#6087D7;*/
+	background:black;
+
+	
+}
+input[type="file"]{
+	margin:20px 0px;
+	color:#6087D7;
+}
+
 
 #top-bar{
     height:70px;
@@ -104,19 +135,25 @@ label small{
 }
 #top-bar .name{
     height:70px;
+	margin-left:50px;
 }
 #top-bar .name h1{
     line-height:70px;
     color:#0ABC98;
     display: block;
     padding: 0px 25px;
-    font-size:24px;  
+    font-size:28px;  
 }
 #top-bar-section ul{
- margin-right: 50px;
+ margin-right: 100px;
  background:white;
 
 }
+ 
+ input[type="submit"]{
+	margin-top:25px;
+
+ }
  
 #top-bar-section ul li{
     height:70px;
@@ -133,8 +170,9 @@ label small{
     line-height: 70px;
     background:#fff;
     color:#526cc4;
-    padding:0px 20px;
-    font-size:18px;   
+    padding:0px 25px;
+    font-size:20px;
+   
 }
 
 #top-bar-section ul li a.search {
@@ -160,7 +198,8 @@ label small{
 }
 
 #top-bar-section .dropdown {
-    right:-50%;
+    right:auto;
+	left:auto;
   -webkit-box-shadow: 8px 8px 6px -6px rgba(0,0,0,0.3);
 	-moz-box-shadow: 8px 8px 6px -6px rgba(0,0,0,0.3);
 	box-shadow: 8px 8px 6px -6px rgba(0,0,0,0.3);

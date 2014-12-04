@@ -3,7 +3,7 @@
 
 <div class="row">
     <div class="large-12 columns">
-        <h3>Register a Letter from a Prisoner</h3>
+        <h3 class="reg">Register a Letter</h3>
     </div>
 </row>
     <div class="large-10 columns">
@@ -22,7 +22,7 @@
                 <div class="row">
                     <div class="large-6 columns">
                         <label>Program:
-                        	<select name="program">
+                        	<select class="radius" name="program">
                         		{% for program in programs %}
                         		<option value="{{ program.id }}">{{ program.name }}</option>
                         		{% endfor %}
@@ -38,14 +38,13 @@
                 <div class="row">
                     <div class="large-6 columns">
                         <label>Enroll or Unenroll:
-                            <input type="radio" name="action" value="enroll" id="enroll" checked><label for="enroll">Enroll</label>
-                            <input type="radio" name="action" value="unenroll" id="unenroll"><label for="unenroll">Unenroll</label>
-                        </label>
+                            <input type="radio" name="action" value="enroll" id="enroll" checked><label class="roll" for="enroll">Enroll</label>
+                            <input type="radio" name="action" value="unenroll" id="unenroll"><label class="roll" for="unenroll">Unenroll</label>
                     </div>
                 </div>
                 <div class="row"> 
                     <div class="large-6 columns">
-                        <input type="submit" class="button" value="Submit!">
+                        <input type="submit" class="radius button" value="Submit!">
                     </div>
                 </div>
             </form>         
@@ -54,4 +53,29 @@
     </div>
     {% endblock %}
     {% block body_js %}
+    <script>
+    function autocomp(request, response, url) {
+        $.ajax({
+            url: "{% url "prisoner_query" %}",
+            dataType: "json",
+            data: request,
+            type: "GET",
+            success: function(data) {
+                response($.map(data, function(item) {
+                    return {
+                        label: item.fields.name + " | " + item.fields.prisoner_id_raw,
+                        value: item.pk
+                    };
+                }))
+            }
+        });
+    }
+    $("#prisoner").autocomplete({
+        source: autocomp,
+        minLength: 2,
+        select: function(event, ui) {
+            console.log("Selected!");
+        }
+    });
+    </script>
     {% endblock %}
