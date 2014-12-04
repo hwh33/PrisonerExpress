@@ -27,17 +27,19 @@ def create(request):
         new_program_id = create_program(request.POST['program_name'],
                                         request.POST['program_description'],
                                         request.POST.get('continuous', False),
-                                        request.POST.get('active', False))
+                                        request.POST.get('active', False),
+                                        request.POST.get('print_rule', False))
         return redirect('program_details', new_program_id)
     return render(request, "create_program.html")
 
-def create_program(program_name,program_description="N/A", continuous=False, active=True):
+def create_program(program_name,program_description="N/A", continuous=False, active=True,print_rule=False):
     if program_name is None :
         raise Http404
     p = Program( name=program_name,
                  description = program_description,
                  continuous=continuous,
-                 active=active)
+                 active=active,
+                 print_rule=print_rule)
     p.save()
     return p.id    
 
@@ -48,6 +50,7 @@ def edit(request, program_id):
         if program is None: 
             raise Http404
         program.name = request.POST['program_name']
+        program.print_rule = request.POST['print_rule']
         program.description = request.POST['program_description']
         program.save();
         return redirect('program_details', program.id)
@@ -66,6 +69,7 @@ def edit(request, program_id):
 def mail(request, program_id):
     response = HttpResponse(content_type='application/pdf')
     response['Content-Disposition'] = 'attachment; filename=mailing_label.pdf'
+    program = get_object_or_404(Program, id=program_id)
     """
         Required parameters
         -------------------
@@ -154,10 +158,12 @@ def mail(request, program_id):
             for i in range(0,num_lines):
                 label.add(shapes.String(5, height-15-fontsize*i, lines[i],
                                     fontName=font, fontSize=fontsize))
-           
+            if program.print_rule :
+                label.add(shapes.String(187,3, data.rules,
+                                    fontName=font, fontSize=fontsize,textAnchor='end'))
 
     sheet = Sheet(specs, mailing_label, border=True)
-    program = get_object_or_404(Program, id=program_id)
+   
     for prisoner in program.prisoners.all():
         sheet.add_label(prisoner)
     
