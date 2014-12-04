@@ -1,4 +1,7 @@
 {% extends "header.html" %}
+{% block header_content %}
+<script src='https://www.google.com/recaptcha/api.js'></script>
+{% endblock header_content %}
 
 {% block content %}
 <div class="row">
@@ -16,8 +19,11 @@
 			</label>
 			<small class="error">error password.</small>
 		</div>
+		<div>Please fill out the following captcha if you would like to register</div>
+		<div class="g-recaptcha" data-sitekey="6LeHtP4SAAAAAGUcN4lous8yf1BoEBwwXNnlMDYK"></div>
 		<button id="form1" class="small radius" type="submit">Login</button>
 		<a href="{% url "user_register"%}" id="form2" class="button small radius">Register</a>
+
 	</form>
 </div>
 {% endblock %}

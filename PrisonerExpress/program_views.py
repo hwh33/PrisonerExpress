@@ -1,7 +1,8 @@
 from django.shortcuts import render, get_object_or_404, render, redirect
 from django.http import HttpResponse
 from django.views.generic import ListView, DetailView, TemplateView
-from PrisonerExpress.models import Program,Prisoner
+from PrisonerExpress.models import Program,Prisoner, IterationForm, Iteration
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from PrisonerExpress.labels import Sheet, Specification, InvalidDimension
 import os.path
 from reportlab.graphics import shapes, renderPDF
@@ -179,6 +180,34 @@ def mail(request, program_id):
             p.showPage()
     p.save()
     return response;
+    
+
+def create_iteration(request, program_id):
+    program = get_object_or_404(Program, pk=program_id)
+    if request.method == 'GET':
+        return render(request, "iteration_create.html", {"program":program, 'form':IterationForm()})
+    form = IterationForm(request.POST)
+    if (form.is_valid()):
+        new_i = Iteration(name=form.cleaned_data['name'],
+                          description=form.cleaned_data['description'],
+                          parent=program)
+        if program.continuous:
+            current_iter = new_i.parent.get_current_iteration()
+            print "Current iter: %s" %current_iter
+            new_i.save()
+            if current_iter != None:
+                for prisoner in current_iter.prisoners.all():
+                    if prisoner.active:
+                        new_i.prisoners.add(prisoner)
+                new_i.save()
+        else:
+            new_i.save()
+        return redirect('iteration_details', iteration_id=new_i.id)
+    return render(request,
+                  'iteration_create.html',
+                  {'form':IterationForm(),
+                   'msg':'Form invalid!',
+                   'program':program})
 
 
 def input(request, program_id): 
@@ -191,3 +220,25 @@ class ProgramDetails(DetailView):
 
 class ProgramIndex(TemplateView):
     template_name="program_index.html"
+
+
+
+def get_iteration_details(request, iteration_id):
+    iteration = get_object_or_404(Iteration, pk=iteration_id)
+    parts = iteration.prisoners.all()
+    paginator = Paginator(parts, 25)
+    
+    page = 0
+    if 'page' in request.GET:
+        page = request.GET.get('page')
+    try:
+        ppl = paginator.page(page)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        ppl = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range (e.g. 9999), deliver last page of results.
+        ppl = paginator.page(paginator.num_pages)
+    return render(request, 'iteration_detail.html', {'object':iteration,
+                                            'object_list':ppl,
+                                            'page_obj':paginator})

@@ -11,6 +11,24 @@ class Program(models.Model):
     continuous = models.BooleanField(default = True)
     description = models.CharField(max_length=1000, default="N/A")
     print_rule = models.BooleanField(default = False)
+
+    def __str__(self):
+        return self.name
+
+    def get_current_iteration(self):
+        if self.iteration_set.count() == 0:
+            return None
+        return self.iteration_set.latest('create_date')
+
+class Iteration(models.Model):
+    name= models.CharField(max_length=200)
+    description=models.CharField(max_length=1000, default="N/A")
+    parent = models.ForeignKey(Program)
+    create_date = models.DateTimeField('Creation Date', auto_now_add=True)
+    
+    def is_current(self):
+        return self.parent.get_current_iteration() == self
+    
     def __str__(self):
         return self.name
 
@@ -28,7 +46,6 @@ class Address(models.Model):
         default_error_message = {
             'invalid': 'Your address could not be parsed'
             }
-
         widget = AddressWidget
 
         def to_python(self, value):
@@ -71,7 +88,7 @@ class Prisoner(models.Model):
     prisoner_id_raw=models.CharField(max_length=100) #how the id was entered
     active=models.BooleanField(default=True)
     prison=models.ForeignKey(Prison, null=True)
-    programs=models.ManyToManyField(Program, related_name = "prisoners")
+    programs=models.ManyToManyField(Iteration, related_name = "prisoners")
     address=models.ForeignKey(Address)
     last_active=models.DateTimeField('last active date', default=datetime.now)
     rules=models.CharField(max_length=20)
@@ -82,9 +99,12 @@ class PrisonerForm(forms.Form):
     name=forms.CharField(max_length=100)
     prisoner_id=forms.CharField(max_length=100)
     mailing_address=Address.AddressField(label="")
-    #prison=forms.CharField(max_length=100)
-    rules=forms.CharField(max_length=100)
+    rules=forms.CharField(max_length=100, required=False)
 
+class IterationForm(forms.Form):
+    name=forms.CharField(max_length=100)
+    description=forms.CharField(max_length=1000, required=False)    
+    
 
 class Material(models.Model):
     name=models.CharField(max_length=200)

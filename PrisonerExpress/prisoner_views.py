@@ -18,6 +18,14 @@ def details(request, prisoner_id):
     return HttpResponse("%s has prisoner id of %s" % (p.name, p.id))
 
 
+@login_required
+def edit(request, prisoner_id):
+    p = Prisoner.objects.get(pk=prisoner_id)
+    if request.method == 'GET':
+        return render(request, 'edit_prisoner.html',
+                      {'prisoner':p})
+    #TODO
+
 def create_prisoner(prisoner_name, prisoner_id,
                     prisoner_address, prison_id, rules):
     
