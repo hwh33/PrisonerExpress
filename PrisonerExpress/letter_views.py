@@ -38,7 +38,7 @@ def new(request):
 def enroll(prisoner_id, program_id,letter_img=None):
     prisoner = Prisoner.objects.get(pk=prisoner_id)
     program = Program.objects.get(pk=program_id)
-    prisoner.programs.add(program)
+    prisoner.programs.add(program.get_current_iteration())
     if letter_img :
         letter = Letter(prisoner = prisoner, program = program, image = letter_img)
         letter.save()
