@@ -38,7 +38,8 @@ def create_prisoner(prisoner_name, prisoner_id,
                  prisoner_id_raw = prisoner_id,
                  active=True,
                  prison=prison,
-                 address=prisoner_address)
+                 address=prisoner_address,
+                 rules=rules)
     p.save()
     return p.prisoner_id
 

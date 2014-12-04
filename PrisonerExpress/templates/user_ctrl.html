@@ -35,14 +35,14 @@
                 <div class="row">
                     <div class="large-6 columns">
                         <label>Group:
-                        	<select name="groupname">
+                        	<select name="level">
                         		{% if user.is_superuser %}
-                                    <option value="Volunteers">Volunteer</option>
-                                    <option value="Admins">Admin</option>
-                                    <option value="users">PublicUser</option>
+                                    <option value="volunteer">Volunteer</option>
+                                    <option value="admin">Admin</option>
+                                    <option value="public_user">PublicUser</option>
                         		{% else %}
-                                    <option value="Volunteers">Volunteer</option>
-                                    <option value="users">PublicUser</option>
+                                    <option value="volunteer">Volunteer</option>
+                                    <option value="public_user">PublicUser</option>
                         		{% endif %}
                         	</select>
                         </label>

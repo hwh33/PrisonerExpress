@@ -7,6 +7,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from PrisonerExpress.models import UserProfile,UserProfileForm
+from PrisonerExpress.forms import UserCreateForm
 from django.contrib.auth.models import Group, User 
 from django.db.models import Q
 
@@ -31,17 +32,25 @@ def user_logout(request):
 
 #admin required
 def user_ctrl(request):
-
-	users = User.objects.filter( Q(is_superuser=False) )
+	cur_user=request.user
+	if cur_user.is_superuser==True :
+		users = User.objects.filter( Q(is_superuser=False) )
+	elif cur_user.is_staff == True:
+		users = User.objects.filter( Q(is_superuser=False),Q(is_staff=False))
 	msg = None
 	if request.method == 'POST':
 		username = request.POST['username']
-		groupname = request.POST['groupname']
-		print groupname 
-		group = Group.objects.get(name=groupname)
+		pem_lv = request.POST['level']
 		user = User.objects.get(username=username)
-		group.user_set.add(user)
-		group.save()
+		if pem_lv == "admin":
+			user.is_staff=True
+		elif pem_lv == "volunteer":
+			user.is_staff=False
+			user.profile.is_volunteer=True
+		elif pem_lv == "public_user":
+			user.is_staff=False
+			user.profile.is_volunteer=False
+		print user.is_staff, user.profile.is_volunteer
 		user.save()
 		result="succ"
 		return render_to_response('user_ctrl.html',{'users':users,'result':result},context_instance=RequestContext(request))
@@ -51,7 +60,7 @@ def user_profile(request):
 	render_to_response('user_ctrl.html',dict(userctrlform=uf),context_instance=RequestContext(request))
 	
 def user_register(request):
-	uf = UserCreationForm(request.POST or None,prefix='user')
+	uf = UserCreateForm(request.POST or None,prefix='user')
 	upf = UserProfileForm(request.POST or None,prefix='userprofile')
 	if request.method == 'POST':
 		uf = UserCreationForm(request.POST, prefix='user')

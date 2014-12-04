@@ -79,7 +79,7 @@ class Prisoner(models.Model):
     programs=models.ManyToManyField(Program, related_name = "prisoners")
     address=models.ForeignKey(Address)
     last_active=models.DateTimeField('last active date', default=datetime.now)
-
+    rules=models.CharField(max_length=20)
     def __str__(self):
         return "Name: %s | ID: %s " % (self.name, self.prisoner_id)
 
@@ -139,8 +139,10 @@ class UserProfile(models.Model):
     gender=models.CharField(max_length=2,
                                    choices=GENDER_CHOICES,
                                    default='N')
+    is_volunteer = models.BooleanField(default = False);
     
 class UserProfileForm(forms.ModelForm):
     class Meta:
         model = UserProfile
-        exclude = ['user']
+        exclude = ['user','is_volunteer']
+
