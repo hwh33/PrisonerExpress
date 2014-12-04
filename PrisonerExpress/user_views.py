@@ -60,9 +60,7 @@ def user_ctrl(request):
 		return render(request,'user_ctrl.html',{'users':users,'message':message})
 	return render(request,'user_ctrl.html',{'users':users,'message':msg})
 
-def user_profile(request):
-	render_to_response('user_ctrl.html',dict(userctrlform=uf),context_instance=RequestContext(request))
-	
+
 def user_register(request):
 	uf = UserCreateForm(request.POST or None,prefix='user')
 	upf = UserProfileForm(request.POST or None,prefix='userprofile')
@@ -78,5 +76,17 @@ def user_register(request):
 	return render(request,'user_register.html',	dict(userform=uf,
                                               	userprofileform=upf),
                                                )
-
+def user_profile(request):
+	user= request.user
+	return render(request,'user_profile.html')
+def user_edit(request):
+	if request.method == 'POST' and 'btn_edit' in request.POST:
+		user=request.user
+		if user is None:
+			raise Http404
+		user.profile.phone_number = request.POST['user_number']
+		user.profile.gender = request.POST['sex']
+		user.profile.save()
+		return redirect('user_profile')
+	return render(request,'edit_user.html')
 

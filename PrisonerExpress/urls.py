@@ -88,9 +88,12 @@ user_patterns=patterns(
     url(r'^user_ctrl$',
         user_views.user_ctrl,
         name='user_ctrl'),
-    url(r'^profile$',
-        user_views.user_profile,
+    url(regex=r'^profile$',
+        view=user_views.user_profile,
         name='user_profile'),
+    url(regex=r'^edit$',
+        view=user_views.user_edit,
+        name='user_edit',)
 )
 letter_patterns=patterns(
     '',
