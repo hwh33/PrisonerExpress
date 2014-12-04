@@ -60,7 +60,9 @@ def edit(request, program_id):
         prisoner_id = request.POST['prisoner']
         if not prisoner_id == -1:
             prisoner = Prisoner.objects.get(pk=prisoner_id)
-        program.prisoners.add(prisoner)
+        iteration = program.get_current_iteration()
+        iteration.prisoners.add(prisoner)
+        iteration.save()
         program.save();
         return redirect('program_details', program.id)
     context = {'program':program,'prisoner_list':Prisoner.objects.all()}
@@ -167,9 +169,9 @@ def mail(request, program_id):
     end_of_url_path = request.path.split('/')[-1]
     specs = specs_dict[end_of_url_path]
     sheet = Sheet(specs, mailing_label, border=True)
-   
-    for prisoner in program.prisoners.all():
-        sheet.add_label(prisoner)
+    if program.prisoners:
+        for prisoner in program.prisoners.all():
+            sheet.add_label(prisoner)
     
     p = canvas.Canvas(response,pagesize=sheet._pagesize)
     for page in sheet._pages:
