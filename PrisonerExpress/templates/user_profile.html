@@ -1,0 +1,50 @@
+{% extends "header.html" %}
+
+{% block content %}
+<div class="row">
+	<div class="large-12 columns">
+		<h3> User Profile </h3>
+	</div>
+</div>
+<div class="row">
+ 	<div class="large-2 columns">
+ 			</div>
+ 	<div class="large-10 columns">
+ 		<div class="row">
+ 			<div class="large-10 columns">
+ 					<div class="panel">
+	 					<div class="row">
+	 						<div class="large-12 columns">
+	 							<label>User Name:</label>
+	 							<p>
+	 								{{user.username}}
+	 							</p>
+	 						</div>
+	 					</div>
+	 					<div class="row">
+	 						<div class="large-6 columns">
+	 							<label>Phone Number:</label>
+	 							<p>
+	 								{{user.profile.phone_number}}
+	 							</p>
+	 						</div>
+	 						<div class="large-6 columns">
+	 							<label>Gender:</label>
+	 							<p>
+	 								{{user.profile.gender}}
+	 							</p>
+	 						</div>
+	 					<div class="row">
+	 						<div class="large-8 columns">
+	 						</div>
+	 						<div class="large-4 columns">
+	 							<a href = "{% url "user_edit" %}" class="small radius button" > Edit </a>
+	 						</div>						
+	 					</div>
+	 				</div>
+
+			</div>       
+		</div>
+	</div>
+</div>
+{% endblock %}

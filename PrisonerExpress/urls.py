@@ -1,7 +1,7 @@
 from django.conf.urls import patterns, url, include
 from django.conf import settings
 from django.views.generic import TemplateView
-from PrisonerExpress import prison_views, program_views, prisoner_views, letter_views, user_views, tests
+from PrisonerExpress import prison_views, program_views, prisoner_views, letter_views, user_views, tests, index_view
 from prisoner_views import PrisonerList, PrisonerDetail, PrisonerIndex
 from program_views import ProgramDetails, ProgramIndex
 from prison_views import PrisonIndex, PrisonDetails, PrisonList
@@ -81,28 +81,46 @@ user_patterns=patterns(
     '',
     url(r'^login$',
         user_views.user_login,
-        name='login'),
+        name='user_login'),
     url(r'^logout$',
         user_views.user_logout,
-        name='logout'),
+        name='user_logout'),
     url(r'^register$',
         user_views.user_register,
-        name='register'),
+        name='user_register'),
+    url(r'^user_ctrl$',
+        user_views.user_ctrl,
+        name='user_ctrl'),
+    url(regex=r'^profile$',
+        view=user_views.user_profile,
+        name='user_profile'),
+    url(regex=r'^edit$',
+        view=user_views.user_edit,
+        name='user_edit',)
 )
+letter_patterns=patterns(
+    '',
+    url(r'^new$',
+        view=letter_views.new,
+        name='new_letter'),
+    url(r'^(?P<letter_id>\d+)/edit$',
+        view=letter_views.edit,
+        name='letter_edit'),
+    url(regex=r'^list',
+        view=letter_views.index,
+        name='letter_list'),
 
+)
 urlpatterns= patterns(
     '',
     url(regex=r'^$',
-        view=TemplateView.as_view(template_name="index.html"),
+        view=index_view.public_page,
         name="index"),
     url(r'^program/', include(program_patterns)),
     url(r'^prison/', include(prison_patterns)),
     url(r'^prisoner/', include(prisoner_patterns)),
-    url(regex=r'^letters/new$',
-        view=letter_views.new,
-        name='new_letter'),
+    url(r'^letters/',include(letter_patterns)),
     url(r'^user/',include(user_patterns)),
     url(r'^media/(?P<path>.*)$', 'django.views.static.serve', {
         'document_root': settings.MEDIA_ROOT}),
-    url(r'fast_input',tests.input),
 )

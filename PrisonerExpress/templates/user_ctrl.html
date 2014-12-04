@@ -1,0 +1,52 @@
+{% extends "header.html" %}
+{% block content %} 
+<div class="row">
+    <div class="large-12 columns">
+        <h3>Register a Volunteer or Admin</h3>
+
+    </div>
+</row>
+    <div class="large-10 columns">
+        <div class="row">
+        <div class="large-12 columns">
+            </div>
+          
+            <form action="{% url 'user_ctrl' %}" method="post" >
+                {% csrf_token %} 
+                <div class="row">
+                     <div class="large-6 columns">
+                        <label>Users:
+                        	<select name="username">
+                        		{% for user in users %}
+                        		<option value="{{ user.username }}">{{ user.username }}</option>
+                        		{% endfor %}
+                        	</select>
+                        </label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="large-6 columns">
+                        <label>Group:
+                        	<select name="level">
+                        		{% if user.is_superuser %}
+                                    <option value="volunteer">Volunteer</option>
+                                    <option value="admin">Admin</option>
+                                    <option value="public_user">PublicUser</option>
+                        		{% else %}
+                                    <option value="volunteer">Volunteer</option>
+                                    <option value="public_user">PublicUser</option>
+                        		{% endif %}
+                        	</select>
+                        </label>
+                    </div>
+                </div>
+                <div class="row"> 
+                    <div class="large-6 columns">
+                        <input type="submit" class="button" value="Submit!">
+                    </div>
+                </div>
+            </form>         
+        </div>
+    </div>
+    </div>
+    {% endblock %}

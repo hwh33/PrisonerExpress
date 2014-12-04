@@ -2,12 +2,15 @@ from django.db import models
 from django import forms
 from datetime import datetime
 from widgets import AddressWidget
+from django.core.validators import RegexValidator
+from django.contrib.auth.models import User
 
 class Program(models.Model):
-    name=models.CharField(max_length=200)
+    name = models.CharField(max_length=200)
     active = models.BooleanField(default=True)
     continuous = models.BooleanField(default = True)
     description = models.CharField(max_length=1000, default="N/A")
+    print_rule = models.BooleanField(default = False)
     def __str__(self):
         return self.name
 
@@ -70,7 +73,7 @@ class Prisoner(models.Model):
     programs=models.ManyToManyField(Program, related_name = "prisoners")
     address=models.ForeignKey(Address)
     last_active=models.DateTimeField('last active date', default=datetime.now)
-
+    rules=models.CharField(max_length=20)
     def __str__(self):
         return "Name: %s | ID: %s " % (self.name, self.prisoner_id)
 
@@ -79,7 +82,7 @@ class PrisonerForm(forms.Form):
     prisoner_id=forms.CharField(max_length=100)
     mailing_address=Address.AddressField(label="")
     #prison=forms.CharField(max_length=100)
-    prison_rules=forms.CharField(max_length=100)
+    rules=forms.CharField(max_length=100)
 
 
 class Material(models.Model):
@@ -108,6 +111,27 @@ class Letter(models.Model):
     date=models.DateTimeField(auto_now_add=True, blank=True)
     image=models.ImageField(upload_to='Letters')
 
+
 class ImageUploadForm(forms.Form):
     """Image upload form."""
     image = forms.ImageField()
+
+
+class UserProfile(models.Model):
+    user = models.OneToOneField(User,related_name='profile')
+    phone_number = models.CharField(blank=True, default = 'N/A', max_length=20)
+    GENDER_CHOICES = (
+        ('M', 'Male'),
+        ('F', 'Female'),
+        ('N', 'Unknown'),
+        )
+    gender=models.CharField(max_length=2,
+                                   choices=GENDER_CHOICES,
+                                   default='N')
+    is_volunteer = models.BooleanField(default = False);
+    
+class UserProfileForm(forms.ModelForm):
+    class Meta:
+        model = UserProfile
+        exclude = ['user','is_volunteer']
+

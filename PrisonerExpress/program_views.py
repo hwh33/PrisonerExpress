@@ -2,13 +2,14 @@ from django.shortcuts import render, get_object_or_404, render, redirect
 from django.http import HttpResponse
 from django.views.generic import ListView, DetailView, TemplateView
 from PrisonerExpress.models import Program,Prisoner
-import labels
+from PrisonerExpress.labels import Sheet, Specification, InvalidDimension
 import os.path
 from reportlab.graphics import shapes, renderPDF
 from reportlab.pdfgen import canvas
 import datetime
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
+from reportlab.pdfbase.pdfmetrics import  stringWidth
 
 def index(request):
     program_list = Program.objects.all()
@@ -20,33 +21,36 @@ def details(request, program_id):
     context = {'program':program}
     return render(request,"detail_program.html",context)
 
-@login_required
+
 def create(request):
     if request.method == 'POST':
         new_program_id = create_program(request.POST['program_name'],
                                         request.POST['program_description'],
                                         request.POST.get('continuous', False),
-                                        request.POST.get('active', False))
+                                        request.POST.get('active', False),
+                                        request.POST.get('print_rule', False))
         return redirect('program_details', new_program_id)
     return render(request, "create_program.html")
 
-def create_program(program_name,program_description="N/A", continuous=False, active=True):
+def create_program(program_name,program_description="N/A", continuous=False, active=True,print_rule=False):
     if program_name is None :
         raise Http404
     p = Program( name=program_name,
                  description = program_description,
                  continuous=continuous,
-                 active=active)
+                 active=active,
+                 print_rule=print_rule)
     p.save()
     return p.id    
 
-@login_required
+
 def edit(request, program_id):
     program = get_object_or_404(Program, id=program_id)
     if request.method == 'POST' and 'btn_edit' in request.POST:
         if program is None: 
             raise Http404
         program.name = request.POST['program_name']
+        program.print_rule = request.POST['print_rule']
         program.description = request.POST['program_description']
         program.save();
         return redirect('program_details', program.id)
@@ -61,34 +65,105 @@ def edit(request, program_id):
     context = {'program':program,'prisoner_list':Prisoner.objects.all()}
     return  render(request,"edit_program.html",context)
     
-@login_required
+
 def mail(request, program_id):
     response = HttpResponse(content_type='application/pdf')
     response['Content-Disposition'] = 'attachment; filename=mailing_label.pdf'
-    specs = labels.Specification(210, 297, 2, 6, 90, 48, corner_radius=2)
+    program = get_object_or_404(Program, id=program_id)
+    """
+        Required parameters
+        -------------------
+        sheet_width, sheet_height: positive dimension
+            The size of the sheet.
+
+        columns, rows: positive integer
+            The number of labels on the sheet.
+
+        label_width, label_size: positive dimension
+            The size of each label.
+
+        Margins and gaps
+        ----------------
+        left_margin: positive dimension
+            The gap between the left edge of the sheet and the first column.
+        column_gap: positive dimension
+            The internal gap between columns.
+        right_margin: positive dimension
+            The gap between the right edge of the sheet and the last column.
+        top_margin: positive dimension
+            The gap between the top edge of the sheet and the first row.
+        row_gap: positive dimension
+            The internal gap between rows.
+        bottom_margin: positive dimension
+            The gap between the bottom edge of the sheet and the last row.
+
+        Additional dimensions
+        ---------------------
+        corner_radius: positive dimension, default 0
+            Gives the labels rounded corners with the given radius.
+
+        Raises
+        ------
+        InvalidDimension
+            If any given dimension is invalid (i.e., the labels cannot fit on
+            the sheet).
+
+    """
+    _paper_width = 215.9
+    _paper_height = 279.4
+    _num_columns = 3
+    _num_rows = 10
+    _label_width = 66.675
+    _label_height = 25.4 
+    _top_margin = 12.7
+    _bottom_margin = 12.7
+    _left_margin = 5.5
+    _right_margin = 5.5
+    _row_gap = 0
+    _column_gap = 0
+
+    specs = Specification(215.9, 279.4, 3, 10, 66.675, 25.4, corner_radius=2,top_margin=12.7,row_gap=0,left_margin=5,right_margin=5)
     
     def mailing_label(label, width, height, data):
-            
-            label.add(shapes.String(5, height-20, data.name,
-                                    fontName="Helvetica", fontSize=20))
-            h=1;
+            font="Helvetica"
+            lines=[];
+            num_lines=0;
+            lines.append (data.name+", "+data.prisoner_id_raw) 
+            num_lines += 1;
             if len(data.address.address_1)>0 :
-                label.add(shapes.String(5, height-h*30-20, data.address.address_1,
-                                            fontName="Helvetica", fontSize=15))
-                h=h+1;
+                lines.append(data.address.address_1)
+                num_lines += 1;
             if len(data.address.address_2)>0 :
-                label.add(shapes.String(5, height-h*30-20, data.address.address_2,
-                                        fontName="Helvetica", fontSize=15))
-                h=h+1;
+                lines.append(data.address.address_2)
+                num_lines += 1;
             if len(data.address.address_3)>0 :
-                label.add(shapes.String(5, height-h*30-20, data.address.address_3,
-                                        fontName="Helvetica", fontSize=15))
-                h=h+1;
-            label.add(shapes.String(5, height-h*30-20, data.address.city+', '+data.address.state+', '+data.address.postal_code,
-                                    fontName="Helvetica", fontSize=15)) 
+                lines.append(data.address.address_3)
+                num_lines += 1;
+            lines.append(data.address.city+', '+data.address.state+', '+data.address.postal_code)
+            num_lines += 1;
+            fontsize=20;
+            maxIndex=0;
+            for i in range(1,num_lines):
+                # calculate size of font 
+                if len(lines[i])>len(lines[maxIndex]):
+                    maxIndex=i
+            fontsize=15
+            add_width = stringWidth(lines[maxIndex], font, fontsize)
+            text_width = width-10;
+            font_height = 15
+            while add_width > text_width:
+                fontsize *= 0.9
+                add_width = stringWidth(lines[maxIndex], font, fontsize)
 
-    sheet = labels.Sheet(specs, mailing_label, border=True)
-    program = get_object_or_404(Program, id=program_id)
+            for i in range(0,num_lines):
+                label.add(shapes.String(5, height-15-fontsize*i, lines[i],
+                                    fontName=font, fontSize=fontsize))
+            if program.print_rule :
+                label.add(shapes.String(187,3, data.rules,
+                                    fontName=font, fontSize=fontsize,textAnchor='end'))
+
+    sheet = Sheet(specs, mailing_label, border=True)
+   
     for prisoner in program.prisoners.all():
         sheet.add_label(prisoner)
     
@@ -99,7 +174,7 @@ def mail(request, program_id):
     p.save()
     return response;
 
-@login_required
+
 def input(request, program_id): 
     context = {"url":"/media/Letters/magic.png"}
     return  render(request,"letter_input.html",context)

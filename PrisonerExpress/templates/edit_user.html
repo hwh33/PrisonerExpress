@@ -1,0 +1,57 @@
+{% extends "header.html" %}
+
+{% block content %}
+<div class="row">
+	<div class="large-12 columns">
+		<h3> Edit user: {{user.name}} </h3>
+	</div>
+</div>
+<div class="row">
+ 	<div class="large-2 columns">
+ 			</div>
+ 	<div class="large-10 columns">
+ 		<div class="row">
+ 			<div class="large-10 columns">
+ 					<div class="panel">
+ 						<div class="panel">
+	 					<div class="row">
+	 						<div class="large-12 columns">
+	 							<label>User Name:</label>
+	 							<p>
+	 								{{user.username}}
+	 							</p>
+	 						</div>
+	 					</div>
+	 					<div class="row">
+	 						<div class="large-6 columns">
+	 							<label>Phone Number:</label>
+	 							<p>
+	 								{{user.profile.phone_number}}
+	 							</p>
+	 						</div>
+	 						<div class="large-6 columns">
+	 							<label>Gender:</label>
+	 							<p>
+	 								{{user.profile.gender}}
+	 							</p>
+	 						</div>
+	 				</div>
+	 					<div class="row">
+	 						
+	 						<form action="{% url 'user_edit' %}" method="post">
+	 							{% csrf_token %} 
+                                <label >Change your phone number: </label>
+                                <input  type="text" name="user_number" placeholder="Your new phone number">
+                                <label >Change your gender: </label>
+                                <input type="radio" name="sex" value="male" /> Male
+                                <br>
+                                <input type="radio" name="sex" value="female" /> Female
+                                <br>
+                                <input type="submit" name="btn_edit" value= "edit">
+                            </form>
+	 					</div>
+			</div>       
+		</div>
+	</div>
+</div>
+{% endblock %}

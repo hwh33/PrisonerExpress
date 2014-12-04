@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="{% static "foundation/css/foundation.css" %}">
     <link rel="stylesheet" href="{% static "app.css" %}">
     <link rel="stylesheet"  href="{% static "app.scss" %}" type="text/scss">
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
     <script src="{% static "foundation/js/vendor/modernizr.js" %}"></script>
     </head>
 	
@@ -17,20 +18,24 @@
 		<nav class="top-bar" id="top-bar" data-topbar role="navigation">
 			<ul class="title-area">
 				<li class="name">
-		           <h1>Prisoner Express</h1>
+		           <a href="{% url "index" %}"><h1>Prisoner Express</h1></a>
 				</li>
 			</ul>
 			
 			<section class="top-bar-section" id="top-bar-section">
 				<ul class="right">
 					<li><a href="{% url "index" %}">Home</a></li>
+
 					<li class="has-dropdown">
 						<a href="{% url "prisoner_list" %}">Prisoners</a>
+						{% if user.is_superuser or user.is_staff  %}
 						<ul class="dropdown">
 							<li><a href="{% url "prisoner_list" %}">View All Prisoners</a></li>
 							<li><a href="{% url "prisoner_create" %}">Create a new prisoner</a></li>
 						</ul>
+						{%endif%}
 					</li>
+					<!-- 
 					<li class="has-dropdown">
 						<a href="{% url "prison_list" %}">Prisons</a>
 						<ul class="dropdown">
@@ -38,40 +43,69 @@
 							<li><a href="{% url "prison_create" %}">Create a new prison</a></li>
 						</ul>
 					</li>
+					 -->
 					<li class="has-dropdown">
 						<a href="{% url "program_list" %}">Programs</a>
+						{% if user.is_superuser or user.is_staff  %}
 						<ul class="dropdown">
 							<li><a href="{% url "program_list" %}">View All Programs</a></li>
 							<li><a href="{% url "program_create" %}">Create a new program</a></li>
+						
 						</ul>
+						{%endif%}
 					</li>
-					<li><a href="{% url "new_letter" %}">Letters</a></li>
 					{% if user.is_authenticated %}
-					<li><a href="{% url "logout"%}">{{user.username}}</a></li> 
-				{% else %}
-					<li><a href="{% url "login"%}">Login</a></li> 
-				{% endif %}
-				
+					<li class="has-dropdown">
+						<a href="{% url "letter_list" %}">Submissions </a>
+						{% if  user.is_superuser or user.is_staff or user.profile.is_volunteer %}
+						<ul class="dropdown">
+							<li><a href="{% url "letter_list" %}">View All Submission </a></li>	
+							<li><a href="{% url "new_letter" %}">Submit</a></li>
+						</ul>
+						{%endif%}
+					</li>
+					{%endif%}
+					<li class="has-dropdown">
+					{% if user.is_authenticated %}
+						<a href="{% url "user_profile" %}">{{user.username}}</a>
+						<ul class="dropdown">
+							{% if user.is_superuser or user.is_staff %}
+								<li><a href="{% url "user_ctrl"%}">User_ctrl</a></li>		
+							{% endif %}
+							<li><a href="{% url "user_profile" %}">Profile</a></li>
+							<li><a href="{% url "user_logout"%}">Logout</a></li> 
+						</ul>
+							
+					{% else %}
+						<a href="{% url "user_login"%}">Login</a>
+					{% endif %}
+					</li>
 			     </ul>
-		     </section>
-			
+		     </section>	
 
 		</nav>
 		</div>
-		
 			
-		
+<div class="row">
+	{% if message %}
+	<div data-alert class="alert-box info radius">
+		{{ message }}
+		<a href="#" class="close">&times;</a>
+	</div>
+	{% endif %}
+</div>
 
 
-{% block content %}{% endblock %}
-
+{% block content %}
+{% endblock %}
 <script src="{% static "foundation/js/jquery.js" %}"></script>
 <script src="{% static "foundation/js/foundation.min.js" %} "></script>
 <script src="{% static "foundation/js/foundation/foundation.js" %}"></script>
 <script src="{% static "foundation/js/foundation/foundation.dropdown.js" %}"></script>
 <script src="{% static "foundation/js/foundation/foundation.topbar.js" %}"></script>
+<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"> </script>
 {% block body_js %}
-    {% endblock body_js %}
+{% endblock body_js %}
 <script>
 $(document).foundation();
 </script>

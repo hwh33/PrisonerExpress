@@ -12,7 +12,7 @@ def index(request):
     total = len(Prison.objects.all())
     return HttpResponse("There are %s prisoners in the system" % total)
 
-@login_required
+
 def details(request, prisoner_id):
     p = Prisoner.objects.get(pk=prisoner_id)
     return HttpResponse("%s has prisoner id of %s" % (p.name, p.id))
@@ -28,6 +28,8 @@ def edit(request, prisoner_id):
 
 def create_prisoner(prisoner_name, prisoner_id,
                     prisoner_address, prison_id, rules):
+    
+
     if prisoner_name is None:
         raise Exception("Prisoner must have a name")
     if prisoner_id is None:
@@ -46,7 +48,8 @@ def create_prisoner(prisoner_name, prisoner_id,
                  prisoner_id_raw = prisoner_id,
                  active=True,
                  prison=prison,
-                 address=prisoner_address)
+                 address=prisoner_address,
+                 rules=rules)
     p.save()
     return p.prisoner_id
 
@@ -56,23 +59,23 @@ def get_letters(request, prisoner_id):
     if request.GET['groupby'] == None:
         return Letters.objects.get(prisoner=prisoner)
 
-@login_required
+
 def create(request):
     if request.method == 'POST':
         form = PrisonerForm(request.POST)
         if (form.is_valid()):
+
             new_p = create_prisoner(form.cleaned_data['name'],
                                 form.cleaned_data['prisoner_id'],
                                 form.cleaned_data['mailing_address'],
                                 -1, #form.cleaned_data['prison'],
-                                form.cleaned_data['prison_rules'])
+                                form.cleaned_data['rules'])
             return redirect('prisoner_details', pk=new_p)
         print "Form not valid"
     return render(request,
                   "create_prisoner_form.html",
                   {'form':PrisonerForm()})
 
-@login_required
 def search(request):
     if ('term' not in request.GET):
         return render(request, "prisoner_search.html")

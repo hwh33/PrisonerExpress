@@ -3,36 +3,34 @@
 	Programs-Prisoner Express
 {% endblock title%}
 {% block content %}
-
+<div class="row">
+	{% if result %}
+	<div data-alert class="alert-box info radius">
+		{{ result }}
+		<a href="#" class="close">&times;</a>
+	</div>
+	{% endif %}
+</div>
 <div class="row">
 	<div class="large-12 columns">
- 			<h3>Input Letter :</h3>
- 			<br>
+ 			<h3>Edit Letter :</h3>
 	</div>
 </div>
-
-<div class="large-8 large-offset-2 columns">
-	<img src= "{{url}}">
-</div>
-
-
 
  <div class="row">
  	<div class="large-2 columns">
     </div>
  	<div class="large-10 columns">
  		<div class="row">
- 			<div class="large-12 columns">
-            </div>
 			<form action="" method="post">
 				{% csrf_token %} 
 				<div class="row">
-					<div class="large-6 columns">
-						Content:
-						<br>
-						<br>
-						<label>
-							<textarea type="text" name="program_name" placeholder="Please input the contents" /></textarea>
+					<div class="large-10 columns">
+						<label>Image:
+							<img src= "{{letter.image.url}}">
+						</label>
+						<label>Content:
+							<textarea type="text" name="content" placeholder="Please input the contents" />{{ letter.content }}</textarea>
 						</label>
 					</div>
 				</div>
