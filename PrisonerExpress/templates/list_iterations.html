@@ -1,0 +1,45 @@
+{% extends "header.html" %}
+
+{% block content %}
+
+<div class="row">
+	<div class="large-12 columns text-center">
+		<h1> {{ program.name }} </h1>
+	</div>
+</row>
+<div class="row">
+	<div class="large-12 text-center columns">
+		<h3>Iterations:</h3>
+	</div>
+</div>
+	{% for iteration in object_list %}
+	<div class="row">
+		<div class="large-2 columns">
+			<h8> {{ iteration.name }}</h8>
+		</div>
+		<div class="large-2 columns">
+			<h8>{{ iteration.create_date }} </h8>
+		</div>
+		<div class="large-8 columns">
+			<h8>{{ iteration.description }}</h8>
+		</div>
+	</div>
+	{% endfor %}
+	<ul class="pagination">
+		{% if page_obj.has_previous %}
+		<li class="arrow"><a href="?page={{ page_obj.previous_page_number }}{% if term %}&term={{term}}{%endif%}">&laquo;</a></li>
+		<li><a href="?page=1{% if term %}&term={{term}}{%endif%}">1</a></li>
+		<li class="unavailable"><a href="">&hellip;</a></li>
+		{% else %}
+		<li class="arrow unavailable"><a href="">&laquo;</a></li>
+		{% endif %}
+		<li class="current"><a class="pagenum" href="">{{ page_obj.number }}</a></li>
+		{% if page_obj.has_next %}
+		<li class="unavailable"><a href="">&hellip;</a></li>
+		<li><a href="?page={{ page_obj.paginator.num_pages }}{% if term %}&term={{term}}{%endif%}">{{ page_obj.paginator.num_pages }}</a></li>
+		<li class="arrow"><a href="?page={{page_obj.next_page_number }}{% if term %}&term={{term}}{%endif%}">&raquo;</a></li>
+		{% else %}
+		<li class="arrow unavailable"><a href="">&raquo;</a></li>
+		{% endif %}
+	</ul>
+{% endblock %}
