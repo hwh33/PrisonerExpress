@@ -6,9 +6,9 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
-from PrisonerExpress.models import UserProfile,UserProfileForm
+from PrisonerExpress.models import UserProfile,UserProfileForm, UserRegisterCode
 from PrisonerExpress.forms import UserCreateForm
-from django.contrib.auth.models import Group, User 
+from django.contrib.auth.models import Group, User
 from django.db.models import Q
 
 # Create your views here.
@@ -31,9 +31,8 @@ def user_logout(request):
 	logout(request)
 	return HttpResponseRedirect('/')
 
-def user_ctrl(request):
+def user_ctrl(request,message=None):
 	cur_user=request.user
-	msg=None
 	if cur_user.is_superuser==True :
 		users = User.objects.filter( Q(is_superuser=False) )
 	elif cur_user.is_staff == True:
@@ -45,40 +44,56 @@ def user_ctrl(request):
 		username = request.POST['username']
 		pem_lv = request.POST['level']
 		user = User.objects.get(username=username)
+		msg=None
 		if pem_lv == "admin":
 			user.is_staff=True
+			user.profile.save()
+			user.save()
+			msg="Change permission successfully"
 		elif pem_lv == "volunteer":
 			user.is_staff=False
-			user.profile.is_volunteer=True
-		elif pem_lv == "public_user":
-			user.is_staff=False
-			user.profile.is_volunteer=False
-		print user.is_staff, user.profile.is_volunteer
-		user.profile.save()
-		user.save()
-		message="Change permission successfully"
-		return render(request,'user_ctrl.html',{'users':users,'message':message})
-	return render(request,'user_ctrl.html',{'users':users,'message':msg})
+			user.profile.save()
+			user.save()
+			msg="Change permission successfully"
+		elif pem_lv == "cancel":
+			user.profile.delete()
+			user.delete()
+			msg="Cancel account successfully"
+		
+		
+		return redirect('user_ctrl')
+	return render(request,'user_ctrl.html',{'users':users,'message':message})
 
 
 def user_register(request):
 	uf = UserCreateForm(request.POST or None,prefix='user')
 	upf = UserProfileForm(request.POST or None,prefix='userprofile')
+	message=None;
 	if request.method == 'POST':
 		uf = UserCreationForm(request.POST, prefix='user')
        	upf = UserProfileForm(request.POST, prefix='userprofile')
         if uf.is_valid() * upf.is_valid():
-            user = uf.save()
-            userprofile = upf.save(commit=False)
-            userprofile.user = user
-            userprofile.save()
-            return redirect('user_login')
-	return render(request,'user_register.html',	dict(userform=uf,
-                                              	userprofileform=upf),
-                                               )
+        	register_code = upf.cleaned_data['register_code']
+
+        	if(register_code=='PrisonerExpress'):
+	            user = uf.save()
+	            userprofile = upf.save(commit=False)
+	            userprofile.user = user
+	            userprofile.save()
+	            user.save()
+	            return redirect('user_login')
+	        else:
+	        	return render(request,'user_register.html',	{'userform':uf,
+                                              	'userprofileform':upf,'message':'ask staff for register code'}
+                                              	)
+
+	return render(request,'user_register.html',	{'userform':uf,
+                                              	'userprofileform':upf,'message':message}
+                                              	)
 def user_profile(request):
 	user= request.user
 	return render(request,'user_profile.html')
+
 def user_edit(request):
 	if request.method == 'POST' and 'btn_edit' in request.POST:
 		user=request.user

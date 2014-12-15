@@ -99,7 +99,7 @@ user_patterns=patterns(
     url(r'^register$',
         user_views.user_register,
         name='user_register'),
-    url(r'^user_ctrl$',
+    url(r'^user_ctrl',
         user_views.user_ctrl,
         name='user_ctrl'),
     url(regex=r'^profile$',

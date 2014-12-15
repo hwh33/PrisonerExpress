@@ -152,7 +152,12 @@ class UserProfile(models.Model):
     is_volunteer = models.BooleanField(default = False);
     
 class UserProfileForm(forms.ModelForm):
+    register_code = forms.CharField(max_length=40)
     class Meta:
         model = UserProfile
+
         exclude = ['user','is_volunteer']
+
+class UserRegisterCode(models.Model):
+    code = models.CharField(max_length=40)
 
