@@ -1,12 +1,13 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.views.generic import ListView, DetailView, TemplateView
-from PrisonerExpress.models import Prison, Prisoner, PrisonerForm
+from PrisonerExpress.models import Prison, Prisoner, PrisonerForm,PrisonerEditForm
 from django import forms
 from django.shortcuts import get_object_or_404, render, redirect
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core import serializers
 from django.contrib.auth.decorators import login_required
+from django.views.generic.edit import UpdateView
 
 def index(request):
     total = len(Prison.objects.all())
@@ -18,13 +19,25 @@ def details(request, prisoner_id):
     return HttpResponse("%s has prisoner id of %s" % (p.name, p.id))
 
 
-@login_required
+
 def edit(request, prisoner_id):
-    p = Prisoner.objects.get(pk=prisoner_id)
-    if request.method == 'GET':
-        return render(request, 'edit_prisoner.html',
-                      {'prisoner':p})
+    p = get_object_or_404(Prisoner, pk=prisoner_id)
+    if request.method == 'POST':
+        form = PrisonerEditForm(request.POST)
+        if form.is_valid():
+            p.name=form.cleaned_data['name'],
+            address = form.cleaned_data['mailing_address']
+            address.save()
+            p.address=address
+            p.rules = form.cleaned_data['rules']
+            p.save()
+            return redirect('prisoner_details', pk=prisoner_id)
+    form = PrisonerEditForm()
+    return render(request, 'edit_prisoner.html',
+                      {'form':form})
     #TODO
+
+
 
 def create_prisoner(prisoner_name, prisoner_id,
                     prisoner_address, prison_id, rules):
@@ -118,3 +131,5 @@ class PrisonerDetail(DetailView):
 
 class PrisonerIndex(TemplateView):
     template_name="prisoner_index.html"
+
+

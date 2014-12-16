@@ -4,6 +4,7 @@
 <div class="row">
 	<div class="large-12 columns">
 		<h3> {{ object.name }} </h3>
+		<h3>{{object.prisoner_id}}</h3>
 		<h3>{{object.prisoner_id_raw}}</h3>
 	</div>
 </row>
@@ -30,9 +31,16 @@
 		<h5>Programs:</h5>
 	</div>
 	<div class="large-6 columns">
-		<ul class="inline-list">{% for program in object.programs.all %} <li> <a href="{% url "program_details" program.id %}"> {{ program.name }} </a> </li>{% endfor %}
+		<ul class="no-bullet">
+				{% for iteration in object.programs.all %} 
+				<li> <a href="{% url "program_details" iteration.id %}"> {{ iteration.name }} -- {{iteration.parent.name}} </a> </li>
+
+				{% endfor %}
 		</ul>
 	</div>
+</div>
+<div class="large-2 columns">
+		<a href="{% url 'prisoner_edit' object.prisoner_id_raw %}" class="small radius button" >Edit</a>
 </div>
 
 </div>
