@@ -62,7 +62,9 @@ def edit(request, program_id):
         prisoner_id = request.POST['prisoner']
         if not prisoner_id == -1:
             prisoner = Prisoner.objects.get(pk=prisoner_id)
-        program.prisoners.add(prisoner)
+        iteration = program.get_current_iteration()
+        iteration.prisoners.add(prisoner)
+        iteration.save()
         program.save();
         return redirect('program_details', program.id)
     context = {'program':program,'prisoner_list':Prisoner.objects.all()}
@@ -129,7 +131,6 @@ def mail(request, program_id):
     two_col_specs = Specification(215.9, 279.4, 2, 5, 102.3, 52.5, corner_radius=0.5, column_gap=5.9, row_gap=0)
     three_col_specs = Specification(215.9, 279.4, 3, 10, 66.675, 25.4, corner_radius=2,top_margin=12.7,row_gap=0,left_margin=5,right_margin=5)
     specs_dict = {"two_col_labels" : two_col_specs, "three_col_labels" : three_col_specs}
-
     def mailing_label(label, width, height, data):
             font="Helvetica"
             lines=[];
@@ -171,6 +172,7 @@ def mail(request, program_id):
     end_of_url_path = request.path.split('/')[-1]
     specs = specs_dict[end_of_url_path]
     sheet = Sheet(specs, mailing_label, border=True)
+
    
     for prisoner in iteration.prisoners.all():
         sheet.add_label(prisoner)

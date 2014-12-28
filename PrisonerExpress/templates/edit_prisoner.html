@@ -1,0 +1,11 @@
+{% extends "header.html" %}
+
+{% block content %}
+<div class="row">
+	<form data-abide method="post">
+		{% csrf_token %} 	
+    	{{form}}
+		<button type="submit" >Update</button>
+	</form>
+</div>
+{% endblock %}

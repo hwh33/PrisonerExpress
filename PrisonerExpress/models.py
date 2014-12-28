@@ -97,13 +97,20 @@ class Prisoner(models.Model):
                                  max_length=80) #santitized version of the id
     prisoner_id_raw=models.CharField(max_length=100) #how the id was entered
     active=models.BooleanField(default=True)
-    prison=models.ForeignKey(Prison, null=True)
+    #prison=models.ForeignKey(Prison, null=True)
     programs=models.ManyToManyField(Subprogram, related_name = "prisoners")
     address=models.ForeignKey(Address)
     last_active=models.DateTimeField('last active date', default=datetime.now)
     rules=models.CharField(max_length=20)
     def __str__(self):
         return "Name: %s | ID: %s " % (self.name, self.prisoner_id)
+
+
+class PrisonerEditForm(forms.Form):
+    name=forms.CharField(max_length=100)
+    prisoner_id=forms.CharField(max_length=100,required=False)
+    mailing_address=Address.AddressField(label="")
+    rules=forms.CharField(max_length=100, required=False)
 
 class PrisonerForm(forms.Form):
     name=forms.CharField(max_length=100)
@@ -156,7 +163,12 @@ class UserProfile(models.Model):
     is_volunteer = models.BooleanField(default = False);
     
 class UserProfileForm(forms.ModelForm):
+    register_code = forms.CharField(max_length=40)
     class Meta:
         model = UserProfile
+
         exclude = ['user','is_volunteer']
+
+class UserRegisterCode(models.Model):
+    code = models.CharField(max_length=40)
 

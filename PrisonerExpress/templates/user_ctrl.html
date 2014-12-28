@@ -3,7 +3,9 @@
 <div class="row">
     <div class="large-12 columns">
         <h3>Register a Volunteer or Admin</h3>
-
+        <p>
+            Register Code: {{ reg_code }}
+        </p>
     </div>
 </row>
     <div class="large-10 columns">
@@ -31,10 +33,10 @@
                         		{% if user.is_superuser %}
                                     <option value="volunteer">Volunteer</option>
                                     <option value="admin">Admin</option>
-                                    <option value="public_user">PublicUser</option>
+                                    <option value="cancel">Cancel Account</option>
                         		{% else %}
                                     <option value="volunteer">Volunteer</option>
-                                    <option value="public_user">PublicUser</option>
+                                    <option value="cancel">Cancel Account</option>
                         		{% endif %}
                         	</select>
                         </label>

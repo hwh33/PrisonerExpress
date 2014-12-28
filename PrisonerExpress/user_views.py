@@ -22,14 +22,14 @@ def user_login(request):
 		if user is not None:
 			if user.is_active:
 				login(request, user)
-				return HttpResponseRedirect('/')
+				return redirect('index')
 
 	return render(request,'user_login.html')
 
 
 def user_logout(request):
 	logout(request)
-	return HttpResponseRedirect('/')
+	return redirect('index')
 
 def user_ctrl(request):
 	cur_user=request.user
@@ -64,10 +64,11 @@ def user_ctrl(request):
 def user_register(request):
 	uf = UserCreateForm(request.POST or None,prefix='user')
 	upf = UserProfileForm(request.POST or None,prefix='userprofile')
+	message=None;
 	if request.method == 'POST':
 		uf = UserCreationForm(request.POST, prefix='user')
-        upf = UserProfileForm(request.POST, prefix='userprofile')
-        if uf.is_valid():# * upf.is_valid():
+       	upf = UserProfileForm(request.POST, prefix='userprofile')
+        if uf.is_valid():# upf.is_valid():
             user = uf.save()
             userprofile = upf.save(commit=False)
             userprofile.user = user
