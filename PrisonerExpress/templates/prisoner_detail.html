@@ -30,7 +30,7 @@
 		<h5>Programs:</h5>
 	</div>
 	<div class="large-6 columns">
-		<ul class="inline-list">{% for program in object.programs.all %} <li> <a href="{% url "program_details" program.id %}"> {{ program.name }} </a> </li>{% endfor %}
+		<ul class="inline-list">{% for program in object.iterations.all %} <li> <a href="{% url "program_details" program.id %}"> {{ program.name }} </a> </li>{% endfor %}
 		</ul>
 	</div>
 </div>

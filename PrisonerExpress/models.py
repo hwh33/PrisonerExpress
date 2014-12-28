@@ -20,6 +20,7 @@ class Program(models.Model):
             return None
         return self.iteration_set.latest('create_date')
 
+
 class Iteration(models.Model):
     name= models.CharField(max_length=200)
     description=models.CharField(max_length=1000, default="N/A")
@@ -31,6 +32,15 @@ class Iteration(models.Model):
     
     def __str__(self):
         return self.name
+
+
+class Subprogram(models.Model):
+    name = models.CharField(max_length=200)
+    iteration = models.ForeignKey(Iteration)
+    create_date = models.DateTimeField('Creation Date', auto_now_add=True)
+
+    def __str__(self):
+        return self.name    
 
 class Address(models.Model):
     """Class to represent all addresses, thus standardizing address handling code"""
@@ -88,7 +98,7 @@ class Prisoner(models.Model):
     prisoner_id_raw=models.CharField(max_length=100) #how the id was entered
     active=models.BooleanField(default=True)
     prison=models.ForeignKey(Prison, null=True)
-    programs=models.ManyToManyField(Iteration, related_name = "prisoners")
+    programs=models.ManyToManyField(Subprogram, related_name = "prisoners")
     address=models.ForeignKey(Address)
     last_active=models.DateTimeField('last active date', default=datetime.now)
     rules=models.CharField(max_length=20)
@@ -104,7 +114,10 @@ class PrisonerForm(forms.Form):
 class IterationForm(forms.Form):
     name=forms.CharField(max_length=100)
     description=forms.CharField(max_length=1000, required=False)    
-    
+
+class SubprogramForm(forms.Form):
+    name=forms.CharField(max_length=100)
+
 
 class Material(models.Model):
     name=models.CharField(max_length=200)
@@ -140,15 +153,6 @@ class ImageUploadForm(forms.Form):
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User,related_name='profile')
-    phone_number = models.CharField(blank=True, default = 'N/A', max_length=20)
-    GENDER_CHOICES = (
-        ('M', 'Male'),
-        ('F', 'Female'),
-        ('N', 'Unknown'),
-        )
-    gender=models.CharField(max_length=2,
-                                   choices=GENDER_CHOICES,
-                                   default='N')
     is_volunteer = models.BooleanField(default = False);
     
 class UserProfileForm(forms.ModelForm):

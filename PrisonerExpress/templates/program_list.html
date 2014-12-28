@@ -38,10 +38,14 @@
 	 							</p>
 	 						</div>
 	 						<div class="large-4 columns">
+	 							{% if program.get_current_iteration != None %}
 	 							<label>Participants:</label>
 	 							<p>
-	 								{{program.prisoners.all|length}}
+	 								{{program.get_current_iteration.prisoners.all|length}}
 	 							</p>
+	 							{% else %}
+	 							<p> No Current Iterations</p>
+	 							{% endif %}
 	 						</div>
 	 					</div>
 	 					<div class="row">

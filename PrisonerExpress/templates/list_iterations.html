@@ -15,7 +15,7 @@
 	{% for iteration in object_list %}
 	<div class="row">
 		<div class="large-2 columns">
-			<h8> {{ iteration.name }}</h8>
+			<h8> <a href="{% url 'iteration_details' iteration.id %}" class="expand button">{{ iteration.name }}</a></h8>
 		</div>
 		<div class="large-2 columns">
 			<h8>{{ iteration.create_date }} </h8>

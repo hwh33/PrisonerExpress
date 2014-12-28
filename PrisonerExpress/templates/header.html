@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="{% static "foundation/css/normalize.css" %}">
     <link rel="stylesheet" href="{% static "foundation/css/foundation.css" %}">
     <link rel="stylesheet" href="{% static "app.css" %}">
+    <script src="{% static "foundation/js/jquery.js" %}"></script>
     <link rel="stylesheet"  href="{% static "app.scss" %}" type="text/scss">
     <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
     <script src="{% static "foundation/js/vendor/modernizr.js" %}"></script>
@@ -21,7 +22,7 @@
 			<ul class="title-area">
 				<li class="name">
 
-		           <a href="{% url "index" %} class='ttle'"><h1>Prisoner Express</h1></a>
+		           <a href="{% url "index" %}" class="title"><h1>Prisoner Express</h1></a>
 				</li>
 			</ul>
 			
@@ -128,7 +129,6 @@
 
 {% block content %}
 {% endblock %}
-<script src="{% static "foundation/js/jquery.js" %}"></script>
 <script src="{% static "foundation/js/foundation.min.js" %} "></script>
 <script src="{% static "foundation/js/foundation/foundation.js" %}"></script>
 <script src="{% static "foundation/js/foundation/foundation.dropdown.js" %}"></script>

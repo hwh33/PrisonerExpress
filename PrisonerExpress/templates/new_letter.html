@@ -1,4 +1,10 @@
 {% extends "header.html" %}
+{% load staticfiles %}
+{% block header_content %}
+<script type="text/javascript" src="{% static "foundation/js/jquery.bsmselect.js" %}"></script>
+<link rel="stylesheet" type="text/css" href="{% static "foundation/css/jquery.bsmselect.css" %}" />
+{% endblock %}
+
 {% block content %} 
 
 <div class="row">
@@ -21,13 +27,14 @@
                 </div>
                 <div class="row">
                     <div class="large-6 columns">
-                        <label>Program:
-                        	<select class="radius" name="program">
-                        		{% for program in programs %}
-                        		<option value="{{ program.id }}">{{ program.name }}</option>
-                        		{% endfor %}
-                        	</select>
-                        </label>
+                        <label for="programs">Select Programs</label>
+                        <select id="programs" multiple="multiple" name="programs">
+                        {% for program, subprograms in data.items %}
+                        <optgroup label="{{ program.name }}">
+                        {% for sub_p in subprograms %}
+                        <option value="{{ sub_p.id }}">{{ sub_p.name }}</option>
+                        {% endfor %}
+                        {% endfor %}
                     </div>
                 </div>
                 <div class="row">
@@ -76,6 +83,11 @@
         select: function(event, ui) {
             console.log("Selected!");
         }
+    });
+    $(document).ready(function() {
+        $(function($) {
+            $("select[multiple]").bsmSelect();
+        });
     });
     </script>
     {% endblock %}

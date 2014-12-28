@@ -6,9 +6,9 @@
     <div class="large-10 columns">
         <div class="row">
         <div class="large-12 columns">
-            <h3>Create a New Edition of {{ program.name }}</h3>
+            <h3>Create a New Subprogram</h3>
         </div>
-        <form action="{% url 'iteration_create' program.id %}" method="post">
+        <form action="{% url 'subprogram_create' iteration.id %}" method="post">
             {% include "form_snippet.html" %}
                 <div class="row"> 
                     <div class="large-6 columns">

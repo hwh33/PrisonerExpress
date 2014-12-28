@@ -66,15 +66,14 @@ def user_register(request):
 	upf = UserProfileForm(request.POST or None,prefix='userprofile')
 	if request.method == 'POST':
 		uf = UserCreationForm(request.POST, prefix='user')
-       	upf = UserProfileForm(request.POST, prefix='userprofile')
-        if uf.is_valid() * upf.is_valid():
+        upf = UserProfileForm(request.POST, prefix='userprofile')
+        if uf.is_valid():# * upf.is_valid():
             user = uf.save()
             userprofile = upf.save(commit=False)
             userprofile.user = user
             userprofile.save()
             return redirect('user_login')
-	return render(request,'user_register.html',	dict(userform=uf,
-                                              	userprofileform=upf),
+	return render(request,'user_register.html',	dict(userform=uf),
                                                )
 def user_profile(request):
 	user= request.user

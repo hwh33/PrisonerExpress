@@ -24,5 +24,6 @@ def read_file(fname):
                                  row[header['LastName']],
                          prisoner_id_raw=row[header['PrisonerID']],
                          prisoner_id=prisoner_id_sanitized,
+                         last_active=header['BookEnrollDate'],
                          address=a)
             p.save()

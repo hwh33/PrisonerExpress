@@ -60,6 +60,9 @@ program_patterns=patterns(
     url(regex=r'^(?P<program_id>\d+)/letter_input$',
         view=program_views.input,
         name='program_input'),
+    url(regex=r'^(?P<iteration_id>\d+)/new_subprogram',
+        view=program_views.create_subprogram,
+        name='subprogram_create')
     )
 
 prisoner_patterns=patterns(

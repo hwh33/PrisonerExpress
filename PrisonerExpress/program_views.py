@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, render, redirect
 from django.http import HttpResponse
 from django.views.generic import ListView, DetailView, TemplateView
-from PrisonerExpress.models import Program,Prisoner, IterationForm, Iteration
+from PrisonerExpress.models import Program,Prisoner, IterationForm, Iteration, Subprogram, SubprogramForm
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from PrisonerExpress.labels import Sheet, Specification, InvalidDimension
 import os.path
@@ -232,6 +232,22 @@ def create_iteration(request, program_id):
                    'program':program})
 
 
+def create_subprogram(request, iteration_id):
+    iteration = get_object_or_404(Iteration, pk=iteration_id)
+    if request.method == 'GET':
+        return render(request, 'subprogram_create.html', {"iteration":iteration, 'form':SubprogramForm()})
+    form = SubprogramForm(request.POST)
+    if (form.is_valid()):
+        new_subprogram = Subprogram(name=form.cleaned_data['name'],
+                                    iteration = iteration)
+        new_subprogram.save()
+        return redirect('iteration_details',iteration_id=iteration.id) 
+    return render(request,
+                  'subprogram_create.html',
+                  {'form':SubprogramForm(),
+                   'msg':'Form Invalid',
+                   'iteration':iteration})
+
 def input(request, program_id): 
     context = {"url":"/media/Letters/magic.png"}
     return  render(request,"letter_input.html",context)
@@ -247,7 +263,7 @@ class ProgramIndex(TemplateView):
 
 def get_iteration_details(request, iteration_id):
     iteration = get_object_or_404(Iteration, pk=iteration_id)
-    parts = iteration.prisoners.all()
+    parts = iteration.subprogram_set.all()
     paginator = Paginator(parts, 25)
     
     page = 0

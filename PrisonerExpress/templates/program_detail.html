@@ -72,7 +72,7 @@
 </div>
 <div class="row">
 	<div class="large-3 columns large-offset-3">
-		<a href="{% url 'iteration_create' program.id %}" class="secondary small radius button">New Iteration</a>
+		<a href="{% url 'iteration_create' program.id %}" class="secondary small radius button">New Edition</a>
 	</div> 
 	<div class="large-2 columns">
 		{% if program.get_current_iteration != None %} <a href="{% url 'iteration_details' program.get_current_iteration.id %}" class="small radius button">Current Iteration</a> {% endif %}
