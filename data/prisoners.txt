@@ -10348,7 +10348,6 @@ ID	FirstName	LastName	PrisonerID	City	State	ZipCode	PreAddress	Address	BookEnrol
 8997	Richard	Woodard	481648	Tennessee Colony	TX	75886	Michael Unit	2664 FM 2054	05/15/11
 13851	Richard	Woody	65109	Marion	NC	28752		593 Spaulding Rd 	00/00/00
 2304	Richard	Young	EP-8117	Pittsburgh 	PA 	15233		PO Box 99901	00/00/00
-11034	Richard	Yousr	G16560Richard Youst DC#G16560Richard Youst DC#G16560vRichard Youst DC#G16560v	Lake City	FL	32025	CCI	216 S.E. Correctional Way	00/00/00
 11004	Richard	Youst	G16560	Lake City	FL	32025	BK#B2-147	216 SE Correctional Way	00/00/00
 3380	Richard	Zimmerman	K 88183	Corcoran	CA	93212		PO Box 3471	00/00/00
 8527	Richard 	Alamarez	94A7810	Pine City	NY	14871	Southport Correctional Facility	P. O. box 2000	00/00/00
