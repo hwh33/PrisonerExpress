@@ -2,13 +2,23 @@
 {% block content %}
 
 <div class="row">
-	<div class="large-12 columns">
+	<div class="large-2 large-offset-1 columns">
+		<h3>Name: </h3>
+	</div>
+	<div class="large-9 columns">
 		<h3> {{ object.name }} </h3>
+	</div>
+</div>
+<div class="row">
+	<div class="large-2 large-offset-1 columns">
+		<h3>ID: </h3>
+	</div>
+	<div class="large-9 columns">
 		<h3>{{object.prisoner_id_raw}}</h3>
 	</div>
 </row>
 <div class="row">
-	<div class="large-4 large-offset-2 columns"> 
+	<div class="large-4 large-offset-2 columns descriptor"> 
 		<h5>Address:</h5> 
 	</div>
 	<div class="large-6 columns">
@@ -16,8 +26,9 @@
 		</h5> 
 	</div>
 </div>
+{% if object.rules %}
 <div class="row">
-	<div class="large-4 large-offset-2 columns">
+	<div class="large-4 large-offset-2 columns descriptor">
 		<h5>Rules:</h5>
 	</div>
 	<div class="large-6 columns">
@@ -25,8 +36,17 @@
 		</p>
 	</div>
 </div>
+{% endif %}
 <div class="row">
-	<div class="large-4 large-offset-2 columns">
+	<div class="large-4 large-offset-2 columns descriptor">
+		<h5> Last Active: </h5>
+	</div>
+	<div class="large-6 columns">
+		<h5> {{ object.last_active }} </h5>
+	</div>
+</div>
+<div class="row">
+	<div class="large-4 large-offset-2 columns descriptor">
 		<h5>Programs:</h5>
 	</div>
 	<div class="large-6 columns">

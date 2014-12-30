@@ -19,59 +19,32 @@
 </div>
 <div class="row">
 	<div class="large-2 large-offset-2 columns">
-		<h5>Active:</h5>
+		<h5>Current Edition:</h5>
 	</div>
 	<div class="large-8 columns">
-		<h5> {% if object.active %} Yes {% else %} No {% endif %} </h5>
-	</div>
-</div>
-<div class="row">
-	<div class="large-2 large-offset-2 columns">
-		<h5>Continuous:</h5>
-	</div>
-	<div class="large-8 columns">
-		<h5> {% if object.continuous %} Yes {% else %} No {% endif %} </h5>
-	</div>
-</div>
-<div class="row">
-	<div class="large-2 large-offset-2 columns">
-		<h5>Print rule:</h5>
-	</div>
-	<div class="large-8 columns">
-		<h5> {% if object.print_rule %} Yes {% else %} No {% endif %} </h5>
-	</div>
-</div>
-<div class="row">
-	<div class="large-2 large-offset-2 columns">
-		<h5>Participants:</h5>
-	</div>
-	<div class="large-8 columns">
-		{% for prisoner in object.prisoners.all %} 
-		{%if prisoner.prisoner_id %}
-			<div>
-				
-				<a href="{% url "prisoner_details" prisoner.prisoner_id %}"> {{ prisoner.name }} </a> 
-			</div> 
+		<h5>
+		{% if object.get_current_iteration %}
+		{{ object.get_current_iteration.name }}
+		{% else %}
+		None
 		{%endif %}
-		{% endfor %}
+		</h5>
 	</div>
 </div>
 <div class="row">
 	<div class="large-2 large-offset-2 columns">
-		<h5>Letters:</h5>
+		<h5>Active Subprograms:</h5>
 	</div>
 	<div class="large-8 columns">
-		<dl class="accordion" data-accordion>
-		{% for letter in object.letters.all %} 
-  			<dd class="accordion-navigation">
-  				<a href="#panel{{forloop.counter}}">{{letter.prisoner.name}}  {{letter.date}}</a>
-				<div id="panel{{forloop.counter}}" class="content">
-					<img src= "{{letter.image.url}}">
-				</div> 
-			</dd>
-		{% endfor %}
-		</dl>
+	{% if object.get_current_iteration %}
+	{% for subprogram in object.get_current_iteration.subprogram_set.all %}
+	<p> <h5> {{subprogram.name}} </h5> </p>
+	{% endfor %}
+	{% else %} 
+	<h5> No Current Edition </h5>
+	{% endif %}
 	</div>
+
 </div>
 <div class="row">
 	<div class="large-3 columns large-offset-3">

@@ -22,20 +22,26 @@ def details(request, prisoner_id):
 
 def edit(request, prisoner_id):
     p = get_object_or_404(Prisoner, pk=prisoner_id)
+    context = {}
     if request.method == 'POST':
         form = PrisonerEditForm(request.POST)
         if form.is_valid():
-            p.name=form.cleaned_data['name'],
+            p.name=form.cleaned_data['name']
             address = form.cleaned_data['mailing_address']
             address.save()
             p.address=address
             p.rules = form.cleaned_data['rules']
             p.save()
             return redirect('prisoner_details', pk=prisoner_id)
-    form = PrisonerEditForm()
-    return render(request, 'edit_prisoner.html',
-                      {'form':form})
-    #TODO
+        else:
+            context['message'] = 'Your form appears to have been invalid'
+    
+    form = PrisonerEditForm(initial={'name':p.name,
+                                     'mailing_address':p.address,
+                                     'rules':p.rules})
+    context['form'] = form
+    context['prisoner'] = p
+    return render(request, 'prisoner/edit_prisoner.html', context)
 
 
 
@@ -86,12 +92,12 @@ def create(request):
             return redirect('prisoner_details', pk=new_p)
         print "Form not valid"
     return render(request,
-                  "create_prisoner_form.html",
+                  "prisoner/create_prisoner_form.html",
                   {'form':PrisonerForm()})
 
 def search(request):
     if ('term' not in request.GET):
-        return render(request, "prisoner_search.html")
+        return render(request, "prisoner/prisoner_search.html")
     search_term = filter(str.isalnum, str(request.GET['term']))
     paginator = Paginator(Prisoner.objects.filter(prisoner_id__contains=search_term), 25)
     page = request.GET.get('page')
@@ -102,7 +108,7 @@ def search(request):
     except EmptyPage:
         prisoners = paginator.page(paginator.num_page)
     return render(request,
-                  "prisoner_list.html",
+                  "prisoner/prisoner_list.html",
                   {'object_list': prisoners,
                    'term':search_term,
                    'page_obj':prisoners})
@@ -119,17 +125,17 @@ def query(request):
 
 
 class PrisonerList(ListView):
-    template_name='prisoner_list.html'
+    template_name='prisoner/prisoner_list.html'
     model=Prisoner
     paginate_by=10
 
 
 class PrisonerDetail(DetailView):
-    template_name="prisoner_detail.html"
+    template_name="prisoner/prisoner_detail.html"
     model=Prisoner
 
 
 class PrisonerIndex(TemplateView):
-    template_name="prisoner_index.html"
+    template_name="prisoner/prisoner_index.html"
 
 

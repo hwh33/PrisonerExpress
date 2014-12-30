@@ -16,7 +16,7 @@ class AddressWidget(widgets.MultiWidget):
         if not value:
             return [None, None, None, None, None]
         return [value.address_1, value.address_2,
-                value.city, value.state, value.zip]
+                value.city, value.state, value.postal_code]
 
     def format_output(self, rw):
         rw.insert(0, '<label for="id_address_field_0">Address Line 1:</label>')

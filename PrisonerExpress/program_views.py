@@ -15,12 +15,12 @@ from reportlab.pdfbase.pdfmetrics import  stringWidth
 def index(request):
     program_list = Program.objects.all()
     context = {'program_list':program_list}
-    return render(request,"program_list.html",context)
+    return render(request,"program/program_list.html",context)
 
 def details(request, program_id):
     program = get_object_or_404(Program, pk=program_id)
     context = {'program':program}
-    return render(request,"detail_program.html",context)
+    return render(request,"program/detail_program.html",context)
 
 
 def create(request):
@@ -31,7 +31,7 @@ def create(request):
                                         request.POST.get('active', False),
                                         request.POST.get('print_rule', False))
         return redirect('program_details', new_program_id)
-    return render(request, "create_program.html")
+    return render(request, "program/create_program.html")
 
 def create_program(program_name,program_description="N/A", continuous=False, active=True,print_rule=False):
     if program_name is None :
@@ -68,7 +68,7 @@ def edit(request, program_id):
         program.save();
         return redirect('program_details', program.id)
     context = {'program':program,'prisoner_list':Prisoner.objects.all()}
-    return  render(request,"edit_program.html",context)
+    return  render(request,"program/edit_program.html",context)
     
 
 def mail(request, program_id):
@@ -200,7 +200,7 @@ def list_iterations(request, program_id):
     except EmptyPage:
         # If page is out of range (e.g. 9999), deliver last page of results.
         ppl = paginator.page(paginator.num_pages)
-    return render(request, 'list_iterations.html', {'program':program,
+    return render(request, 'iteration/list_iterations.html', {'program':program,
                                             'object_list':iterations,
                                             'page_obj':paginator})
 
@@ -209,7 +209,7 @@ def list_iterations(request, program_id):
 def create_iteration(request, program_id):
     program = get_object_or_404(Program, pk=program_id)
     if request.method == 'GET':
-        return render(request, "iteration_create.html", {"program":program, 'form':IterationForm()})
+        return render(request, "iteration/iteration_create.html", {"program":program, 'form':IterationForm()})
     form = IterationForm(request.POST)
     if (form.is_valid()):
         new_i = Iteration(name=form.cleaned_data['name'],
@@ -228,7 +228,7 @@ def create_iteration(request, program_id):
             new_i.save()
         return redirect('iteration_details', iteration_id=new_i.id)
     return render(request,
-                  'iteration_create.html',
+                  'iteration/iteration_create.html',
                   {'form':IterationForm(),
                    'msg':'Form invalid!',
                    'program':program})
@@ -237,7 +237,7 @@ def create_iteration(request, program_id):
 def create_subprogram(request, iteration_id):
     iteration = get_object_or_404(Iteration, pk=iteration_id)
     if request.method == 'GET':
-        return render(request, 'subprogram_create.html', {"iteration":iteration, 'form':SubprogramForm()})
+        return render(request, 'subprogram/subprogram_create.html', {"iteration":iteration, 'form':SubprogramForm()})
     form = SubprogramForm(request.POST)
     if (form.is_valid()):
         new_subprogram = Subprogram(name=form.cleaned_data['name'],
@@ -245,21 +245,21 @@ def create_subprogram(request, iteration_id):
         new_subprogram.save()
         return redirect('iteration_details',iteration_id=iteration.id) 
     return render(request,
-                  'subprogram_create.html',
+                  'subprogram/subprogram_create.html',
                   {'form':SubprogramForm(),
                    'msg':'Form Invalid',
                    'iteration':iteration})
 
 def input(request, program_id): 
     context = {"url":"/media/Letters/magic.png"}
-    return  render(request,"letter_input.html",context)
+    return  render(request,"letter_input.html",context) #I don't believe this works
     
 class ProgramDetails(DetailView):
     model=Program
-    template_name="program_detail.html"
+    template_name="program/program_detail.html"
 
 class ProgramIndex(TemplateView):
-    template_name="program_index.html"
+    template_name="program/program_index.html"
 
 
 
@@ -279,6 +279,6 @@ def get_iteration_details(request, iteration_id):
     except EmptyPage:
         # If page is out of range (e.g. 9999), deliver last page of results.
         ppl = paginator.page(paginator.num_pages)
-    return render(request, 'iteration_detail.html', {'object':iteration,
+    return render(request, 'iteration/iteration_detail.html', {'object':iteration,
                                             'object_list':ppl,
                                             'page_obj':paginator})

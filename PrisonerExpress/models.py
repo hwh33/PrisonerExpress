@@ -100,7 +100,7 @@ class Prisoner(models.Model):
     #prison=models.ForeignKey(Prison, null=True)
     programs=models.ManyToManyField(Subprogram, related_name = "prisoners")
     address=models.ForeignKey(Address)
-    last_active=models.DateTimeField('last active date', default=datetime.now)
+    last_active=models.DateField('last active date', default=datetime.now)
     rules=models.CharField(max_length=20)
     def __str__(self):
         return "Name: %s | ID: %s " % (self.name, self.prisoner_id)
@@ -108,15 +108,16 @@ class Prisoner(models.Model):
 
 class PrisonerEditForm(forms.Form):
     name=forms.CharField(max_length=100)
-    prisoner_id=forms.CharField(max_length=100,required=False)
     mailing_address=Address.AddressField(label="")
     rules=forms.CharField(max_length=100, required=False)
+
 
 class PrisonerForm(forms.Form):
     name=forms.CharField(max_length=100)
     prisoner_id=forms.CharField(max_length=100)
     mailing_address=Address.AddressField(label="")
     rules=forms.CharField(max_length=100, required=False)
+
 
 class IterationForm(forms.Form):
     name=forms.CharField(max_length=100)
